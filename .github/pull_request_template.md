@@ -1,36 +1,20 @@
+## Description
 
-## Pull Request Template
+Please describe your changes and the problem you are solving.
 
-**Description:**
+## Changes Made
 
-[Provide a brief description of the changes made in this pull request.]
+- List the changes you made here
+- Be specific and clear
+- Include any relevant details
 
-**Related Issue:**
+## Checklist
 
-[Closes #IssueNumber]
+- [ ] Tests have been added or updated
+- [ ] Documentation has been updated
+- [ ] The code follows the project's style guide
+- [ ] Any relevant configuration files have been updated
 
-**Changes Made:**
+## Screenshots (if applicable)
 
-- [List the specific changes made in this pull request.]
-
-**Screenshots (if applicable):**
-
-[Attach any relevant screenshots demonstrating the changes made, if applicable.]
-
-**Testing Done:**
-
-- [Describe the testing performed to ensure the changes are functioning as expected.]
-
-**Checklist:**
-
-- [ ] I have read and followed the repository's contributing guidelines.
-- [ ] I have tested the changes locally.
-- [ ] I have added appropriate documentation or updated existing documentation.
-- [ ] I have added unit tests or updated existing tests.
-- [ ] I have reviewed the code to ensure best practices and maintainability.
-
-**Additional Notes:**
-
-[Add any additional notes or comments that may be helpful for reviewers.]
-
-**Provide a screenshot of the implementation or how the functionality worked:**
+Please attach any relevant screenshots that show the changes made.

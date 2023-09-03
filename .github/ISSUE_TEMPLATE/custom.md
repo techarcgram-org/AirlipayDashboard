@@ -1,45 +1,42 @@
+---
+name: Custom issue template
+about: Creating and implementing features per design and description
+title: "[Feature]"
+labels: documentation, enhancement, good first issue
+assignees: ''
 
-## Issue Template
+---
 
-**Description:**
+## Issue Description
 
-[Provide a brief description of the issue.]
+Please provide a brief description of the issue you are experiencing, including any error messages you may have received.
 
-**Steps to Reproduce:**
+## Steps to Reproduce
+
+Please provide detailed steps on how to reproduce the issue, including any relevant code snippets, screenshots, or logs.
 
 1. Step 1
 2. Step 2
 3. Step 3
-   - Substep A
-   - Substep B
+4. ...
 
-**Expected Behavior:**
+## Expected Behavior
 
-[Describe what you expected to happen.]
+Please describe what you expected to happen when the issue occurred.
 
-**Actual Behavior:**
+## Actual Behavior
 
-[Describe what actually happened.]
+Please describe what actually happened when the issue occurred.
 
-**Additional Information:**
+## Environment
 
-- [Include any additional information or details about the issue.]
-- [You can also provide relevant error messages or logs here, if applicable.]
+Please provide information about your environment, including:
 
-**Possible Solution:**
+- Operating System:
+- Browser and Version:
+- Node.js Version:
+- Package Version:
 
-[Suggest a possible solution or workaround, if you have any.]
+## Additional Information
 
-**Environment:**
-
-- Operating System: [Specify the OS and version]
-- Browser: [Specify the browser and version]
-- Any other relevant environment details
-
-**Related Issues/PRs:**
-
-- [List any related issues or pull requests, if applicable]
-
-**Screenshot (if applicable):**
-
-[Attach a screenshot or provide a link to a screenshot showcasing how the issue should look like, if it is frontend-related.]
+Please provide any additional information that may be helpful in resolving this issue.

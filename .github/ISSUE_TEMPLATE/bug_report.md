@@ -1,45 +1,38 @@
+---
+name: Bug report
+about: Create a report to help us improve
+title: "[BUG]"
+labels: ''
+assignees: ''
 
-## Bug Report
+---
 
-**Description:**
+**Describe the bug**
+A clear and concise description of what the bug is.
 
-[Provide a brief description of the bug.]
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Click on '....'
+3. Scroll down to '....'
+4. See error
 
-**Steps to Reproduce:**
+**Expected behavior**
+A clear and concise description of what you expected to happen.
 
-1. Step 1
-2. Step 2
-3. Step 3
-   - Substep A
-   - Substep B
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
 
-**Expected Behavior:**
+**Desktop (please complete the following information if applicable):**
+ - OS: [e.g. iOS]
+ - Browser [e.g. chrome, safari]
+ - Version [e.g. 22]
 
-[Describe what you expected to happen.]
+**Smartphone (please complete the following information if applicable):**
+ - Device: [e.g. iPhone6]
+ - OS: [e.g. iOS8.1]
+ - Browser [e.g. stock browser, safari]
+ - Version [e.g. 22]
 
-**Actual Behavior:**
-
-[Describe what actually happened.]
-
-**Additional Information:**
-
-- [Include any additional information or details about the bug.]
-- [You can also provide relevant error messages or logs here, if applicable.]
-
-**Possible Solution:**
-
-[Suggest a possible solution or workaround, if you have any.]
-
-**Environment:**
-
-- Operating System: [Specify the OS and version]
-- Browser: [Specify the browser and version]
-- Any other relevant environment details
-
-**Related Issues/PRs:**
-
-- [List any related issues or pull requests, if applicable]
-
-**Screenshot (if applicable):**
-
-[Attach a screenshot or provide a link to a screenshot showcasing the bug, if applicable.]
+**Additional context**
+Add any other context about the problem here.
