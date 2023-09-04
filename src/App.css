@@ -1,0 +1,27 @@
+
+/* App.css */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content-container {
+  display: flex;
+  flex: 1;
+}
+
+.header {
+  flex: 9;
+  width: 80%;
+  background-color: #f2f2f2;
+  position: absolute;
+  right: 0;
+}
+
+.sidebar {
+  flex: 2;
+  width: 20%;
+  background-color: #e6e6e6;
+  /* z-index: 1; */
+}

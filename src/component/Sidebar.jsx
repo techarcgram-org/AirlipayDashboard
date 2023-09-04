@@ -4,6 +4,7 @@ import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import data from "../constant/data";
+import images from "../constant/images";
 
 const SideBar = ({ isOpen, toggle }) => (
   <div
@@ -19,7 +20,7 @@ const SideBar = ({ isOpen, toggle }) => (
       <Nav className="flex-column pb-3">
         {data.sidebarData.map((item) => (
           <Nav.Item key={item.route}>
-            <Nav.Link style={{color:'#fff',marginBottom:'1rem'}} as={Link} to={item.route}>
+            <Nav.Link style={{color:'#fff',marginBottom:'1rem',position:'relative'}} as={Link} to={item.route}>
               <img
                 src={item.image}
                 alt=""
@@ -27,6 +28,7 @@ const SideBar = ({ isOpen, toggle }) => (
                 style={{ marginRight: 12 }}
               />
               {item.name}
+              <img src={images.right} width={12} style={{right:12,position:'absolute'}} alt="" />
             </Nav.Link>
           </Nav.Item>
         ))}
