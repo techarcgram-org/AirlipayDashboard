@@ -1,20 +1,32 @@
-import React from 'react'
-import { Button } from 'react-bootstrap';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Header, Sidebar } from "./component";
+import { useState } from "react";
+import "./App.css";
 
 const App = () => {
+  const [sidebarIsOpen, setSidebarOpen] = useState(true);
+  const toggleSidebar = () => setSidebarOpen(!sidebarIsOpen);
+
   return (
-    <div>
-      <Button variant="primary">Primary</Button>{" "}
-      <Button variant="secondary">Secondary</Button>{" "}
-      <Button variant="success">Success</Button>{" "}
-      <Button variant="warning">Warning</Button>{" "}
-      <Button variant="danger">Danger</Button>{" "}
-      <Button variant="info">Info</Button>{" "}
-      <Button variant="light">Light</Button>{" "}
-      <Button variant="dark">Dark</Button>
-      <Button variant="link">Link</Button>
+    <div className="app-container">
+      <Router>
+        <div className="header">
+        <Header />
+
+        </div>
+        <div className="content-container">
+          <div className="sidebar">
+
+          <Sidebar isOpen={sidebarIsOpen} toggle={toggleSidebar} />
+          </div>
+          <Routes>
+            <Route path="/" element={"Home page"} />
+          </Routes>
+        </div>
+      </Router>
     </div>
   );
-}
+};
 
-export default App
+export default App;
