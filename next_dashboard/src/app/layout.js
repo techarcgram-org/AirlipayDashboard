@@ -6,7 +6,7 @@ import { Inter } from 'next/font/google'
 import { Navbar, Sidebar } from './components';
 import { Transition } from '@headlessui/react';
 
-const inter = Inter({ subsets: ['latin'] })
+// const inter = Inter({ subsets: ['latin'] })
 
 // export const metadata = {
 //   title: 'Create Next App',
@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Navbar />
+        <Navbar showNav={showNav} setShowNav={setShowNav} />
         <Transition
           as={Fragment}
           show={showNav}
@@ -51,7 +51,7 @@ export default function RootLayout({ children }) {
           leaveFrom="translate-x-0"
           leaveTo="-translate-x-full"
         >
-          <Sidebar showNav={showNav} ref={sidebarRef} />
+          <Sidebar showNav={showNav} setShowNav={setShowNav} ref={sidebarRef} />
         </Transition>
         <main
           className={`pt-16 transition-all duration-[400ms] ${
