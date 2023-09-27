@@ -251,9 +251,20 @@ const usersTable = [
   },
 ];
 
+const columns = [
+  { id: "name", header: "Name", field: "name" },
+  { id: "email", header: "Email", field: "email" },
+  { id: "role", header: "Role", field: "role" },
+  { id: "address", header: "Address", field: "address" },
+  { id: "contact", header: "Contact", field: "contact" },
+  { id: "employer", header: "Employer", field: "employer" },
+  // Add more column objects as needed
+];
+
 const data = {
   sidebarData,
-  usersTable
+  usersTable,
+  columns
 }
 
 export default data
