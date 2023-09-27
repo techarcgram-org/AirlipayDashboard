@@ -258,6 +258,8 @@ const columns = [
   { id: "address", header: "Address", field: "address" },
   { id: "contact", header: "Contact", field: "contact" },
   { id: "employer", header: "Employer", field: "employer" },
+  { id: "edit", header: "Edit", field: "" },
+  { id: "delete", header: "Delete", field: "" },
   // Add more column objects as needed
 ];
 

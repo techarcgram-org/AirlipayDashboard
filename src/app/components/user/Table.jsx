@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import {BsFillTrashFill} from 'react-icons/bs'
+import {FiEdit2} from 'react-icons/fi'
 
 const Table = ({ users, columns }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,6 +40,18 @@ const Table = ({ users, columns }) => {
   const handleItemsPerPageChange = (e) => {
     setCurrentPage(1); // Reset to the first page
     setItemsPerPage(parseInt(e.target.value));
+  };
+
+  // Handle edit entry
+  const handleEdit = (userId) => {
+    // Perform edit action for the given userId
+    console.log("Edit user:", userId);
+  };
+
+  // Handle delete entry
+  const handleDelete = (userId) => {
+    // Perform delete action for the given userId
+    console.log("Delete user:", userId);
   };
 
   return (
@@ -83,37 +97,76 @@ const Table = ({ users, columns }) => {
         <tbody className="bg-white divide-y divide-gray-200">
           {currentUsers.map((user) => (
             <tr key={user.id}>
-              {columns.map((column) => (
-                <td
-                  key={column.id}
-                  className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
-                >
-                  <div className="text-sm text-gray-900">
-                    {user[column.field]}
-                  </div>
-                </td>
-              ))}
+              {columns.map((column) => {
+                if (column.id === "edit") {
+                  return (
+                    <td
+                      key={column.id}
+                      className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
+                    >
+                      <button
+                        onClick={() => handleEdit(user.id)} // Add handleEdit function
+                        className="text-green-600 underline"
+                      >
+                        <FiEdit2 />
+                      </button>
+                    </td>
+                  );
+                }
+                if (column.id === "delete") {
+                  return (
+                    <td
+                      key={column.id}
+                      className="p-2 justify-center items-center whitespace-nowrap"
+                    >
+                      <button
+                        onClick={() => handleDelete(user.id)} // Add handleDelete function
+                        className="text-red-500 underline"
+                      >
+                        <BsFillTrashFill />
+                      </button>
+                    </td>
+                  );
+                }
+                return (
+                  <td
+                    key={column.id}
+                    className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
+                  >
+                    <div className="text-sm text-gray-900">
+                      {user[column.field]}
+                    </div>
+                  </td>
+                );
+              })}
             </tr>
           ))}
         </tbody>
       </table>
       {/* Pagination */}
-      <div className="mt-4 flex justify-end">
-        <button
-          onClick={prevPage}
-          disabled={currentPage === 1}
-          className="px-3 py-1 rounded-md bg-gray-200 text-gray-700"
-        >
-          Previous
-        </button>
-        <span className="px-3 py-1">{currentPage}</span>
-        <button
-          onClick={nextPage}
-          disabled={currentPage === totalPages}
-          className="px-3 py-1 rounded-md bg-gray-200 text-gray-700"
-        >
-          Next
-        </button>
+      <div className="mt-4 flex flex-row justify-end items-center">
+        <div className="flex items-center justify-around" >
+          <button
+            onClick={prevPage}
+            disabled={currentPage === 1}
+            className="px-3 py-1 border border-gray-300 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            Previous
+          </button>
+          <div className="ml-2" >
+            {currentPage}  / {totalPages} 
+          </div>
+          <button
+            onClick={nextPage}
+            disabled={currentPage === totalPages}
+            className="ml-2 px-3 py-1 border border-gray-300 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            Next
+          </button>
+        </div>
+        {/* <div>
+          Page {currentPage} of {totalPages}
+        </div> */}
       </div>
     </div>
   );
