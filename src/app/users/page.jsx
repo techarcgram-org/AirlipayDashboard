@@ -1,14 +1,26 @@
+"use client";
+import React from "react";
+import { Table } from "../components";
+import data from "../constant/data";
 
-import React from 'react'
+
+
+const columns = [
+  { id: "name", header: "Name", field: "name" },
+  { id: "email", header: "Email", field: "email" },
+  { id: "role", header: "Role", field: "role" },
+  { id: "address", header: "Address", field: "address" },
+  { id: "contact", header: "Contact", field: "contact" },
+  { id: "employer", header: "Employer", field: "employer" },
+  // Add more column objects as needed
+];
 
 const page = () => {
   return (
-    <div className='flex flex-1 bg-red-500 w-full' >
-      <h1>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum neque, suscipit et mollitia pariatur amet nihil quibusdam temporibus accusantium quo hic doloremque eius, ad laudantium at molestias facilis ipsam quas magni. Id, ducimus maiores? Deserunt molestias optio, dolorem officiis, cumque qui vero excepturi ad maxime odit facilis saepe, eum laborum asperiores minus unde in. Quaerat non aperiam architecto sequi voluptatem.
-      </h1>
+    <div className="bg-white" >
+      <Table users={data.usersTable} columns={columns} />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

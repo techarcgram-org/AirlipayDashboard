@@ -59,8 +59,121 @@ const sidebarData = [
   },
 ];
 
+const usersTable = [
+  {
+    id: 1,
+    name: "John Doe",
+    email: "john@example.com",
+    role: "Admin",
+    address: "Limbe",
+    contact: "670203775",
+    employer: "Airlipay",
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    email: "jane@example.com",
+    role: "User",
+    address: "Limbe",
+    contact: "670203775",
+    employer: "Airlipay",
+  },
+  {
+    id: 3,
+    name: "John Doe",
+    email: "john@example.com",
+    role: "Admin",
+    address: "Limbe",
+    contact: "670203775",
+    employer: "Airlipay",
+  },
+  {
+    id: 4,
+    name: "Jane Smith",
+    email: "jane@example.com",
+    role: "User",
+    address: "Limbe",
+    contact: "670203775",
+    employer: "Airlipay",
+  },
+  {
+    id: 5,
+    name: "John Doe",
+    email: "john@example.com",
+    role: "Admin",
+    address: "Limbe",
+    contact: "670203775",
+    employer: "Airlipay",
+  },
+  {
+    id: 6,
+    name: "Jane Smith",
+    email: "jane@example.com",
+    role: "User",
+    address: "Limbe",
+    contact: "670203775",
+    employer: "Airlipay",
+  },
+  {
+    id: 7,
+    name: "John Doe",
+    email: "john@example.com",
+    role: "Admin",
+    address: "Limbe",
+    contact: "670203775",
+    employer: "Airlipay",
+  },
+  {
+    id: 8,
+    name: "Jane Smith",
+    email: "jane@example.com",
+    role: "User",
+    address: "Limbe",
+    contact: "670203775",
+    employer: "Airlipay",
+  },
+  {
+    id: 9,
+    name: "John Doe",
+    email: "john@example.com",
+    role: "Admin",
+    address: "Limbe",
+    contact: "670203775",
+    employer: "Airlipay",
+  },
+  {
+    id: 10,
+    name: "Jane Smith",
+    email: "jane@example.com",
+    role: "User",
+    address: "Limbe",
+    contact: "670203775",
+    employer: "Airlipay",
+  },
+  {
+    id: 11,
+    name: "John Doe",
+    email: "john@example.com",
+    role: "Admin",
+    address: "Limbe",
+    contact: "670203775",
+    employer: "Airlipay",
+  },
+  {
+    id: 12,
+    name: "Jane Smith",
+    email: "jane@example.com",
+    role: "User",
+    address: "Limbe",
+    contact: "670203775",
+    employer: "Airlipay",
+  },
+  // Add more user objects as needed
+];
+
 const data = {
-  sidebarData
+  sidebarData,
+  usersTable
 }
 
 export default data

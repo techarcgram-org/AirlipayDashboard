@@ -3,7 +3,7 @@
 import data from "@/app/constant/data";
 import { useRouter } from "next/navigation";
 import { forwardRef } from "react";
-import SidebarCard from "./SidebarCard";
+import { SidebarCard } from "..";
 
 const SideBar = forwardRef(({ showNav }, ref) => {
   const router = useRouter();
