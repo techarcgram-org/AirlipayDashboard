@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from "react";
-import { Table } from "../components";
+import { AddUser, Table } from "../components";
 import data from "../constant/data";
 
 const Page = () => {
@@ -44,9 +44,7 @@ const Page = () => {
       )}
       {activeTab === "Tab2" && (
         // <Table users={data.usersTable2} columns={data.columns2} />
-        <h1>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deserunt, ipsam aliquid autem accusamus consectetur impedit minima odio laudantium? Quo, voluptas.
-        </h1>
+        <AddUser />
       )}
       {activeTab === "Tab3" && (
         // <Table users={data.usersTable3} columns={data.columns3} />
