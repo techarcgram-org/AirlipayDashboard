@@ -17,7 +17,7 @@ const columns = [
 
 const page = () => {
   return (
-    <div className="bg-white" >
+    <div >
       <Table users={data.usersTable} columns={columns} />
     </div>
   );

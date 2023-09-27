@@ -9,7 +9,12 @@ const Table = ({ users, columns }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const filteredUsers = users.filter((user) =>
-    user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    columns.some((column) =>
+      user[column.field]
+        .toString()
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    )
   );
   const currentUsers = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
@@ -50,7 +55,6 @@ const Table = ({ users, columns }) => {
             <option value={15}>15</option>
           </select>
           <span className="mx-2">entries</span>
-
         </div>
         <input
           type="text"
