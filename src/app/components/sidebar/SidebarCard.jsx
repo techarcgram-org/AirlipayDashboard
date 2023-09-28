@@ -8,7 +8,7 @@ const SidebarCard = ({ route, name, icon }) => {
   const router = useRouter();
   return (
     <div>
-      <Link href="/users">
+      <Link href="/clients">
         <div
           className={`-pl-4 py-3 mx-2 relative rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
             router.pathname == "/billing"
