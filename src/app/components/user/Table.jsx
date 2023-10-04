@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import {BsFillTrashFill} from 'react-icons/bs'
-import {FiEdit2} from 'react-icons/fi'
+import { BsFillTrashFill } from "react-icons/bs";
+import { FiEdit2 } from "react-icons/fi";
 
 const Table = ({ users, columns }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,6 +128,27 @@ const Table = ({ users, columns }) => {
                     </td>
                   );
                 }
+                if (column.id === "status") {
+                  // Handle status column
+                  const status = user[column.field];
+                  let statusStyle = "";
+                  if (status === "active") {
+                    statusStyle = "bg-green-300";
+                  } else if (status === "cancelled") {
+                    statusStyle = "bg-red-300";
+                  } else if (status === "reviewed") {
+                    statusStyle = "bg-yellow-300";
+                  }
+
+                  return (
+                    <td
+                      key={column.id}
+                      className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center ${statusStyle}`}
+                    >
+                      <div className="text-sm text-white font-bold capitalize">{status}</div>
+                    </td>
+                  );
+                }
                 return (
                   <td
                     key={column.id}
@@ -145,21 +166,21 @@ const Table = ({ users, columns }) => {
       </table>
       {/* Pagination */}
       <div className="mt-4 flex flex-row justify-end items-center">
-        <div className="flex items-center justify-around" >
+        <div className="flex items-center justify-around">
           <button
             onClick={prevPage}
             disabled={currentPage === 1}
-            className="px-3 py-1 border border-gray-300 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="px-3 py-1 border border-gray-300 rounded-md disabled:bg-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-700"
           >
             Previous
           </button>
-          <div className="ml-2" >
-            {currentPage}  / {totalPages} 
+          <div className="ml-2">
+            {currentPage} / {totalPages}
           </div>
           <button
             onClick={nextPage}
             disabled={currentPage === totalPages}
-            className="ml-2 px-3 py-1 border border-gray-300 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="ml-2 px-3 py-1 border border-gray-300 rounded-md text-white focus:outline-none focus:ring-2 disabled:bg-gray-500 focus:ring-blue-400 bg-blue-700"
           >
             Next
           </button>

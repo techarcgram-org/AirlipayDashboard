@@ -1,4 +1,3 @@
-
 ```Javascript
 import React from "react";
 import Table from "./Table";
@@ -29,4 +28,53 @@ const App = () => {
 };
 
 export default App;
+
+// ...
+
+// Table body
+<tbody className="bg-white divide-y divide-gray-200">
+  {currentUsers.map((user) => (
+    <tr key={user.id}>
+      {columns.map((column) => {
+        if (column.id === "edit") {
+          // ...
+        } else if (column.id === "delete") {
+          // ...
+        } else if (column.id === "status") { // Handle status column
+          const status = user[column.field];
+          let statusStyle = "";
+          if (status === "active") {
+            statusStyle = "bg-green-300";
+          } else if (status === "cancelled") {
+            statusStyle = "bg-red-300";
+          } else if (status === "reviewed") {
+            statusStyle = "bg-yellow-300";
+          }
+
+          return (
+            <td
+              key={column.id}
+              className={`p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap ${statusStyle}`}
+            >
+              <div className="text-sm text-gray-900">{status}</div>
+            </td>
+          );
+        } else {
+          return (
+            <td
+              key={column.id}
+              className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
+            >
+              <div className="text-sm text-gray-900">
+                {user[column.field]}
+              </div>
+            </td>
+          );
+        }
+      })}
+    </tr>
+  ))}
+</tbody>
+
+// ...
 ```

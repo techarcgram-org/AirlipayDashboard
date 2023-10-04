@@ -68,6 +68,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "active",
   },
   {
     id: 8,
@@ -77,6 +78,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Facebook",
+    status: "active",
   },
   {
     id: 9,
@@ -86,6 +88,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "reviewed",
   },
   {
     id: 10,
@@ -95,6 +98,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Facebook",
+    status: "reviewed",
   },
   {
     id: 11,
@@ -104,6 +108,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "cancelled",
   },
   {
     id: 12,
@@ -113,6 +118,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "active",
   },
   {
     id: 13,
@@ -122,6 +128,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "reviewed",
   },
   {
     id: 14,
@@ -131,6 +138,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "active",
   },
   {
     id: 15,
@@ -140,6 +148,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "active",
   },
   {
     id: 16,
@@ -149,6 +158,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "cancelled",
   },
   {
     id: 17,
@@ -158,6 +168,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "cancelled",
   },
   {
     id: 18,
@@ -167,6 +178,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "active",
   },
   {
     id: 19,
@@ -176,6 +188,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "reviewed",
   },
   {
     id: 20,
@@ -185,6 +198,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "active",
   },
   {
     id: 21,
@@ -194,6 +208,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "reviewed",
   },
   {
     id: 22,
@@ -203,6 +218,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "cancelled",
   },
   {
     id: 23,
@@ -212,6 +228,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "reviewed",
   },
   {
     id: 24,
@@ -221,6 +238,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "active",
   },
   {
     id: 25,
@@ -230,6 +248,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "cancelled",
   },
   {
     id: 26,
@@ -239,6 +258,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "active",
   },
   {
     id: 27,
@@ -248,6 +268,7 @@ const usersTable = [
     address: "Limbe",
     contact: "670203775",
     employer: "Airlipay",
+    status: "active",
   },
 ];
 
@@ -470,6 +491,7 @@ const columns = [
   { id: "employer", header: "Employer", field: "employer" },
   { id: "edit", header: "Edit", field: "" },
   { id: "delete", header: "Delete", field: "" },
+  { id: "status", header: "Status", field: "status" },
   // Add more column objects as needed
 ];
 
