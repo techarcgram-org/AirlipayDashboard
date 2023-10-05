@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from "react";
-import { AddUser, Tab, Table } from "../components";
+import { AddUser, Tab, Table, UserDetails } from "../components";
 import data from "../constant/data";
 
 const Page = () => {
@@ -52,6 +52,7 @@ const Page = () => {
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore totam nisi reprehenderit aliquid illo possimus eaque, numquam sunt veritatis voluptatum eius.
         </h1>
       )} */}
+      <UserDetails />
       <Tab options={["View User", "Add Users", "Edit Info"]} defaultTab="View User">
         <Table tab="View User" users={data.usersTable} columns={data.columns} />
         <AddUser tab="Add Users" />
