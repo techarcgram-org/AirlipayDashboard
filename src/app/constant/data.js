@@ -281,6 +281,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "670203775",
     employerId: "Airlipay",
+    status: "active",
   },
   {
     id: 6,
@@ -289,7 +290,8 @@ const clientsTable = [
     // role: "User",
     // address: "Limbe",
     contact: "670203775",
-    employerId: "Airlipay",
+    employerId: "Google",
+    status: "active",
   },
   {
     id: 7,
@@ -299,6 +301,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "670203775",
     employerId: "Airlipay",
+    status: "reviewed",
   },
   {
     id: 8,
@@ -307,7 +310,8 @@ const clientsTable = [
     // role: "User",
     // address: "Limbe",
     contact: "670203775",
-    employerId: "Facebook",
+    employerId: "YouTube",
+    status: "reviewed",
   },
   {
     id: 9,
@@ -317,6 +321,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "670203775",
     employerId: "Airlipay",
+    "status":"cancelled"
   },
   {
     id: 10,
@@ -326,6 +331,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "670203775",
     employerId: "Facebook",
+    status: "cancelled",
   },
   {
     id: 11,
@@ -335,6 +341,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "670203775",
     employerId: "Airlipay",
+    status: "active",
   },
   {
     id: 12,
@@ -344,6 +351,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "670203775",
     employerId: "Airlipay",
+    status: "cancelled",
   },
   {
     id: 13,
@@ -353,6 +361,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "670203775",
     employerId: "Airlipay",
+    status: "cancelled",
   },
   {
     id: 14,
@@ -362,6 +371,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "670203775",
     employerId: "Airlipay",
+    status: "active",
   },
   {
     id: 15,
@@ -371,6 +381,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "620161833",
     employerId: "Airlipay",
+    status: "reviewed",
   },
   {
     id: 16,
@@ -380,6 +391,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "620161833",
     employerId: "Airlipay",
+    status: "active",
   },
   {
     id: 17,
@@ -389,6 +401,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "670203775",
     employerId: "Airlipay",
+    status: "active",
   },
   {
     id: 18,
@@ -398,6 +411,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "620161833",
     employerId: "Airlipay",
+    status: "cancelled",
   },
   {
     id: 19,
@@ -407,6 +421,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "670203775",
     employerId: "Airlipay",
+    status: "active",
   },
   {
     id: 20,
@@ -416,6 +431,7 @@ const clientsTable = [
     // address: "Limbe",
     contact: "670203775",
     employerId: "Airlipay",
+    status: "cancelled",
   },
   {
     id: 21,
@@ -425,61 +441,8 @@ const clientsTable = [
     // address: "Limbe",
     contact: "620161833",
     employerId: "Airlipay",
+    status: "reviewed",
   },
-  // {
-  //   id: 22,
-  //   name: "Olivia Davis",
-  //   email: "olivia.davis@example.com",
-  //   role: "User",
-  //   address: "Limbe",
-  //   contact: "670203775",
-  //   employer: "Airlipay",
-  // },
-  // {
-  //   id: 23,
-  //   name: "Daniel Wilson",
-  //   email: "daniel.wilson@example.com",
-  //   role: "Admin",
-  //   address: "Limbe",
-  //   contact: "670203775",
-  //   employer: "Airlipay",
-  // },
-  // {
-  //   id: 24,
-  //   name: "Sophia Martin",
-  //   email: "sophia.martin@example.com",
-  //   role: "User",
-  //   address: "Limbe",
-  //   contact: "670203775",
-  //   employer: "Airlipay",
-  // },
-  // {
-  //   id: 25,
-  //   name: "James Anderson",
-  //   email: "james.anderson@example.com",
-  //   role: "Admin",
-  //   address: "Limbe",
-  //   contact: "670203775",
-  //   employer: "Airlipay",
-  // },
-  // {
-  //   id: 26,
-  //   name: "Ava Thompson",
-  //   email: "ava.thompson@example.com",
-  //   role: "User",
-  //   address: "Limbe",
-  //   contact: "670203775",
-  //   employer: "Airlipay",
-  // },
-  // {
-  //   id: 27,
-  //   name: "Matthew Taylor",
-  //   email: "matthew.taylor@example.com",
-  //   role: "Admin",
-  //   address: "Limbe",
-  //   contact: "670203775",
-  //   employer: "Airlipay",
-  // },
 ];
 
 const columns = [
@@ -502,6 +465,7 @@ const clientColumns = [
   // { id: "role", header: "Role", field: "role" },
   // { id: "address", header: "Address", field: "address" },
   { id: "contact", header: "Phone Number", field: "contact" },
+  { id: "status", header: "Status", field: "status" },
 ];
 
 const data = {
