@@ -1,7 +1,7 @@
 
 import React from "react";
 
-const TextInput = ({ label, name, value, onChange, placeholder }) => {
+const TextInput = ({ label, name, value, onChange, placeholder,type }) => {
   return (
     <div className="mb-4">
       <label
@@ -12,7 +12,7 @@ const TextInput = ({ label, name, value, onChange, placeholder }) => {
         {label}
       </label>
       <input
-        type="text"
+        type={type}
         id={name}
         name={name}
         value={value}
