@@ -7,12 +7,12 @@ const sidebarData = [
     name: "Dashboard",
     route: "/",
     image: images.home,
-    // icon:<CreditCardIcon />
+    // image:<CreditCardIcon fontSize={24} color="black" />
   },
   {
     id: 2,
     name: "Clients",
-    route: "/client",
+    route: "/clients",
     image: images.client,
   },
   {
