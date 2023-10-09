@@ -30,7 +30,7 @@ const sidebarData = [
   {
     id: 5,
     name: "User Withdrawals",
-    route: "/user/:id/withdraw",
+    route: "/users/:id/withdraw",
     image: images.processing,
   },
   {
@@ -42,7 +42,7 @@ const sidebarData = [
   {
     id: 7,
     name: "Clients Payment",
-    route: "/client/payment",
+    route: "/clients/payment",
     image: images.payment,
   },
   {

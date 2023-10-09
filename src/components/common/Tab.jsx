@@ -10,8 +10,8 @@ const Tab = ({ options, defaultTab, children }) => {
   };
 
   return (
-    <div>
-      <div className="flex justify-center w-[400px] mb-4">
+    <div className="relative items-center justify-center" >
+      <div className="flex left-40 justify-center min-w-[400px] mb-4">
         {options.map((option) => (
           <button
             key={option}
