@@ -55,7 +55,7 @@ const Table = ({ users, columns }) => {
   };
 
   return (
-    <div>
+    <div className="p-2 pb-2 relative right-4" >
       <div className="mb-4 flex justify-between items-center">
         <div>
           <span className="mr-2">Show:</span>
@@ -143,7 +143,7 @@ const Table = ({ users, columns }) => {
                   return (
                     <td
                       key={column.id}
-                      className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center ${statusStyle}`}
+                      className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center mx-2 ${statusStyle}`}
                     >
                       <div className="text-sm text-white font-bold capitalize">{status}</div>
                     </td>
