@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
@@ -155,7 +156,9 @@ const Table = ({ users, columns }) => {
                     className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
                   >
                     <div className="text-sm text-gray-900">
+                      <Link href="/users/2" >
                       {user[column.field]}
+                      </Link>
                     </div>
                   </td>
                 );
