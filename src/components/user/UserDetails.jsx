@@ -1,80 +1,77 @@
+import React from "react";
+import { Tab } from "..";
+import { FaEdit } from "react-icons/fa";
 
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { Tab } from '..'
-
-const UserDetails = () => {
+const UserDetails = ({email,phoneNumber,join,activated,address,aBalance,nBalance,fee,tAmount}) => {
   return (
-    <div className="flex itstrongs-center h-[300px] justify-around">
-      
-      <div style={{textAlign:'start',paddingBottom:74,}}>
-    <h2 style={{textAlign:'left', marginBottom:15}}>User details</h2>
-        
-        <div className='flex'>
-          <p className='m-2'>  <strong>Alvin Ana  </strong> #9753428</p> 
-          <button className='m-1'style={{backgroundColor:'green',padding:6,color:'white', borderRadius:3}}>Active</button>
-          <FontAwesomeIcon icon={faEdit} />
-          <p className='m-2'>edit</p>
-          
-        </div>
-        <div className='flex'>
-            <div className='m-3'>
-                <ol>
-                  <li>Email:</li>
-                  <li>Tel:</li>
-                  <li>Joined:</li>
-                  <li>Activated:</li>
-                  <li>Address:</li>
-                </ol>
+    <div className=" md:w-full flex p-4 items-center justify-between h-[300px]">
+      <div className="w-full">
+        <h2>User details</h2>
 
-            </div>
-            <div className='space h-1 w-2'></div>
-            <div className='m-3'>
-            <ol>
-                  <li>mail@gmail.com</li>
-                  <li>+237 999 999 999</li>
-                  <li>07/07/2023</li>
-                  <li>08/12/2023</li>
-                  <li>Buea town</li>
-                </ol>
-            </div>
+        <div className="flex items-center justify-around">
+          <p className="m-2">
+            <strong>Alvin Ana </strong> #9753428
+          </p>
+          <button className="mx-2 px-4 h-[24px] bg-green-500 text-white capitalize">
+            active
+          </button>
+          <div className="relative flex items-center justify-center">
+            <FaEdit className="absolute top-[20px] -right-4 " />
+            <p className="m-2">edit</p>
+          </div>
         </div>
-       
+        <div className="">
+          <div className="w-full p-2 flex items-center md:justify-between justify-center my-2">
+            <strong>Email</strong>
+            <strong>{email}</strong>
+          </div>
+          <div className="w-full p-2 flex items-center justify-between my-2">
+            <strong>Tel</strong>
+            <strong>{phoneNumber}</strong>
+          </div>
+          <div className="w-full p-2 flex items-center justify-between my-2">
+            <strong>Joined</strong>
+            <strong>{join}</strong>
+          </div>
+          <div className="w-full p-2 flex items-center justify-between my-2">
+            <strong>Activated</strong>
+            <strong>{activated}</strong>
+          </div>
+          <div className="w-full p-2 flex items-center justify-between my-2">
+            <strong>Address</strong>
+            <strong>{address}</strong>
+          </div>
         </div>
-      <div className='h-[90%] w-[2px] bg-black' ></div>
+      </div>
+      <div className="h-[90%] w-[2px] md:mx-16 mx-4 bg-black"></div>
       {/* the code below is for the balance section */}
-      <div style={{textAlign:'center', marginBottom:3}}><strong>BALANCE DETAILS</strong>
-      <div className='flex text'>
-          <div className='m-10'>
-              <p className='text-blue'>Available Banlance</p>
-              <p style={{color:'#063B87', fontSize:20}}>XAF 5000</p>
-            </div>
-            <div className='m-10'>
-            <p style={{fontSize:15}}>Transferred </p>
-            <p style={{color:'#063B87', fontSize:20}}>XAF 5000</p>
-            </div>
-      </div>
-        
+      <div className="w-full">
+        <strong>BALANCE DETAILS</strong>
+        <div className="flex text">
+          <div className="md:m-10 m-4">
+            <p className="text-blue">Available Banlance</p>
+            <p style={{ color: "#063B87", fontSize: 20 }}>XAF {aBalance}</p>
+          </div>
+          <div className="md:m-10 m-4">
+            <p style={{ fontSize: 15 }}>Transferred </p>
+            <p style={{ color: "#063B87", fontSize: 20 }}>XAF {tAmount}</p>
+          </div>
+        </div>
+
         {/* <div className='h-[90%] w-[2px] bg-black' ></div> */}
-        <div className='flex'>
-        <div className='m-10'>
-        <p > Negative Banlance</p>
-        <p style={{color:'#063B87', fontSize:20}}>XAF 5000</p>
+        <div className="flex">
+          <div className="md:m-10 m-4">
+            <p> Negative Banlance</p>
+            <p style={{ color: "#063B87", fontSize: 20 }}>XAF {nBalance}</p>
+          </div>
+          <div className="md:m-10 m-4">
+            <p>Fees</p>
+            <p style={{ color: "#063B87", fontSize: 20 }}>XAF {fee}</p>
+          </div>
         </div>
-        <div className='m-10'>
-        <p>Fees</p>
-        <p style={{color:'#063B87', fontSize:20}}>XAF 5000</p>
-        </div>
-
-        </div>
-        
       </div>
-      {/* <div>
-        <Tab Employer1 />
-      </div> */}
     </div>
-      )
-}
+  );
+};
 
-export default UserDetails
+export default UserDetails;
