@@ -21,7 +21,7 @@ const UserDetails = ({email,phoneNumber,join,activated,address,aBalance,nBalance
           </div>
         </div>
         <div className="">
-          <div className="w-full p-2 flex items-center md:justify-between justify-center my-2">
+          <div className="w-full p-2 flex items-center md:justify-between gap-2 justify-center my-2">
             <strong>Email</strong>
             <strong>{email}</strong>
           </div>
