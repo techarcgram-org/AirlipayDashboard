@@ -6,12 +6,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { forwardRef } from "react";
 import { AiOutlineHome } from "react-icons/ai";
+import { BsBank } from "react-icons/bs";
+import { FaUserEdit } from "react-icons/fa";
+import { FcMoneyTransfer } from "react-icons/fc";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
-import { GrUserAdmin } from "react-icons/gr";
 import { HiUser, HiUsers } from "react-icons/hi";
-import {FcMoneyTransfer} from "react-icons/fc"
-import {BsBank} from "react-icons/bs"
-import {FaLocationPinLock} from "react-icons/fa"
+import {BiMoney} from "react-icons/bi"
 
 const SideBar = forwardRef(({ showNav }, ref) => {
   const router = useRouter();
@@ -19,7 +19,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
   return (
     <div
       ref={ref}
-      className="fixed w-65 max-w-70 overflow-scroll h-full bg-[#063b87]  shadow-sm"
+      className="fixed w-85 max-w-100 overflow-scroll h-full bg-[#063b87]  shadow-sm"
     >
       <div className="flex flex-col">
         <h2 className="text-center p-4 text-3xl text-white font-bold">
@@ -28,10 +28,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
         {/* {data.sidebarData.map((item) => (
           <SidebarCard name={item.name} icon={item.image} route={item.route} />
         ))} */}
-        <div>
+        <div className="px-2">
           <Link href="/">
             <div
-              className={`-pl-4 py-3 mx-2 relative rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
+              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
                 router.pathname == "/billing"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
@@ -47,17 +47,17 @@ const SideBar = forwardRef(({ showNav }, ref) => {
                   </p>
                 </div>
               </div>
-              <div className="absolute right-3 -ml-4">
+              <div className="absolute right-3">
                 <Image width={10} height={10} src={images.right} />
               </div>
             </div>
           </Link>
         </div>
 
-        <div>
+        <div className="px-2">
           <Link href="/clients">
             <div
-              className={`-pl-4 py-3 mx-2 relative rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
+              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
                 router.pathname == "/billing"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
@@ -78,10 +78,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div>
+        <div className="px-2">
           <Link href="/admins">
             <div
-              className={`-pl-4 py-3 mx-2 relative rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
+              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
                 router.pathname == "/billing"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
@@ -89,7 +89,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
             >
               <div className="flex flex-row items-center justify-around mr-2">
                 <div className="mr-2">
-                  <GrUserAdmin className="h-5 w-5" />
+                  <FaUserEdit className="h-5 w-5" />
                 </div>
                 <div>
                   <p className="font-inter text-steelblue text-left">Admins</p>
@@ -102,10 +102,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div>
+        <div className="px-2">
           <Link href="/users">
             <div
-              className={`-pl-4 py-3 mx-2 relative rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
+              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
                 router.pathname == "/billing"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
@@ -126,10 +126,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div>
+        <div className="px-2">
           <Link href="/users/:id/withdraw">
             <div
-              className={`-pl-4 py-3 mx-2 relative rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
+              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
                 router.pathname == "/billing"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
@@ -145,17 +145,17 @@ const SideBar = forwardRef(({ showNav }, ref) => {
                   </p>
                 </div>
               </div>
-              <div className="absolute right-3 -ml-4">
+              <div className="absolute right-3 -mr-6">
                 <Image width={10} height={10} src={images.right} />
               </div>
             </div>
           </Link>
         </div>
 
-        <div>
+        <div className="px-2">
           <Link href="/ailipay">
             <div
-              className={`-pl-4 py-3 mx-2 relative rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
+              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
                 router.pathname == "/billing"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
@@ -163,7 +163,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
             >
               <div className="flex flex-row items-center justify-around mr-2">
                 <div className="mr-2">
-                  <FcMoneyTransfer className="h-5 w-5" />
+                  <BiMoney className="h-5 w-5" />
                 </div>
                 <div>
                   <p className="font-inter text-steelblue text-left">
@@ -178,10 +178,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div>
+        <div className="px-2">
           <Link href="/clients/payment">
             <div
-              className={`-pl-4 py-3 mx-2 relative rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
+              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
                 router.pathname == "/billing"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
@@ -204,10 +204,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div>
+        <div className="px-2">
           <Link href="/banks">
             <div
-              className={`-pl-4 py-3 mx-2 relative rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
+              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
                 router.pathname == "/billing"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
@@ -228,10 +228,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div>
+        <div className="px-2">
           <Link href="/address">
             <div
-              className={`-pl-4 py-3 mx-2 relative rounded text-center cursor-pointer mb-3 flex items-center transition-colors ${
+              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
                 router.pathname == "/billing"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
