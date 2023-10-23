@@ -39,8 +39,8 @@ const page = () => {
       </Tab> */}
       <Table
         // tab="Salary"
-        users={data.usersDetails}
-        columns={data.columnsDetails}
+        users={data.usersTable}
+        columns={data.columns}
       />
     </div>
   );
