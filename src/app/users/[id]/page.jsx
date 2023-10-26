@@ -5,7 +5,6 @@ import data from "@/constant/data";
 import React from "react";
 
 const page = () => {
-
   const handleAction = (action, userId) => {
     if (action === "edit") {
       console.log("Edit user:", userId);
@@ -37,11 +36,23 @@ const page = () => {
         <Table tab="Withdrawals" users={data.usersDetails} columns={data.columnsDetails} />
         <Table tab="Paying" users={data.usersTable} columns={data.columns} />
       </Tab> */}
-      <Table
-        // tab="Salary"
-        users={data.usersTable}
-        columns={data.columns}
-      />
+
+      <Tab
+        options={[
+          "Transactions",
+          "Activity Feed",
+          "Bank Accounts",
+          "Momo Accounts",
+          "Debit Cards",
+        ]}
+        defaultTab="Transactions"
+      >
+        <Table
+          tab="Transactions"
+          users={data.usersTable}
+          columns={data.columns}
+        />
+      </Tab>
     </div>
   );
 };

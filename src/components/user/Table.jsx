@@ -56,7 +56,7 @@ const Table = ({ users, columns }) => {
   };
 
   return (
-    <div className="p-2 pb-2 relative right-4" >
+    <div className="mt-4">
       <div className="mb-4 flex justify-between items-center">
         <div>
           <span className="mr-2">Show:</span>
@@ -79,7 +79,7 @@ const Table = ({ users, columns }) => {
           className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
       </div>
-      <table className="min-w-full divide-y divide-gray-200">
+      <table className="min-w-full divide-y divide-gray-200 border boder-solid">
         {/* Table header */}
         <thead className="bg-gray-50">
           <tr className="bg-[#979797]">
@@ -118,7 +118,7 @@ const Table = ({ users, columns }) => {
                   return (
                     <td
                       key={column.id}
-                      className="p-2 justify-center items-center whitespace-nowrap"
+                      className="p-2 md:px-6 justify-around items-center whitespace-nowrap"
                     >
                       <button
                         onClick={() => handleDelete(user.id)} // Add handleDelete function
@@ -134,11 +134,11 @@ const Table = ({ users, columns }) => {
                   const status = user[column.field];
                   let statusStyle = "";
                   if (status === "active") {
-                    statusStyle = "bg-green-300";
+                    statusStyle = "bg-green-600";
                   } else if (status === "cancelled") {
-                    statusStyle = "bg-red-300";
+                    statusStyle = "bg-red-600";
                   } else if (status === "reviewed") {
-                    statusStyle = "bg-yellow-300";
+                    statusStyle = "bg-yellow-600";
                   }
 
                   return (
@@ -146,7 +146,9 @@ const Table = ({ users, columns }) => {
                       key={column.id}
                       className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center mx-2 ${statusStyle}`}
                     >
-                      <div className="text-sm text-white font-bold capitalize">{status}</div>
+                      <div className="text-sm text-white font-bold capitalize">
+                        {status}
+                      </div>
                     </td>
                   );
                 }
@@ -156,9 +158,7 @@ const Table = ({ users, columns }) => {
                     className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
                   >
                     <div className="text-sm text-gray-900">
-                      <Link href="/users/2" >
-                      {user[column.field]}
-                      </Link>
+                      <Link href="/users/2">{user[column.field]}</Link>
                     </div>
                   </td>
                 );
