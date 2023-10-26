@@ -6,12 +6,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { forwardRef } from "react";
 import { AiOutlineHome } from "react-icons/ai";
-import { BsBank } from "react-icons/bs";
+import { BsBank, BsPinMapFill } from "react-icons/bs";
 import { FaUserEdit } from "react-icons/fa";
-import { FcMoneyTransfer } from "react-icons/fc";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { HiUser, HiUsers } from "react-icons/hi";
-import {BiMoney} from "react-icons/bi"
+import { BiMoney } from "react-icons/bi";
 
 const SideBar = forwardRef(({ showNav }, ref) => {
   const router = useRouter();
@@ -19,7 +18,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
   return (
     <div
       ref={ref}
-      className="fixed w-85 max-w-100 overflow-scroll h-full bg-[#063b87]  shadow-sm"
+      className="w-full overflow-scroll h-full bg-[#063b87] shadow-sm"
     >
       <div className="flex flex-col">
         <h2 className="text-center p-4 text-3xl text-white font-bold">
@@ -140,12 +139,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
                   <GiReceiveMoney className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left">
-                    User Withdrawals
-                  </p>
+                  <p className="font-inter text-steelblue text-left">User</p>
                 </div>
               </div>
-              <div className="absolute right-3 -mr-6">
+              <div className="absolute right-3 -ml-4">
                 <Image width={10} height={10} src={images.right} />
               </div>
             </div>
@@ -239,7 +236,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
             >
               <div className="flex flex-row items-center justify-around mr-2">
                 <div className="mr-2">
-                  <BsBank className="h-5 w-5" />
+                  <BsPinMapFill className="h-5 w-5" />
                 </div>
                 <div>
                   <p className="font-inter text-steelblue text-left">Address</p>

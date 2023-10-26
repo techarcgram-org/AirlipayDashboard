@@ -14,8 +14,8 @@ import images from "../constant/images";
 const Navbar = ({ showNav, setShowNav }) => {
   return (
     <div
-      className={`fixed w-full h-16 flex justify-between items-center transition-all duration-[400ms] ${
-        showNav ? "pl-56" : ""
+      className={`sticky top-0 w-full h-16 flex justify-between items-center transition-all duration-[400ms] bg-white ${
+        showNav ? "" : ""
       }`}
     >
       <div className="pl-4 relative right-2 md:pl-16">
