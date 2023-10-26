@@ -23,7 +23,7 @@ return(
     {isOpen &&(
         <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="bg-white p-8 rounded shadow-lg">
-                <button className="absolute left-90 m-4 text-gray-500 " onClick={closeModal}>
+                <button className="relative left-00 m-4 text-gray-500 " onClick={closeModal}>
                     <svg className="h-6 
                     w-6" fill="none" viewBox="0 0 20 20 " stroke="currentColor" >
                         <path strokeLinecap="round" strokeLinejoin="round"
