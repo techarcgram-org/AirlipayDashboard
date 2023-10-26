@@ -14,15 +14,17 @@ import images from "../constant/images";
 const Navbar = ({ showNav, setShowNav }) => {
   return (
     <div
-      className={`sticky top-0 w-full h-16 flex justify-between items-center transition-all duration-[400ms] bg-white ${
+      className={`w-full h-16 flex justify-between items-center transition-all duration-[400ms] bg-white ${
         showNav ? "" : ""
       }`}
     >
       <div className="pl-4 relative right-2 md:pl-16">
-        <AiOutlineMenu
-          className="h-8 w-8 text-gray-700 cursor-pointer"
-          onClick={() => setShowNav(!showNav)}
-        />
+        {!showNav && (
+          <AiOutlineMenu
+            className="h-8 w-8 text-gray-700 cursor-pointer"
+            onClick={() => setShowNav(!showNav)}
+          />
+        )}
       </div>
       <div className="flex items-center pr-4 md:pr-16">
         <Popover className="relative">

@@ -5,29 +5,35 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { forwardRef } from "react";
-import { AiOutlineHome } from "react-icons/ai";
+import { AiOutlineHome, AiOutlineMenu } from "react-icons/ai";
 import { BsBank, BsPinMapFill } from "react-icons/bs";
 import { FaUserEdit } from "react-icons/fa";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { HiUser, HiUsers } from "react-icons/hi";
 import { BiMoney } from "react-icons/bi";
 
-const SideBar = forwardRef(({ showNav }, ref) => {
+const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
   const router = useRouter();
 
   return (
     <div
       ref={ref}
-      className="w-full overflow-scroll h-full bg-[#063b87] shadow-sm"
+      className={`w-full overflow-scroll h-full bg-[#063b87] shadow-sm px-4 py-6`}
     >
       <div className="flex flex-col">
-        <h2 className="text-center p-4 text-3xl text-white font-bold">
-          Airlipay
-        </h2>
-        {/* {data.sidebarData.map((item) => (
-          <SidebarCard name={item.name} icon={item.image} route={item.route} />
-        ))} */}
-        <div className="px-2">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-center text-3xl text-white font-bold">
+            Airlipay
+          </h2>
+          {showNav && (
+            <AiOutlineMenu
+              className="h-8 w-8 text-gray-700 cursor-pointer text-white"
+              onClick={() => setShowNav(!showNav)}
+            />
+          )}
+        </div>
+
+        <div className="">
           <Link href="/">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
@@ -53,7 +59,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div className="px-2">
+        <div className="">
           <Link href="/clients">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
@@ -77,7 +83,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div className="px-2">
+        <div className="">
           <Link href="/admins">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
@@ -101,7 +107,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div className="px-2">
+        <div className="">
           <Link href="/users">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
@@ -125,7 +131,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div className="px-2">
+        <div className="">
           <Link href="/users/:id/withdraw">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
@@ -149,7 +155,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div className="px-2">
+        <div className="">
           <Link href="/ailipay">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
@@ -175,7 +181,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div className="px-2">
+        <div className="">
           <Link href="/clients/payment">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
@@ -201,7 +207,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div className="px-2">
+        <div className="">
           <Link href="/banks">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
@@ -225,7 +231,7 @@ const SideBar = forwardRef(({ showNav }, ref) => {
           </Link>
         </div>
 
-        <div className="px-2">
+        <div className="">
           <Link href="/address">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${

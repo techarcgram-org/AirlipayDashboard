@@ -41,7 +41,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="bg-gray-300">
         <div className="grid grid-cols-7 h-screen">
-          <div className="sidebar col-span-1 h-full">
+          <div
+            className={`sidebar h-full ${showNav ? "col-span-1" : "hidden"}`}
+          >
             <Transition
               as={Fragment}
               show={showNav}
