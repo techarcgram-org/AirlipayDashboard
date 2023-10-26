@@ -3,10 +3,12 @@
 import React, { useState } from "react";
 import { AddUser, Table } from "../components";
 import data from "../constant/data";
+import HomePage from "../components/common/Modal/homePage";
 
 const Page = () => {
   return (
     <div>
+      <HomePage/>
       <Table users={data.clientsTable} columns={data.clientColumns} />
     </div>
   );
