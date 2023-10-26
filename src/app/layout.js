@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import { Fragment, useEffect, useState,createRef } from 'react';
-import './globals.css'
-import { Inter } from 'next/font/google'
-import { Navbar, Sidebar } from './components';
-import { Transition } from '@headlessui/react';
+import { Fragment, useEffect, useState, createRef } from "react";
+import "./globals.css";
+import { Inter } from "next/font/google";
+import { Navbar, Sidebar } from "../components";
+import { Transition } from "@headlessui/react";
 
 // const inter = Inter({ subsets: ['latin'] })
 

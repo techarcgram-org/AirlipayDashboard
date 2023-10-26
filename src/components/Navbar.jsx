@@ -3,12 +3,12 @@ import { BellIcon, CheckIcon } from "@heroicons/react/24/outline";
 import {
   Cog8ToothIcon,
   CreditCardIcon,
-  PencilIcon
+  PencilIcon,
 } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
-import { AiFillMail, AiFillSetting, AiOutlineMenu } from 'react-icons/ai';
+import { AiFillMail, AiFillSetting, AiOutlineMenu } from "react-icons/ai";
 import images from "../constant/images";
 
 const Navbar = ({ showNav, setShowNav }) => {
@@ -18,7 +18,7 @@ const Navbar = ({ showNav, setShowNav }) => {
         showNav ? "pl-56" : ""
       }`}
     >
-      <div className="pl-4 md:pl-16">
+      <div className="pl-4 relative right-2 md:pl-16">
         <AiOutlineMenu
           className="h-8 w-8 text-gray-700 cursor-pointer"
           onClick={() => setShowNav(!showNav)}
@@ -166,6 +166,6 @@ const Navbar = ({ showNav, setShowNav }) => {
       </div>
     </div>
   );
-}
+};
 
-export default Navbar
+export default Navbar;

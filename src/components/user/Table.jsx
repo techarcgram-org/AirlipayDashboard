@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
@@ -55,7 +56,7 @@ const Table = ({ users, columns }) => {
   };
 
   return (
-    <div>
+    <div className="p-2 pb-2 relative right-4" >
       <div className="mb-4 flex justify-between items-center">
         <div>
           <span className="mr-2">Show:</span>
@@ -143,7 +144,7 @@ const Table = ({ users, columns }) => {
                   return (
                     <td
                       key={column.id}
-                      className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center ${statusStyle}`}
+                      className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center mx-2 ${statusStyle}`}
                     >
                       <div className="text-sm text-white font-bold capitalize">{status}</div>
                     </td>
@@ -155,7 +156,9 @@ const Table = ({ users, columns }) => {
                     className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
                   >
                     <div className="text-sm text-gray-900">
+                      <Link href="/users/2" >
                       {user[column.field]}
+                      </Link>
                     </div>
                   </td>
                 );

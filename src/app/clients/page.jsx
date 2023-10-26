@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { AddUser, Table } from "../components";
-import data from "../constant/data";
-import HomePage from "../components/common/Modal/homePage";
+import { AddUser, Table } from "../../components";
+import data from "../../constant/data";
 
 const Page = () => {
   return (
