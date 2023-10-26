@@ -14,7 +14,7 @@ const Table = ({ users, columns }) => {
   const filteredUsers = users.filter((user) =>
     columns.some((column) =>
       user[column.field]
-        .toString()
+        ?.toString()
         .toLowerCase()
         .includes(searchQuery.toLowerCase())
     )
@@ -55,8 +55,18 @@ const Table = ({ users, columns }) => {
     console.log("Delete user:", userId);
   };
 
+  const groupedColumns = {};
+  columns.forEach((section) => {
+    section.children.forEach((column) => {
+      if (!groupedColumns[section.section]) {
+        groupedColumns[section.section] = [];
+      }
+      groupedColumns[section.section].push(column);
+    });
+  });
+
   return (
-    <div className="mt-4">
+    <div className="p-2 pb-2 relative right-4">
       <div className="mb-4 flex justify-between items-center">
         <div>
           <span className="mr-2">Show:</span>
@@ -79,9 +89,19 @@ const Table = ({ users, columns }) => {
           className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
       </div>
-      <table className="min-w-full divide-y divide-gray-200 border boder-solid">
+      <table className="min-w-full divide-y divide-gray-200">
         {/* Table header */}
         <thead className="bg-gray-50">
+          {Object.entries(groupedColumns).map(([section, sectionColumns]) => (
+            <tr key={section} className="bg-[#979797]">
+              <th
+                colSpan={sectionColumns.length}
+                className="p-2 md:px-6 md:py-3 text-left text-xs font-medium text-[#000000] capitalize tracking-wider"
+              >
+                {section}
+              </th>
+            </tr>
+          ))}
           <tr className="bg-[#979797]">
             {columns.map((column) => (
               <th
@@ -118,7 +138,7 @@ const Table = ({ users, columns }) => {
                   return (
                     <td
                       key={column.id}
-                      className="p-2 md:px-6 justify-around items-center whitespace-nowrap"
+                      className="p-2 justify-center items-center whitespace-nowrap"
                     >
                       <button
                         onClick={() => handleDelete(user.id)} // Add handleDelete function
@@ -134,11 +154,11 @@ const Table = ({ users, columns }) => {
                   const status = user[column.field];
                   let statusStyle = "";
                   if (status === "active") {
-                    statusStyle = "bg-green-600";
+                    statusStyle = "bg-green-300";
                   } else if (status === "cancelled") {
-                    statusStyle = "bg-red-600";
+                    statusStyle = "bg-red-300";
                   } else if (status === "reviewed") {
-                    statusStyle = "bg-yellow-600";
+                    statusStyle = "bg-yellow-300";
                   }
 
                   return (
@@ -148,6 +168,30 @@ const Table = ({ users, columns }) => {
                     >
                       <div className="text-sm text-white font-bold capitalize">
                         {status}
+                      </div>
+                    </td>
+                  );
+                }
+
+                if (column.id === "actions") {
+                  return (
+                    <td
+                      key={column.id}
+                      className="px-2 md:px-6 py-2 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      <div className="flex items-center">
+                        <button
+                          onClick={() => handleEdit(user.id)}
+                          className="mr-2 text-blue-500 hover:text-blue-700 focus:outline-none"
+                        >
+                          <FiEdit2 />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(user.id)}
+                          className="text-red-500 hover:text-red-700 focus:outline-none"
+                        >
+                          <BsFillTrashFill />
+                        </button>
                       </div>
                     </td>
                   );

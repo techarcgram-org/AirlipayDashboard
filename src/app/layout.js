@@ -39,27 +39,39 @@ export default function RootLayout({ children }) {
   }, []);
   return (
     <html lang="en">
-      <body>
-        <Navbar showNav={showNav} setShowNav={setShowNav} />
-        <Transition
-          as={Fragment}
-          show={showNav}
-          enter="transform transition duration-[400ms]"
-          enterFrom="-translate-x-full"
-          enterTo="translate-x-0"
-          leave="transform duration-[400ms] transition ease-in-out"
-          leaveFrom="translate-x-0"
-          leaveTo="-translate-x-full"
-        >
-          <Sidebar showNav={showNav} setShowNav={setShowNav} ref={sidebarRef} />
-        </Transition>
-        <main
-          className={`pt-16 transition-all duration-[400ms] ${
-            showNav && !isMobile ? "pl-56" : ""
-          }`}
-        >
-          <div className="px-4 md:px-16">{children}</div>
-        </main>
+      <body className="bg-gray-300">
+        <div className="grid grid-cols-7 h-screen">
+          <div className="sidebar col-span-1 h-full">
+            <Transition
+              as={Fragment}
+              show={showNav}
+              enter="transform transition duration-[400ms]"
+              enterFrom="-translate-x-full"
+              enterTo="translate-x-0"
+              leave="transform duration-[400ms] transition ease-in-out"
+              leaveFrom="translate-x-0"
+              leaveTo="-translate-x-full"
+            >
+              <Sidebar
+                showNav={showNav}
+                setShowNav={setShowNav}
+                ref={sidebarRef}
+              />
+            </Transition>
+          </div>
+          <div
+            className={`righ-section ${showNav ? "col-span-6" : "col-span-7"}`}
+          >
+            <Navbar showNav={showNav} setShowNav={setShowNav} />
+            <main
+              className={`py-4 m-4 transition-all duration-[400ms] bg-white ${
+                showNav && !isMobile ? "" : ""
+              }`}
+            >
+              <div className="px-4 md:px-16">{children}</div>
+            </main>
+          </div>
+        </div>
       </body>
     </html>
   );
