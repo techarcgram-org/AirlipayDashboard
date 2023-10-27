@@ -592,6 +592,21 @@ const columnsDetails = [
   },
 ];
 
+const transactionColumns = [
+  { id: "date", header: "Date", field: "date" },
+  { id: "description", header: "Description", field: "description" },
+  { id: "amount", header: "Amount", field: "amount" },
+  { id: "fee", header: "Fee", field: "fee" },
+  { id: "balanceBefore", header: "Balance Before", field: "balanceBefore" },
+  { id: "balanceAfter", header: "Balance After", field: "balanceAfter" },
+];
+
+const banksColumns = [
+  { id: "bankName", header: "Bank Name", field: "bankName" },
+  { id: "accountNumber", header: "AccountNumber", field: "accountNumber" },
+  { id: "balance", header: "Balance", field: "balance" },
+];
+
 const data = {
   sidebarData,
   usersTable,
@@ -599,7 +614,9 @@ const data = {
   clientColumns,
   clientsTable,
   usersDetails,
-  columnsDetails
+  columnsDetails,
+  transactionColumns,
+  banksColumns
 };
 
 export default data;

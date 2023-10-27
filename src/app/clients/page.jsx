@@ -7,7 +7,7 @@ import data from "../../constant/data";
 const Page = () => {
   return (
     <div>
-      <HomePage/>
+      {/* <HomePage/> */}
       <Table users={data.clientsTable} columns={data.clientColumns} />
     </div>
   );
