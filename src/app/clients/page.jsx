@@ -4,7 +4,8 @@ import bankAccounts from "@/utils/data/banks";
 import { Tab, Table } from "../../components";
 import data from "../../constant/data";
 import transactions from "@/utils/data/payment";
-
+// import HomePage from "../components/common/homePage";
+import HomePage from "@/components/common/homePage";
 const Page = () => {
   console.log(transactions)
   return (
