@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { AddUser, Table } from "../../components";
 import data from "../../constant/data";
-import HomePage from "../components/common/homePage";
-
+// import HomePage from "../components/common/homePage";
+import HomePage from "@/components/common/homePage";
 const Page = () => {
   return (
     <div>
