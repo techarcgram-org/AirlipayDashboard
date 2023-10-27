@@ -14,7 +14,7 @@ const Tab = ({ options, defaultTab, children }) => {
         {options.map((option) => (
           <button
             key={option}
-            className={`px-4 py-2 ${
+            className={`px-4 mx-[2px] py-2 ${
               activeTab === option ? "bg-[#3F5F90] text-white" : "bg-gray-300"
             }`}
             onClick={() => handleTabClick(option)}

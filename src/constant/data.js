@@ -1,4 +1,3 @@
-import { CreditCardIcon } from "@heroicons/react/24/solid";
 import images from "./images";
 
 const sidebarData = [
@@ -564,7 +563,7 @@ const usersDetails = [
 
 const clientColumns = [
   { id: "name", header: "Name", field: "name" },
-  { id: "employerId", header: "ClientId", field: "employerId" },
+  { id: "employerId", header: "EmployeeId", field: "employerId" },
   { id: "email", header: "Email Address", field: "email" },
   // { id: "role", header: "Role", field: "role" },
   // { id: "address", header: "Address", field: "address" },
@@ -607,6 +606,23 @@ const banksColumns = [
   { id: "balance", header: "Balance", field: "balance" },
 ];
 
+const paymentColumns = [
+  { id: "date", header: "Payment date", field: "date" },
+  { id: "employeeName", header: "Employee Name", field: "employeeName" },
+  { id: "amount", header: "Amount", field: "amount" },
+  { id: "transactionID", header: "Transaction ID", field: "transactionID" },
+  {
+    id: "destinationAccount",
+    header: "Destination Account",
+    field: "destinationAccount",
+  },
+  {
+    id: "totalAmountTransferred",
+    header: "Total Amount Transferred",
+    filed: "totalAmountTransferred",
+  },
+];
+
 const data = {
   sidebarData,
   usersTable,
@@ -616,7 +632,8 @@ const data = {
   usersDetails,
   columnsDetails,
   transactionColumns,
-  banksColumns
+  banksColumns,
+  paymentColumns
 };
 
 export default data;
