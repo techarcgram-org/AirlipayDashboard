@@ -11,9 +11,14 @@ import { FaUserEdit } from "react-icons/fa";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { HiUser, HiUsers } from "react-icons/hi";
 import { BiMoney } from "react-icons/bi";
+import { useState } from "react";
 
 const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
   const router = useRouter();
+  const [activeTab, setActiveTab]=useState("");
+  const isTabActive =(tabPath)=>{
+    return tabPath ===activeTab;
+  }
 
   return (
     <div
@@ -28,7 +33,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
           {showNav && (
             <AiOutlineMenu
               className="h-8 w-8 text-gray-700 cursor-pointer text-white"
-              onClick={() => setShowNav(!showNav)}
+              onClick={() => setActiveTab("/")}
             />
           )}
         </div>
