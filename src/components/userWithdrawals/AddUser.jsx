@@ -125,6 +125,10 @@ const AddUserForm = () => {
             onChange={handleInputChange}
           />
         </div>
+
+        {/* <div>
+          <button className="px-2 p-1 rounded-md bg-blue-500 capitalize text-white">add user</button>
+        </div> */}
       </form>
     </div>
   );

@@ -27,13 +27,13 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
     >
       <div className="flex flex-col">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-center text-3xl text-white font-bold">
+          <h2 className="text-center md:text-3xl text-md text-white font-bold">
             Airlipay
           </h2>
           {showNav && (
             <AiOutlineMenu
-              className="h-8 w-8 text-gray-700 cursor-pointer text-white"
-              onClick={() => setActiveTab("/Dasboard")}
+              className="h-8 w-8  cursor-pointer text-white"
+              onClick={() => setShowNav(!showNav)}
             />
           )}
         </div>
@@ -52,7 +52,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <AiOutlineHome className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left">
+                  <p className="font-inter text-steelblue text-left hidden md:block ">
                     Dashboard
                   </p>
                 </div>
@@ -78,7 +78,9 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <HiUsers className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left">Clients</p>
+                  <p className="font-inter text-steelblue text-left hidden md:block ">
+                    Clients
+                  </p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">
@@ -102,7 +104,9 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <FaUserEdit className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left">Admins</p>
+                  <p className="font-inter text-steelblue text-left hidden md:block ">
+                    Admins
+                  </p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">
@@ -126,7 +130,9 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <HiUser className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left">Users</p>
+                  <p className="font-inter text-steelblue text-left hidden md:block ">
+                    Users
+                  </p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">
@@ -150,7 +156,9 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <GiReceiveMoney className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left">User</p>
+                  <p className="font-inter text-steelblue text-left hidden md:block ">
+                    User
+                  </p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">
@@ -174,7 +182,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <BiMoney className="h-5 w-5" />
                 </div>
                 <div>
-                  <p  className="font-inter text-steelblue text-left">
+                  <p className="font-inter text-steelblue text-left">
                     User Airlipays
                   </p>
                 </div>
@@ -200,7 +208,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <GiPayMoney className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left">
+                  <p className="font-inter text-steelblue text-left hidden md:block">
                     Clients Payment
                   </p>
                 </div>
@@ -226,7 +234,9 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <BsBank className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left">Banks</p>
+                  <p className="font-inter text-steelblue text-left hidden md:block ">
+                    Banks
+                  </p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">
@@ -250,7 +260,9 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <BsPinMapFill className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left">Address</p>
+                  <p className="font-inter text-steelblue text-left hidden md:block">
+                    Address
+                  </p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">
