@@ -33,7 +33,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
           {showNav && (
             <AiOutlineMenu
               className="h-8 w-8 text-gray-700 cursor-pointer text-white"
-              onClick={() => setActiveTab("/")}
+              onClick={() => setActiveTab("/Dasboard")}
             />
           )}
         </div>
@@ -174,7 +174,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <BiMoney className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left">
+                  <p  className="font-inter text-steelblue text-left">
                     User Airlipays
                   </p>
                 </div>

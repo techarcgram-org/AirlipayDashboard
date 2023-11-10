@@ -5,7 +5,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="mt-10">Banks
+    <div className="mt-1">Banks
       <Tab
         options={["View User", "Add Users", "Edit Info", "More Info","Just Fun"]}
         defaultTab="View User"
