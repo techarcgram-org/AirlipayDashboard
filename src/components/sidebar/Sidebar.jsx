@@ -15,10 +15,10 @@ import { useState } from "react";
 
 const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
   const router = useRouter();
-  const [activeTab, setActiveTab]=useState("");
-  const isTabActive =(tabPath)=>{
-    return tabPath ===activeTab;
-  }
+  const [activeTab, setActiveTab]=useState("Dashboard");
+  // const isTabActive =(tabPath)=>{
+  //   return tabPath ===activeTab;
+  // }
 
   return (
     <div
