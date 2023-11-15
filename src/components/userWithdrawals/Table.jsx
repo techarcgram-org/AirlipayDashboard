@@ -14,6 +14,7 @@ const Table = ({ users, columns }) => {
   // Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
   const filteredUsers = users.filter((user) =>
     columns.some((column) =>
       user[column.field]
@@ -47,6 +48,7 @@ const Table = ({ users, columns }) => {
   // Handle search query change
   const handleSearchChange = (e) => {
     setCurrentPage(1); // Reset to the first page
+    console.log(e.target.value);
     setSearchQuery(e.target.value);
   };
 
@@ -205,10 +207,6 @@ const Table = ({ users, columns }) => {
           Page {currentPage} of {totalPages}
         </div> */}
       </div>
-
-      <Modal modalOpen={modalOpen} openModal={openModal} closeModal={closeModal} >
-        <AddUser /> 
-      </Modal>
     </div>
   );
 };

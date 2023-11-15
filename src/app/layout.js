@@ -37,6 +37,7 @@ export default function RootLayout({ children }) {
       removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
     <html lang="en">
       <body className="bg-gray-300">
