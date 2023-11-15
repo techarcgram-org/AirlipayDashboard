@@ -11,9 +11,14 @@ import { FaUserEdit } from "react-icons/fa";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { HiUser, HiUsers } from "react-icons/hi";
 import { BiMoney } from "react-icons/bi";
+import { useState } from "react";
 
 const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
   const router = useRouter();
+  const [activeTab, setActiveTab]=useState("Dashboard");
+  // const isTabActive =(tabPath)=>{
+  //   return tabPath ===activeTab;
+  // }
 
   return (
     <div
@@ -28,7 +33,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
           {showNav && (
             <AiOutlineMenu
               className="h-8 w-8 text-gray-700 cursor-pointer text-white"
-              onClick={() => setShowNav(!showNav)}
+              onClick={() => setActiveTab("/Dasboard")}
             />
           )}
         </div>
@@ -131,7 +136,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
           </Link>
         </div>
 
-        <div className="">
+        {/* <div className="">
           <Link href="/users/:id/withdraw">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
@@ -153,7 +158,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
               </div>
             </div>
           </Link>
-        </div>
+        </div> */}
 
         <div className="">
           <Link href="/ailipay">
@@ -169,7 +174,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <BiMoney className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left">
+                  <p  className="font-inter text-steelblue text-left">
                     User Airlipays
                   </p>
                 </div>
@@ -246,6 +251,29 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                 </div>
                 <div>
                   <p className="font-inter text-steelblue text-left">Address</p>
+                </div>
+              </div>
+              <div className="absolute right-3 -ml-4">
+                <Image width={10} height={10} src={images.right} />
+              </div>
+            </div>
+          </Link>
+        </div>
+        <div className="">
+          <Link href="/login">
+            <div
+              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
+                router.pathname == "/billing"
+                  ? "bg-orange-100 text-orange-500"
+                  : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
+              }`}
+            >
+              <div className="flex flex-row items-center justify-around mr-2">
+                <div className="mr-2">
+                  <BsPinMapFill className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="font-inter text-steelblue text-left">Login</p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">

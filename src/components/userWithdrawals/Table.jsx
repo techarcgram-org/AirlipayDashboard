@@ -2,15 +2,19 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
+import Modal from "../common/modal";
+import { AddUser } from "..";
 
 const Table = ({ users, columns }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   // Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
   const filteredUsers = users.filter((user) =>
     columns.some((column) =>
       user[column.field]
@@ -21,6 +25,16 @@ const Table = ({ users, columns }) => {
   );
   const currentUsers = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+
+  // open modal
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  // close modal
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   // Change page
   const nextPage = () => {
@@ -34,6 +48,7 @@ const Table = ({ users, columns }) => {
   // Handle search query change
   const handleSearchChange = (e) => {
     setCurrentPage(1); // Reset to the first page
+    console.log(e.target.value);
     setSearchQuery(e.target.value);
   };
 
@@ -106,7 +121,7 @@ const Table = ({ users, columns }) => {
                       className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
                     >
                       <button
-                        onClick={() => handleEdit(user.id)} // Add handleEdit function
+                        onClick={() => openModal()} // Add handleEdit function
                         className="text-green-600 underline"
                       >
                         <FiEdit2 />

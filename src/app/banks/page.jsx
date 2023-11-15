@@ -1,11 +1,13 @@
 "use client";
 import { AddUser, Tab, Table } from "@/components";
 import data from "@/constant/data";
+import Link from "next/link";
 import React from "react";
+
 
 const page = () => {
   return (
-    <div className="mt-10">
+    <div className="mt-1">Banks
       <Tab
         options={["View User", "Add Users", "Edit Info", "More Info","Just Fun"]}
         defaultTab="View User"
@@ -31,6 +33,7 @@ const page = () => {
           aspernatur minus vero quibusdam, optio corrupti!us.
         </h1>
       </Tab>
+     
     </div>
   );
 };
