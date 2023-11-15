@@ -11,9 +11,14 @@ import { FaUserEdit } from "react-icons/fa";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { HiUser, HiUsers } from "react-icons/hi";
 import { BiMoney } from "react-icons/bi";
+import { useState } from "react";
 
 const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
   const router = useRouter();
+  const [activeTab, setActiveTab]=useState("Dashboard");
+  // const isTabActive =(tabPath)=>{
+  //   return tabPath ===activeTab;
+  // }
 
   return (
     <div
@@ -22,13 +27,13 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
     >
       <div className="flex flex-col">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-center md:text-3xl text-md text-white font-bold">
+          <h2 className="text-center text-3xl text-white font-bold">
             Airlipay
           </h2>
           {showNav && (
             <AiOutlineMenu
-              className="h-8 w-8  cursor-pointer text-white"
-              onClick={() => setShowNav(!showNav)}
+              className="h-8 w-8 text-gray-700 cursor-pointer text-white"
+              onClick={() => setActiveTab("/Dasboard")}
             />
           )}
         </div>
@@ -47,7 +52,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <AiOutlineHome className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left hidden md:block ">
+                  <p className="font-inter text-steelblue text-left">
                     Dashboard
                   </p>
                 </div>
@@ -73,9 +78,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <HiUsers className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left hidden md:block ">
-                    Clients
-                  </p>
+                  <p className="font-inter text-steelblue text-left">Clients</p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">
@@ -99,9 +102,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <FaUserEdit className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left hidden md:block ">
-                    Admins
-                  </p>
+                  <p className="font-inter text-steelblue text-left">Admins</p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">
@@ -125,9 +126,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <HiUser className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left hidden md:block ">
-                    Users
-                  </p>
+                  <p className="font-inter text-steelblue text-left">Users</p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">
@@ -151,9 +150,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <GiReceiveMoney className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left hidden md:block ">
-                    User
-                  </p>
+                  <p className="font-inter text-steelblue text-left">User</p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">
@@ -177,7 +174,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <BiMoney className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left hidden md:block ">
+                  <p  className="font-inter text-steelblue text-left">
                     User Airlipays
                   </p>
                 </div>
@@ -203,7 +200,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <GiPayMoney className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left hidden md:block">
+                  <p className="font-inter text-steelblue text-left">
                     Clients Payment
                   </p>
                 </div>
@@ -229,9 +226,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <BsBank className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left hidden md:block ">
-                    Banks
-                  </p>
+                  <p className="font-inter text-steelblue text-left">Banks</p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">
@@ -255,9 +250,30 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <BsPinMapFill className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-inter text-steelblue text-left hidden md:block">
-                    Address
-                  </p>
+                  <p className="font-inter text-steelblue text-left">Address</p>
+                </div>
+              </div>
+              <div className="absolute right-3 -ml-4">
+                <Image width={10} height={10} src={images.right} />
+              </div>
+            </div>
+          </Link>
+        </div>
+        <div className="">
+          <Link href="/login">
+            <div
+              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
+                router.pathname == "/billing"
+                  ? "bg-orange-100 text-orange-500"
+                  : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
+              }`}
+            >
+              <div className="flex flex-row items-center justify-around mr-2">
+                <div className="mr-2">
+                  <BsPinMapFill className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="font-inter text-steelblue text-left">Login</p>
                 </div>
               </div>
               <div className="absolute right-3 -ml-4">

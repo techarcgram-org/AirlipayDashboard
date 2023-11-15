@@ -8,10 +8,10 @@ const Layout = () => {
 
   function handleResize() {
     if (innerWidth <= 640) {
-      setShowNav(false);
+      setshowNav(false);
       setIsMobile(true);
     } else {
-      setShowNav(true);
+      setshowNav(true);
       setIsMobile(false);
     }
   }
