@@ -1,6 +1,10 @@
 import React from "react";
 
 const SelectInput = ({ label, name, value, onChange, options }) => {
+  const handleSelectChange = (event) => {
+    onChange(event.target.value);
+  };
+
   return (
     <div className="mb-4">
       <label
@@ -14,7 +18,7 @@ const SelectInput = ({ label, name, value, onChange, options }) => {
         id={name}
         name={name}
         value={value}
-        onChange={onChange}
+        onChange={handleSelectChange}
         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
         style={{ color: "black" }}
       >

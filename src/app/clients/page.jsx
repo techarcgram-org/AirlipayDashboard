@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import { Tab,AddUser, Table } from "../../components";
-import data from "../../constant/data";
 import transactions from "@/utils/data/payment";
+import { AddUser, Tab, Table } from "../../components";
+import data from "../../constant/data";
+import AddClientForm from "@/components/common/AddClient";
 // import HomePage from "../components/common/homePage";
-import HomePage from "@/components/common/homePage";
-import Link from "next/link";
 
 
 const Page = () => {
@@ -18,7 +16,7 @@ const Page = () => {
       defaultTab="View Clients"
     >
       <Table tab="View Clients" users={data.usersTable} columns={data.columns} />
-      <AddUser tab="Add Clients" />
+      <AddClientForm tab="Add Clients" />
     </Tab>
   </div>
     );
