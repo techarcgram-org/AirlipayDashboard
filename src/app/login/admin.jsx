@@ -26,11 +26,16 @@ const Admin =()=>{
     </Tab> */}
     <form onSubmit={handleSubmit}>
             <div style={{justifyContent:'center'}}>
-            <input  style={{border:2, borderColor:'gray'}} value={email} onChange={(e) =>setEmail(e.target.value)} type="email" placeholder="Email" id="email" name="email"/>
-           
-           <input className="pass" 
+            <img src={images.email}/>
+            <input  style={{border:2, borderColor:'gray'}}  value={email} onChange={(e) =>setEmail(e.target.value)} type="email" placeholder="Email" id="email" name="email"/>
+            </div>
+            <div style={{flexDirection:'row', justifyContent:'space-between'}}>
+                <img src={images.pass}/>
+            <input className="pass" 
            value={password}  onChange={(e) =>setPassword(e.target.value)} type="password" placeholder="Password" id="password" name="password" minLength={8}/>
             </div>
+           
+            
 
            <div style={{alignContent:'space-between'}}>
            <h2  style={{}}><input type="checkbox" id="checkbox" name="checkbox" /> Remember me</h2>

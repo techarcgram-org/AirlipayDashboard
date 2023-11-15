@@ -10,6 +10,8 @@ import person from '../assets/images/person.jpg'
 import withdraw from '../assets/images/withdraw.svg'
 import right from '../assets/images/icon _chevron right_.svg'
 import randolph from '../assets/images/randolph.jpg'
+import pass from '../assets/images/pass.png'
+import email from '../assets/images/email.png'
 
 const images = {
   bank,
@@ -22,7 +24,9 @@ const images = {
   person,
   withdraw,
   right,
-  randolph
+  randolph,
+  email,
+  pass
 }
 
 export default images
