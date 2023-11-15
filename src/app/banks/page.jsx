@@ -1,7 +1,9 @@
 "use client";
 import { AddUser, Tab, Table } from "@/components";
 import data from "@/constant/data";
+import Link from "next/link";
 import React from "react";
+
 
 const page = () => {
   return (
@@ -31,6 +33,7 @@ const page = () => {
           aspernatur minus vero quibusdam, optio corrupti!us.
         </h1>
       </Tab>
+     
     </div>
   );
 };

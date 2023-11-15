@@ -6,6 +6,9 @@ import data from "../../constant/data";
 import transactions from "@/utils/data/payment";
 // import HomePage from "../components/common/homePage";
 import HomePage from "@/components/common/homePage";
+import Link from "next/link";
+
+
 const Page = () => {
   console.log(transactions)
   return (
@@ -13,6 +16,7 @@ const Page = () => {
     //   <Table users={data.clientsTable} columns={data.clientColumns} />
     // </div>
     <div className="mt-1 md:right-6" ><h2>Clients</h2>
+    {/* <Login/> */}
     <Tab
       options={["View Clients", "Add Clients"]}
       defaultTab="View Clients"

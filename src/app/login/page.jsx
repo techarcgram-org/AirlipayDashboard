@@ -1,28 +1,28 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { TextInput } from "@/components";
+import Link from "next/link";
+import { Tab } from "@/components";
+import Admin from "./admin";
 
-const Page =()=>{
-    const checkbox =({label, checked, onchange})
+
+const Login =()=>{
+    // const [email,setEmail]= useState('');
+    // const [password, setPassword]= useState('');
+    
+
+    // const handleSubmit =(e)=>{
+    //     e.preventDefault();
+    //     console.log(email)
+    // }
+    // const [currentForm, setCurrentForm]= useState('Admin');
     return (
         <>
-        <div>
-            <TextInput label={Email}/>
-            <TextInput label={Password}/>
-
-            <input
-            type="checkbox"
-            checked={checked}
-            onchange={onchange}/>
-            <label>Remeber me</label>
-
-            <div className="button ">
-                <button >
-                    Login
-                </button>
-            </div>
-        </div>
+        <Admin/>
+           
+        
         </>
+        
     );
 };
-export default Page
+export default Login;
