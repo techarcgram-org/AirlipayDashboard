@@ -194,7 +194,7 @@ const AddClientForm = () => {
         </div>
       </form>
 
-      <div className="mx-auto my-4 w-[90%] w-[50%] h-auto bg-red-600">
+      <div className="mx-auto my-4 w-[90%] md:w-[50%] h-auto bg-red-600">
         <div>
           {/* <h2>Add employees</h2> */}
           <FileInput
