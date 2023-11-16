@@ -28,13 +28,12 @@ const AddClientForm = () => {
     }));
   };
 
-  const handleFileInputChange = (event) => {
-    const file = event.target.files[0];
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      idCard: file,
-    }));
+  const handleFileChange = (file, fileType) => {
+    // Handle the file and fileType as needed
+    console.log("Uploaded file:", file);
+    console.log("File type:", fileType);
   };
+
 
   const handleRegionChange = (selectedValue) => {
     setFormData((prevFormData) => ({
@@ -194,6 +193,20 @@ const AddClientForm = () => {
           />
         </div>
       </form>
+
+      <div className="mx-auto my-4 w-[90%] w-[50%] h-auto bg-red-600">
+        <div>
+          {/* <h2>Add employees</h2> */}
+          <FileInput
+            label="Add Employees"
+            name="file"
+            onChange={handleFileChange}
+          />
+        </div>
+      </div>
+      <div className="w-full bg-blue-700 py-2 mt-8 capitalize text-white text-center text-xl cursor-pointer" onClick={() => {}} >
+        register client
+      </div>
     </div>
   );
 };
