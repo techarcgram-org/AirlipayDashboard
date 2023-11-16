@@ -1,8 +1,9 @@
 import React from "react";
 
-const SelectInput = ({ label, name, value, onChange, options }) => {
+const SelectInput = ({ label, name, value, options, onChange }) => {
   const handleSelectChange = (event) => {
-    onChange(event.target.value);
+    const selectedValue = event.target.value;
+    onChange(selectedValue);
   };
 
   return (

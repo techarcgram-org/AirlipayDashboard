@@ -36,6 +36,13 @@ const AddClientForm = () => {
     }));
   };
 
+  const handleRegionChange = (selectedValue) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      region: selectedValue,
+    }));
+  };
+
   const regionsInCameroon = [
     { value: "adamaoua", label: "Adamaoua" },
     { value: "centre", label: "Centre" },
@@ -158,7 +165,7 @@ const AddClientForm = () => {
             label="Region"
             name="region"
             value={formData.region}
-            // onChange={handleInputChange()}
+            onChange={handleRegionChange}
             options={regionsInCameroon}
           />
           <TextInput
