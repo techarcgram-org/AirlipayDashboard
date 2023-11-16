@@ -11,7 +11,7 @@ const page = () => {
       {/* <EditCompnent /> */}
       <AddUser />
     </Modal>
-  )
-}
+  );
+};
 
 export default page
