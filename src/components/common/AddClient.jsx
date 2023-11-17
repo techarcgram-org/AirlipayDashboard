@@ -204,7 +204,10 @@ const AddClientForm = () => {
           />
         </div>
       </div>
-      <div className="w-full bg-blue-700 py-2 mt-8 capitalize text-white text-center text-xl cursor-pointer" onClick={() => {}} >
+      <div
+        className="w-full bg-[#3F5F90] py-2 mt-8 capitalize text-white text-center text-xl cursor-pointer"
+        onClick={() => {}}
+      >
         register client
       </div>
     </div>
