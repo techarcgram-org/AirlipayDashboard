@@ -42,6 +42,13 @@ const AddClientForm = () => {
     }));
   };
 
+  const handleBankChange = (selectedValue) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      bankName: selectedValue,
+    }));
+  };
+
   const regionsInCameroon = [
     { value: "adamaoua", label: "Adamaoua" },
     { value: "centre", label: "Centre" },
@@ -54,6 +61,32 @@ const AddClientForm = () => {
     { value: "south", label: "South" },
     { value: "southwest", label: "Southwest" },
   ];
+
+  const cameroonBanks = [
+    { value: "afriland_first_bank", label: "Afriland First Bank" },
+    { value: "banque_atlantique", label: "Banque Atlantique" },
+    {
+      value: "bicec",
+      label:
+        "Banque Internationale du Cameroun pour l'Epargne et le Crédit (BICEC)",
+    },
+    { value: "bnc", label: "Banque Nationale de Crédit (BNC)" },
+    {
+      value: "bsic",
+      label:
+        "Banque Sahélo-Saharienne pour l'Investissement et le Commerce (BSIC)",
+    },
+    { value: "cbc", label: "Commercial Bank of Cameroon (CBC)" },
+    { value: "ecobank", label: "Ecobank Cameroon" },
+    { value: "equity_bank", label: "Equity Bank Cameroon" },
+    {
+      value: "standard_chartered_bank",
+      label: "Standard Chartered Bank Cameroon",
+    },
+    { value: "ubc", label: "Union Bank of Cameroon (UBC)" },
+  ];
+
+  console.log(cameroonBanks);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -74,7 +107,10 @@ const AddClientForm = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4">
+    <div className="min-w-3xl mx-auto bg-gray-300 p-4">
+      <div className="flex items-start my-3" >
+        <h2 className="capitalize text-2xl font-bold" >create client</h2>
+      </div>
       <form onSubmit={handleSubmit} className="flex justify-between">
         {/* First Column */}
         <div className="w-1/2 mr-2">
@@ -94,7 +130,7 @@ const AddClientForm = () => {
             placeholder="670000000"
             type="text"
           />
-          <div className="flex items-center justify-evenly">
+          <div className="flex items-center w-full justify-between">
             <TextInput
               label="Street"
               name="street"
@@ -167,14 +203,21 @@ const AddClientForm = () => {
             onChange={handleRegionChange}
             options={regionsInCameroon}
           />
-          <TextInput
+          <SelectInput
+            label="Bank Name"
+            name="bankName"
+            value={formData.bankName}
+            onChange={handleBankChange}
+            options={cameroonBanks}
+          />
+          {/* <TextInput
             label="Bank Name"
             name="email"
             value={formData.email}
             onChange={handleInputChange}
             placeholder="Email Address"
             type="text"
-          />
+          /> */}
           <TextInput
             label="Client Commission"
             name="commision"

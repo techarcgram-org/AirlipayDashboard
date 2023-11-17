@@ -59,7 +59,7 @@ const AddUserForm = () => {
   const [multiple, setMultiple] = useState(false)
 
   return (
-    <div className="max-w-3xl mx-auto px-4">
+    <div className="min-w-3xl mx-auto px-4 bg-gray-300 p-4">
       <div className="my-2 align-start">
         <h2 className="capitalize text-2xl">add new users</h2>
       </div>
