@@ -8,7 +8,7 @@ const FileInput = ({ label, name, onChange, value }) => {
   };
 
   return (
-    <div className="mb-4">
+    <div className="mb-4 border-2 border-black">
       <label
         htmlFor={name}
         className="block font-medium mb-1"
