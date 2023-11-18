@@ -1,8 +1,8 @@
 "use client";
 
 import transactions from "@/utils/data/payment";
-import { AddUser, Tab, Table } from "../../components";
-import data from "../../constant/data";
+import { AddUser, Tab, Table } from "../../../components";
+import data from "../../../constant/data";
 import AddClientForm from "@/components/common/AddClient";
 // import HomePage from "../components/common/homePage";
 

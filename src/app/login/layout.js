@@ -4,11 +4,5 @@ export const metadata = {
 };
 
 export default function LoginLayout({ children }) {
-  return (
-    <html lang="en">
-      <body className="grid h-screen place-items-center bg-gray-400">
-        {children}
-      </body>
-    </html>
-  );
+  return <div className="grid h-screen place-items-center">{children}</div>;
 }

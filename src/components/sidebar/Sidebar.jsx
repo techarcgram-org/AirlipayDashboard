@@ -15,7 +15,7 @@ import { useState } from "react";
 
 const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
   const router = useRouter();
-  const [activeTab, setActiveTab]=useState("Dashboard");
+  const [activeTab, setActiveTab] = useState("Dashboard");
   // const isTabActive =(tabPath)=>{
   //   return tabPath ===activeTab;
   // }
@@ -39,7 +39,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
         </div>
 
         <div className="">
-          <Link href="/">
+          <Link href="/dashboard">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
                 router.pathname == "/billing"
@@ -65,7 +65,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
         </div>
 
         <div className="">
-          <Link href="/clients">
+          <Link href="/dashboard/clients">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
                 router.pathname == "/billing"
@@ -113,7 +113,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
         </div>
 
         <div className="">
-          <Link href="/users">
+          <Link href="/dashboard/users">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
                 router.pathname == "/billing"
@@ -161,7 +161,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
         </div> */}
 
         <div className="">
-          <Link href="/ailipay">
+          <Link href="/dashboard/ailipay">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
                 router.pathname == "/billing"
@@ -174,7 +174,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
                   <BiMoney className="h-5 w-5" />
                 </div>
                 <div>
-                  <p  className="font-inter text-steelblue text-left">
+                  <p className="font-inter text-steelblue text-left">
                     User Airlipays
                   </p>
                 </div>
@@ -187,7 +187,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
         </div>
 
         <div className="">
-          <Link href="/clients/payment">
+          <Link href="/dashboard/clients/payment">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
                 router.pathname == "/billing"
@@ -213,7 +213,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
         </div>
 
         <div className="">
-          <Link href="/banks">
+          <Link href="/dashboard/banks">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
                 router.pathname == "/billing"
@@ -237,7 +237,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
         </div>
 
         <div className="">
-          <Link href="/address">
+          <Link href="/dashboard/address">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
                 router.pathname == "/billing"
@@ -260,7 +260,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
           </Link>
         </div>
         <div className="">
-          <Link href="/login">
+          <Link href="/dashboard/login">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
                 router.pathname == "/billing"
