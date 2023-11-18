@@ -107,20 +107,25 @@ const AddClientForm = () => {
   };
 
   return (
-    <div className="min-w-3xl mx-auto bg-gray-300 p-4">
-      <div className="flex items-start my-3" >
-        <h2 className="capitalize text-2xl font-bold" >create client</h2>
+    <div className="max-w-3xl mx-auto bg-gray-300 p-4">
+      <div className="flex items-start my-3">
+        <h2 className="capitalize text-2xl font-bold">create client</h2>
       </div>
       <form onSubmit={handleSubmit} className="flex justify-between">
         {/* First Column */}
         <div className="w-1/2 mr-2">
           <TextInput
-            label="Employer Name"
+            label={
+              <label>
+                Employer Name
+              </label>
+            }
             name="employerName"
             value={formData.employerName}
             onChange={handleInputChange}
             placeholder="Employer Name"
             type="text"
+            required
           />
           <TextInput
             label="Phone Number"
@@ -129,6 +134,7 @@ const AddClientForm = () => {
             onChange={handleInputChange}
             placeholder="670000000"
             type="text"
+            required
           />
           <div className="flex items-center w-full justify-between">
             <TextInput
@@ -140,6 +146,7 @@ const AddClientForm = () => {
               type="text"
               half
               additionalStyles={{ marginRight: 12 }}
+              required
             />
             <TextInput
               label="City"
@@ -150,6 +157,7 @@ const AddClientForm = () => {
               type="text"
               half
               additionalStyles={{ marginLeft: 12 }}
+              required
             />
           </div>
           <TextInput
@@ -159,6 +167,7 @@ const AddClientForm = () => {
             onChange={handleInputChange}
             placeholder="1234567890"
             type="text"
+            required
           />
           <TextInput
             label="Bank Account Number"
@@ -167,6 +176,7 @@ const AddClientForm = () => {
             onChange={handleInputChange}
             placeholder="10091005125"
             type="text"
+            required
           />
           <TextInput
             label="Next Payment Date"
@@ -175,6 +185,7 @@ const AddClientForm = () => {
             onChange={handleInputChange}
             placeholder="Enter your last name"
             type="text"
+            required
           />
         </div>
 
@@ -187,6 +198,7 @@ const AddClientForm = () => {
             onChange={handleInputChange}
             placeholder="Email Address"
             type="email"
+            required
           />
           <TextInput
             label="Secondary Phone Number"
@@ -194,7 +206,6 @@ const AddClientForm = () => {
             value={formData.secondPhoneNumber}
             onChange={handleInputChange}
             placeholder="673000000"
-            type="email"
           />
           <SelectInput
             label="Region"
@@ -202,6 +213,7 @@ const AddClientForm = () => {
             value={formData.region}
             onChange={handleRegionChange}
             options={regionsInCameroon}
+            required
           />
           <SelectInput
             label="Bank Name"
@@ -209,15 +221,8 @@ const AddClientForm = () => {
             value={formData.bankName}
             onChange={handleBankChange}
             options={cameroonBanks}
+            required
           />
-          {/* <TextInput
-            label="Bank Name"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            placeholder="Email Address"
-            type="text"
-          /> */}
           <TextInput
             label="Client Commission"
             name="commision"
