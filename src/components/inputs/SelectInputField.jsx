@@ -1,6 +1,6 @@
 import React from "react";
 
-const SelectInput = ({ label, name, value, options, onChange }) => {
+const SelectInput = ({ label, name, value, options, onChange,required }) => {
   const handleSelectChange = (event) => {
     const selectedValue = event.target.value;
     onChange(selectedValue);
@@ -13,7 +13,7 @@ const SelectInput = ({ label, name, value, options, onChange }) => {
         className="block font-medium mb-1"
         style={{ color: "black" }}
       >
-        {label}
+        {label} {required ? <span style={{ color: "red" }}>*</span> : ""}
       </label>
       <select
         id={name}

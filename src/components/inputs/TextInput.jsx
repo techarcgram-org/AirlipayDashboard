@@ -9,6 +9,7 @@ const TextInput = ({
   type,
   half,
   additionalStyles,
+  required
 }) => {
   const inputClassName = half ? "w-[90%]" : "w-full";
 
@@ -24,7 +25,7 @@ const TextInput = ({
         className="block font-medium mb-1"
         style={{ color: "black" }}
       >
-        {label}
+        {label} {required ? <span style={{ color: "red" }}>*</span> : ""}
       </label>
       <input
         type={type}
