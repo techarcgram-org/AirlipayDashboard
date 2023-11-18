@@ -1,7 +1,22 @@
-
 import React from "react";
 
-const TextInput = ({ label, name, value, onChange, placeholder,type }) => {
+const TextInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  type,
+  half,
+  additionalStyles,
+}) => {
+  const inputClassName = half ? "w-[90%]" : "w-full";
+
+  const inputStyles = {
+    color: "black",
+    ...additionalStyles, // Merge additional styles with the default style
+  };
+
   return (
     <div className="mb-4">
       <label
@@ -17,9 +32,9 @@ const TextInput = ({ label, name, value, onChange, placeholder,type }) => {
         name={name}
         value={value}
         onChange={onChange}
-        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className={`px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 ${inputClassName}`}
         placeholder={placeholder}
-        style={{ color: "black" }}
+        style={inputStyles}
       />
     </div>
   );
