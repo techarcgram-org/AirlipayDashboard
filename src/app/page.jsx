@@ -3,12 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-const page = ({}) => {
-  const router = useRouter();
-  useEffect(() => {
-    router.push("/login");
-  }, []);
-  return <div>lkjklasdf</div>;
+const Page = ({}) => {
+  // const router = useRouter();
+  // useEffect(() => {
+  //   router.push("/login");
+  // }, [router]);
+  return <div></div>;
 };
 
-export default page;
+export default Page;
