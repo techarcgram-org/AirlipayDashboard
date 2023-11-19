@@ -5,7 +5,7 @@ import { FaRegEnvelope, FaLock } from "react-icons/fa";
 const Login = () => {
   return (
     <div className="flex flex-col w-[30%] bg-white p-20 rounded-lg">
-      <p className="text-3xl font-bold mb-4 self-center">Log in</p>
+      <p className="text-3xl font-bold mb-8 self-center">Log in</p>
       <div className="flex flex-col">
         <div className="flex border-solid border-2 border-gray-400 rounded p-2">
           <FaRegEnvelope size={"25px"} className="text-gray-400" />
