@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import React, { useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
@@ -48,8 +50,8 @@ const Table = ({ users, columns }) => {
   // Handle search query change
   const handleSearchChange = (e) => {
     setCurrentPage(1); // Reset to the first page
-    console.log(e.target.value);
-    setSearchQuery(e.target.value);
+    // console.log(e.target.value);
+    // setSearchQuery(e.target.value);
   };
 
   // Handle items per page change

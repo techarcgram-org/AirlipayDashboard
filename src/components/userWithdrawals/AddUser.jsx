@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { CheckboxInput, FileInput, TextInput } from "..";
 
@@ -12,7 +14,7 @@ const AddUserForm = () => {
     taxPayerNumber: "",
     dateOfBirth: "",
     city: "",
-    baseSalary:""
+    baseSalary: "",
   });
 
   const handleInputChange = (event) => {
@@ -36,7 +38,6 @@ const AddUserForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Perform form submission or data handling here
-    console.log(formData);
     // Reset form state
     setFormData({
       firstName: "",
@@ -52,11 +53,9 @@ const AddUserForm = () => {
   };
   const handleFileChange = (file, fileType) => {
     // Handle the file and fileType as needed
-    console.log("Uploaded file:", file);
-    console.log("File type:", fileType);
   };
 
-  const [multiple, setMultiple] = useState(false)
+  const [multiple, setMultiple] = useState(false);
 
   return (
     <div className="max-w-3xl mx-auto px-4 bg-gray-300 p-4">

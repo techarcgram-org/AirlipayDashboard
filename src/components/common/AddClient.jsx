@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { CheckboxInput, FileInput, SelectInput, TextInput } from "..";
 
@@ -30,8 +32,8 @@ const AddClientForm = () => {
 
   const handleFileChange = (file, fileType) => {
     // Handle the file and fileType as needed
-    console.log("Uploaded file:", file);
-    console.log("File type:", fileType);
+    // console.log("Uploaded file:", file);
+    // console.log("File type:", fileType);
   };
 
   const handleRegionChange = (selectedValue) => {
@@ -85,12 +87,9 @@ const AddClientForm = () => {
     { value: "ubc", label: "Union Bank of Cameroon (UBC)" },
   ];
 
-  console.log(cameroonBanks);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     // Perform form submission or data handling here
-    console.log(formData);
     // Reset form state
     setFormData({
       firstName: "",
