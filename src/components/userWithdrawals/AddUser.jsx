@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { CheckboxInput, FileInput, TextInput } from "..";
 
@@ -12,7 +14,7 @@ const AddUserForm = () => {
     taxPayerNumber: "",
     dateOfBirth: "",
     city: "",
-    baseSalary:""
+    baseSalary: "",
   });
 
   const handleInputChange = (event) => {
@@ -36,7 +38,6 @@ const AddUserForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Perform form submission or data handling here
-    console.log(formData);
     // Reset form state
     setFormData({
       firstName: "",
@@ -52,14 +53,12 @@ const AddUserForm = () => {
   };
   const handleFileChange = (file, fileType) => {
     // Handle the file and fileType as needed
-    console.log("Uploaded file:", file);
-    console.log("File type:", fileType);
   };
 
-  const [multiple, setMultiple] = useState(false)
+  const [multiple, setMultiple] = useState(false);
 
   return (
-    <div className="min-w-3xl mx-auto px-4 bg-gray-300 p-4">
+    <div className="max-w-3xl mx-auto px-4 bg-gray-300 p-4">
       <div className="my-2 align-start">
         <h2 className="capitalize text-2xl">add new users</h2>
       </div>
@@ -69,12 +68,6 @@ const AddUserForm = () => {
         checked={multiple}
         onChange={() => setMultiple(!multiple)}
       />
-      {/* <CheckboxInput
-        label="Has Children"
-        name="hasChildren"
-        checked={formData.hasChildren}
-        onChange={handleInputChange}
-      /> */}
       <form onSubmit={handleSubmit} className="flex justify-between">
         {multiple ? (
           <FileInput
@@ -92,6 +85,7 @@ const AddUserForm = () => {
                 onChange={handleInputChange}
                 placeholder="Enter your full name"
                 type="text"
+                required
               />
               <TextInput
                 label="Phone Number*"
@@ -100,6 +94,7 @@ const AddUserForm = () => {
                 onChange={handleInputChange}
                 placeholder="674561823"
                 type="text"
+                required
               />
               <TextInput
                 label="Street"
@@ -108,6 +103,7 @@ const AddUserForm = () => {
                 onChange={handleInputChange}
                 placeholder="Enter your street"
                 type="text"
+                required
               />
               <TextInput
                 label="Tax Payer Number"
@@ -116,6 +112,7 @@ const AddUserForm = () => {
                 onChange={handleInputChange}
                 placeholder="Enter your tax payer number"
                 type="text"
+                required
               />
               <TextInput
                 label="Date of birth"
@@ -124,6 +121,7 @@ const AddUserForm = () => {
                 onChange={handleInputChange}
                 placeholder="Enter your date of birth"
                 type="text"
+                required
               />
             </div>
 
@@ -135,6 +133,7 @@ const AddUserForm = () => {
                 onChange={handleInputChange}
                 placeholder="Enter your email address"
                 type="email"
+                required
               />
               <TextInput
                 label="Secondary phone number"
@@ -151,6 +150,7 @@ const AddUserForm = () => {
                 onChange={handleInputChange}
                 placeholder="Enter your city"
                 type="text"
+                required
               />
               <TextInput
                 label="Base Salary"
@@ -159,6 +159,7 @@ const AddUserForm = () => {
                 onChange={handleInputChange}
                 placeholder="356000 / month"
                 type="text"
+                required
               />
               <TextInput
                 label="Employer"
@@ -167,12 +168,8 @@ const AddUserForm = () => {
                 onChange={handleInputChange}
                 placeholder="356000 / month"
                 type="text"
+                required
               />
-              {/* <FileInput
-            label="ID Card (Image)"
-            name="idCard"
-            onChange={handleFileInputChange}
-          /> */}
             </div>
           </>
         )}

@@ -62,5 +62,5 @@ function generateTransactions() {
 
 // Generate an array of 33 transaction objects
 const transactions = generateTransactions();
-console.log(transactions);
-export default transactions
+// console.log(transactions);
+export default transactions;

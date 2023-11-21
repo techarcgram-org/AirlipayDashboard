@@ -623,6 +623,43 @@ const paymentColumns = [
   },
 ];
 
+const regionsInCameroon = [
+  { value: "adamaoua", label: "Adamaoua" },
+  { value: "centre", label: "Centre" },
+  { value: "east", label: "East" },
+  { value: "farNorth", label: "Far North" },
+  { value: "littoral", label: "Littoral" },
+  { value: "north", label: "North" },
+  { value: "northwest", label: "Northwest" },
+  { value: "west", label: "West" },
+  { value: "south", label: "South" },
+  { value: "southwest", label: "Southwest" },
+];
+
+const cameroonBanks = [
+  { value: "afriland_first_bank", label: "Afriland First Bank" },
+  { value: "banque_atlantique", label: "Banque Atlantique" },
+  {
+    value: "bicec",
+    label:
+      "Banque Internationale du Cameroun pour l'Epargne et le Crédit (BICEC)",
+  },
+  { value: "bnc", label: "Banque Nationale de Crédit (BNC)" },
+  {
+    value: "bsic",
+    label:
+      "Banque Sahélo-Saharienne pour l'Investissement et le Commerce (BSIC)",
+  },
+  { value: "cbc", label: "Commercial Bank of Cameroon (CBC)" },
+  { value: "ecobank", label: "Ecobank Cameroon" },
+  { value: "equity_bank", label: "Equity Bank Cameroon" },
+  {
+    value: "standard_chartered_bank",
+    label: "Standard Chartered Bank Cameroon",
+  },
+  { value: "ubc", label: "Union Bank of Cameroon (UBC)" },
+];
+
 const data = {
   sidebarData,
   usersTable,
@@ -633,7 +670,9 @@ const data = {
   columnsDetails,
   transactionColumns,
   banksColumns,
-  paymentColumns
+  paymentColumns,
+  cameroonBanks,
+  regionsInCameroon,
 };
 
 export default data;

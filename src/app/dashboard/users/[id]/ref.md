@@ -57,10 +57,10 @@ const columnsDetails = [
 const UsersPage = () => {
   const handleAction = (action, userId) => {
     if (action === "edit") {
-      console.log("Edit user:", userId);
+      // console.log("Edit user:", userId);
       // Implement your edit logic here
     } else if (action === "delete") {
-      console.log("Delete user:", userId);
+      // console.log("Delete user:", userId);
       // Implement your delete logic here
     }
   };

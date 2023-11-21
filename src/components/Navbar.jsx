@@ -1,3 +1,5 @@
+"use client";
+
 import { Menu, Popover, Transition } from "@headlessui/react";
 import { BellIcon, CheckIcon } from "@heroicons/react/24/outline";
 import {
@@ -10,8 +12,17 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { AiFillMail, AiFillSetting, AiOutlineMenu } from "react-icons/ai";
 import images from "../constant/images";
+import { useDispatch } from "react-redux";
+import { deleteAccount } from "@/app/GlobalRedux/Features/accountSlice";
+import { useRouter } from "next/navigation";
 
 const Navbar = ({ showNav, setShowNav }) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const logout = () => {
+    dispatch(deleteAccount());
+    window.location.href = "/";
+  };
   return (
     <div
       className={`w-full h-16 flex justify-between items-center transition-all duration-[400ms] bg-white ${
@@ -159,6 +170,15 @@ const Navbar = ({ showNav, setShowNav }) => {
                   >
                     <Cog8ToothIcon className="h-4 w-4 mr-2" />
                     Settings
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link
+                    href="#"
+                    className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
+                    onClick={() => logout()}
+                  >
+                    Logout
                   </Link>
                 </Menu.Item>
               </div>

@@ -1,8 +1,20 @@
+"use client";
+
 import React from "react";
 import { Tab } from "..";
 import { FaEdit } from "react-icons/fa";
 
-const UserDetails = ({email,phoneNumber,join,activated,address,aBalance,nBalance,fee,tAmount}) => {
+const UserDetails = ({
+  email,
+  phoneNumber,
+  join,
+  activated,
+  address,
+  aBalance,
+  nBalance,
+  fee,
+  tAmount,
+}) => {
   return (
     <div className=" md:w-full flex p-4 items-center justify-between h-[300px]">
       <div className="w-full">

@@ -9,16 +9,13 @@ import React from "react";
 const page = () => {
   const handleAction = (action, userId) => {
     if (action === "edit") {
-      console.log("Edit user:", userId);
+      // console.log("Edit user:", userId);
       // Implement your edit logic here
     } else if (action === "delete") {
-      console.log("Delete user:", userId);
+      // console.log("Delete user:", userId);
       // Implement your delete logic here
     }
   };
-
-  console.log({transactions})
-  console.log({bankAccounts})
   return (
     <div className="p-4">
       <UserDetails
