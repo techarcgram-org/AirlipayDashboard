@@ -7,9 +7,6 @@ const Tab = ({ options, defaultTab }) => {
   const [activeTab, setActiveTab] = useState(defaultTab);
   const router = useRouter();
 
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
   return (
     <div className="">
       <div className="flex justify-start min-w-[400px] my-4 mt-6">
@@ -21,7 +18,10 @@ const Tab = ({ options, defaultTab }) => {
                 ? "bg-[#3F5F90] text-white"
                 : "bg-gray-300"
             }`}
-            onClick={() => router.push(option.url)}
+            onClick={() => {
+              setActiveTab(option.title);
+              router.push(option.url);
+            }}
           >
             {option.title}
           </button>

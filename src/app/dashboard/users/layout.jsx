@@ -20,7 +20,7 @@ const UserLayout = ({ children }) => {
           { title: "View Users", url: "/dashboard/users" },
           { title: "Add User", url: "/dashboard/users/addUser" },
         ]}
-        defaultTab="View Clients"
+        defaultTab="View Users"
       />
       {children}
     </div>
