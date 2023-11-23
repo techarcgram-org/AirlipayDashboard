@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Info({ message, error }) {
-  const [show, setShow] = useState(!!message);
+  const [show, setShow] = useState(error);
+  useEffect(() => {
+    setShow(error);
+  }, [error]);
   return (
     <div
       className={`${

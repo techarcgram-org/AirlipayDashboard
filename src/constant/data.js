@@ -660,6 +660,11 @@ const cameroonBanks = [
   { value: "ubc", label: "Union Bank of Cameroon (UBC)" },
 ];
 
+const sex = [
+  { value: "M", label: "Male" },
+  { value: "F", label: "Female" },
+];
+
 const data = {
   sidebarData,
   usersTable,
@@ -673,6 +678,7 @@ const data = {
   paymentColumns,
   cameroonBanks,
   regionsInCameroon,
+  sex,
 };
 
 export default data;

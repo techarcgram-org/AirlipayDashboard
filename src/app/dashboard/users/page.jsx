@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { AddUser, Tab, Table, UserDetails } from "@/components";
+import { Table } from "@/components";
 import data from "@/constant/data";
 
 const Page = () => {
