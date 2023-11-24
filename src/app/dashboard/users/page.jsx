@@ -6,7 +6,19 @@ import data from "@/constant/data";
 
 const Page = () => {
   return (
-    <Table tab="View Users" users={data.usersTable} columns={data.columns} />
+    <Table
+      tab="View Users"
+      users={data.usersTable}
+      columns={data.columns}
+      showDropDown
+      dropDownOptions={[
+        "active",
+        "disactivated",
+        "pending",
+        "blocked",
+        "banned",
+      ]}
+    />
   );
 };
 

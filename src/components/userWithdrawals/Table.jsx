@@ -7,7 +7,7 @@ import { FiEdit2 } from "react-icons/fi";
 import Modal from "../common/modal";
 import { AddUser } from "..";
 
-const Table = ({ users, columns }) => {
+const Table = ({ users, columns,showDropDown,dropDownOptions }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
@@ -71,6 +71,11 @@ const Table = ({ users, columns }) => {
     // Perform delete action for the given userId
     console.log("Delete user:", userId);
   };
+
+  // dropdown change function
+  const handleDropdownChange = (userId,value) => {
+    console.log("The status has changed to:  ",userId,"Value: ",value)
+  }
 
   return (
     <div className="mt-4">
@@ -150,22 +155,45 @@ const Table = ({ users, columns }) => {
                   // Handle status column
                   const status = user[column.field];
                   let statusStyle = "";
-                  if (status === "active") {
-                    statusStyle = "bg-green-600";
+                  if (status === "active" || status === "settled") {
+                    statusStyle = "text-[#1C8B27]";
                   } else if (status === "cancelled") {
-                    statusStyle = "bg-red-600";
-                  } else if (status === "reviewed") {
-                    statusStyle = "bg-yellow-600";
+                    statusStyle = "text-red-600";
+                  } else if (status === "reviewed" || status === "pending") {
+                    statusStyle = "text-[#FFA500]";
+                  } else if (status === "current") {
+                    statusStyle = "text-[#4AD257]";
+                  } else if (status === "cancelled" || status === "banned") {
+                    statusStyle = "text-[#FC0202]";
+                  } else if (status === "disactivated") {
+                    statusStyle = "text-[#C8A2C8]";
+                  } else if (status === "blocked") {
+                    statusStyle = "text-[#8B0000]";
                   }
 
                   return (
                     <td
                       key={column.id}
-                      className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center mx-2 ${statusStyle}`}
+                      className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-between mx-2 ${statusStyle}`}
                     >
-                      <div className="text-sm text-white font-bold capitalize">
+                      <div className="text-sm bg-white font-bold capitalize">
                         {status}
                       </div>
+                      {showDropDown && (
+                        <select
+                          value={user.status}
+                          onChange={(e) =>
+                            handleDropdownChange(user.id, e.target.value)
+                          }
+                          className="px-2 py-1 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        >
+                          {dropDownOptions.map((option) => (
+                            <option key={option} value={option} >
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      )}
                     </td>
                   );
                 }
