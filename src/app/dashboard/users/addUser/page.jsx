@@ -222,11 +222,7 @@ const Page = () => {
                 type="submit"
                 className="w-full bg-[#3F5F90] py-2 mt-8 capitalize text-white text-center text-xl cursor-pointer"
               >
-                {loading ? (
-                  <Spinner size={25} loading={true} />
-                ) : (
-                  "register client"
-                )}
+                {loading ? <Spinner size={25} loading={true} /> : "add user"}
               </button>
             </form>
           )}

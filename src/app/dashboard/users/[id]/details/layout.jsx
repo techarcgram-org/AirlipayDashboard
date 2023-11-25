@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { UserDetails } from "@/components";
 import Info from "@/components/Info";
 import Tab from "@/components/common/Tab";
@@ -10,8 +11,9 @@ import { useSelector } from "react-redux";
 //   description: "your number one salary solution",
 // };
 
-const userDetailsLayout = ({ children }) => {
+const userDetailsLayout = ({ children, params: { id } }) => {
   const { errorMessage, error } = useSelector((state) => state.clients);
+  console.log("pageId", id);
   return (
     <div className="mt-1 md:right-6">
       {/* <h2>Clients</h2> */}
@@ -29,11 +31,26 @@ const userDetailsLayout = ({ children }) => {
       />
       <Tab
         options={[
-          { title: "Transactions", url: "/dashboard/users/2/transactions" },
-          { title: "Activity Feed", url: "/dashboard/users/2/activity-feed" },
-          { title: "Bank Accounts", url: "/dashboard/users/2/bank-accounts" },
-          { title: "Momo Accounts", url: "/dashboard/users/2/momo-accounts" },
-          { title: "Debit Cards", url: "/dashboard/users/2/debit-cards" },
+          {
+            title: "Transactions",
+            url: `/dashboard/users/${id}/details/transactions`,
+          },
+          {
+            title: "Activity Feed",
+            url: `/dashboard/users/${id}/details/activity-feed`,
+          },
+          {
+            title: "Bank Accounts",
+            url: `/dashboard/users/${id}/details/bank-accounts`,
+          },
+          {
+            title: "Momo Accounts",
+            url: `/dashboard/users/${id}/details/momo-accounts`,
+          },
+          {
+            title: "Debit Cards",
+            url: `/dashboard/users/${id}/details/debit-cards`,
+          },
         ]}
         defaultTab="Transactions"
       />

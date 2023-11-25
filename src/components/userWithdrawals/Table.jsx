@@ -122,12 +122,16 @@ const Table = ({ users, columns }) => {
                       key={column.id}
                       className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
                     >
-                      <button
-                        onClick={() => openModal()} // Add handleEdit function
-                        className="text-green-600 underline"
+                      <Link
+                        href={{
+                          pathname: `/dashboard/users/${user.id}/edit`,
+                          query: {
+                            ...user,
+                          },
+                        }}
                       >
                         <FiEdit2 />
-                      </button>
+                      </Link>
                     </td>
                   );
                 }
@@ -175,7 +179,7 @@ const Table = ({ users, columns }) => {
                     className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
                   >
                     <div className="text-sm text-gray-900">
-                      <Link href="/dashboard/users/2">
+                      <Link href={`/dashboard/users/${user.id}/details`}>
                         {user[column.field]}
                       </Link>
                     </div>
