@@ -1,3 +1,5 @@
+"use client";
+
 import { CreditCardIcon } from "@heroicons/react/24/solid";
 import images from "../../constant/images";
 import Image from "next/image";

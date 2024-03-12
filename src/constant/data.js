@@ -1,4 +1,3 @@
-import { CreditCardIcon } from "@heroicons/react/24/solid";
 import images from "./images";
 
 const sidebarData = [
@@ -564,7 +563,7 @@ const usersDetails = [
 
 const clientColumns = [
   { id: "name", header: "Name", field: "name" },
-  { id: "employerId", header: "ClientId", field: "employerId" },
+  { id: "employerId", header: "EmployeeId", field: "employerId" },
   { id: "email", header: "Email Address", field: "email" },
   // { id: "role", header: "Role", field: "role" },
   // { id: "address", header: "Address", field: "address" },
@@ -592,6 +591,80 @@ const columnsDetails = [
   },
 ];
 
+const transactionColumns = [
+  { id: "date", header: "Date", field: "date" },
+  { id: "description", header: "Description", field: "description" },
+  { id: "amount", header: "Amount", field: "amount" },
+  { id: "fee", header: "Fee", field: "fee" },
+  { id: "balanceBefore", header: "Balance Before", field: "balanceBefore" },
+  { id: "balanceAfter", header: "Balance After", field: "balanceAfter" },
+];
+
+const banksColumns = [
+  { id: "bankName", header: "Bank Name", field: "bankName" },
+  { id: "accountNumber", header: "AccountNumber", field: "accountNumber" },
+  { id: "balance", header: "Balance", field: "balance" },
+];
+
+const paymentColumns = [
+  { id: "date", header: "Payment date", field: "date" },
+  { id: "employeeName", header: "Employee Name", field: "employeeName" },
+  { id: "amount", header: "Amount", field: "amount" },
+  { id: "transactionID", header: "Transaction ID", field: "transactionID" },
+  {
+    id: "destinationAccount",
+    header: "Destination Account",
+    field: "destinationAccount",
+  },
+  {
+    id: "totalAmountTransferred",
+    header: "Total Amount Transferred",
+    filed: "totalAmountTransferred",
+  },
+];
+
+const regionsInCameroon = [
+  { value: "adamaoua", label: "Adamaoua" },
+  { value: "centre", label: "Centre" },
+  { value: "east", label: "East" },
+  { value: "farNorth", label: "Far North" },
+  { value: "littoral", label: "Littoral" },
+  { value: "north", label: "North" },
+  { value: "northwest", label: "Northwest" },
+  { value: "west", label: "West" },
+  { value: "south", label: "South" },
+  { value: "southwest", label: "Southwest" },
+];
+
+const cameroonBanks = [
+  { value: "afriland_first_bank", label: "Afriland First Bank" },
+  { value: "banque_atlantique", label: "Banque Atlantique" },
+  {
+    value: "bicec",
+    label:
+      "Banque Internationale du Cameroun pour l'Epargne et le Crédit (BICEC)",
+  },
+  { value: "bnc", label: "Banque Nationale de Crédit (BNC)" },
+  {
+    value: "bsic",
+    label:
+      "Banque Sahélo-Saharienne pour l'Investissement et le Commerce (BSIC)",
+  },
+  { value: "cbc", label: "Commercial Bank of Cameroon (CBC)" },
+  { value: "ecobank", label: "Ecobank Cameroon" },
+  { value: "equity_bank", label: "Equity Bank Cameroon" },
+  {
+    value: "standard_chartered_bank",
+    label: "Standard Chartered Bank Cameroon",
+  },
+  { value: "ubc", label: "Union Bank of Cameroon (UBC)" },
+];
+
+const sex = [
+  { value: "M", label: "Male" },
+  { value: "F", label: "Female" },
+];
+
 const data = {
   sidebarData,
   usersTable,
@@ -599,7 +672,13 @@ const data = {
   clientColumns,
   clientsTable,
   usersDetails,
-  columnsDetails
+  columnsDetails,
+  transactionColumns,
+  banksColumns,
+  paymentColumns,
+  cameroonBanks,
+  regionsInCameroon,
+  sex,
 };
 
 export default data;
