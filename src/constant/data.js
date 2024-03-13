@@ -457,6 +457,18 @@ const columns = [
   // Add more column objects as needed
 ];
 
+const userColumns = [
+  { id: "name", header: "Name", field: "name" },
+  { id: "email", header: "Email", field: "email" },
+  { id: "address", header: "Address", field: "region" },
+  { id: "employee_id", header: "Employee ID", field: "employee_id" },
+  { id: "employer", header: "Employer", field: "employer" },
+  { id: "edit", header: "Edit", field: "" },
+  { id: "delete", header: "Delete", field: "" },
+  { id: "status", header: "Status", field: "account_status" },
+  // Add more column objects as needed
+];
+
 const usersDetails = [
   { id: 1, name: "John Doe", age: 30, email: "johndoe@example.com" },
   { id: 2, name: "Jane Smith", age: 25, email: "janesmith@example.com" },
@@ -679,6 +691,7 @@ const data = {
   cameroonBanks,
   regionsInCameroon,
   sex,
+  userColumns,
 };
 
 export default data;

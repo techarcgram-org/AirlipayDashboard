@@ -238,7 +238,6 @@ const Page = () => {
                       name="file"
                       className="hidden"
                       onChange={(event) => {
-                        console.log("EVENT", event);
                         setFieldValue("file", event.currentTarget.files[0]);
                         setFiles(event.currentTarget.files[0]);
                       }}

@@ -148,13 +148,13 @@ const Table = ({ users, columns }) => {
                 }
                 if (column.id === "status") {
                   // Handle status column
-                  const status = user[column.field];
+                  const status = user["account_status"];
                   let statusStyle = "";
-                  if (status === "active") {
+                  if (status === "ACTIVE") {
                     statusStyle = "bg-green-600";
-                  } else if (status === "cancelled") {
+                  } else if (status === "BLOCKED") {
                     statusStyle = "bg-red-600";
-                  } else if (status === "reviewed") {
+                  } else if (status === "PENDING") {
                     statusStyle = "bg-yellow-600";
                   }
 
@@ -165,6 +165,20 @@ const Table = ({ users, columns }) => {
                     >
                       <div className="text-sm text-white font-bold capitalize">
                         {status}
+                      </div>
+                    </td>
+                  );
+                }
+                if (column.id === "address") {
+                  return (
+                    <td
+                      key={column.id}
+                      className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
+                    >
+                      <div className="text-sm text-gray-900">
+                        <Link href="/dashboard/users/2">
+                          {`${user["street"]}, ${user["city"]}, ${user["region"]} `}
+                        </Link>
                       </div>
                     </td>
                   );

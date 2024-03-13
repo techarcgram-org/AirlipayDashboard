@@ -14,7 +14,6 @@ const initialState = {
 export const loginThunk = createAsyncThunk(
   "account/login",
   async (data, thunkAPI) => {
-    console.log(data);
     const response = await login(data); // Replace with your API call
     return response.data;
   }
@@ -42,7 +41,6 @@ const accountSlice = createSlice({
         state.error = false;
       })
       .addCase(loginThunk.fulfilled, (state, action) => {
-        console.log("PAYLOAD", action.payload);
         state.loading = false;
         state.isLoggedIn = true;
         state.data = action.payload.data;
