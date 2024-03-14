@@ -1,0 +1,97 @@
+.invoice {
+    width: 100%;
+    background-color: #F0F4F8;
+}
+
+.invoice .title {
+    padding-top: 30px;
+}
+
+.invoice h2 {
+    font-weight: bold;
+    font-size: 30px;
+    padding: 0 40px;
+}
+
+.invoice_number,
+.invoice_date,
+.address {
+    padding: 0 40px;
+}
+
+.invoice_number h3,
+.invoice_date h3 {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.address {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.address h3 {
+    font-weight: bold;
+}
+
+.summary {
+    background-color: #F9F9F9;
+    text-align: center;
+    padding: 40px;
+}
+
+.summary h2 {
+    margin-bottom: 20px;
+}
+
+.summary table {
+    width: 100%;
+    text-align: left;
+}
+
+.summary table th {
+    width: 33%;
+    padding: 12px;
+    background-color: #CBEEFD;
+}
+
+.summary table td {
+    width: 33%;
+    padding: 12px;
+}
+
+.summary table tfoot {
+    font-weight: bold;
+}
+
+.payment_terms {
+    padding: 40px;
+}
+
+.payment_terms h3 {
+    font-weight: bold;
+}
+
+.terms p {
+    margin-top: 20px;
+    width: 60%;
+}
+
+.banks {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.note {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.note p {
+    width: 50%;
+    margin: auto;
+    margin-top: 20px;
+}

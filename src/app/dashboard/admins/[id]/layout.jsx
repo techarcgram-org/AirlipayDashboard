@@ -1,6 +1,7 @@
 "use client";
 
 import { UserDetails } from "@/components";
+import AdminDetails from "@/components/admin/adminDetails";
 import Info from "@/components/Info";
 import Tab from "@/components/common/Tab";
 import { useSelector } from "react-redux";
@@ -19,10 +20,11 @@ const userDetailsLayout = ({ children }) => {
 
   return (
     <div className="mt-1 md:right-6">
+      {/* <h2>Clients</h2> */}
       <Info message={errorMessage} error={error} />
       {!match && (
         <>
-          <UserDetails
+          <AdminDetails
             email="charles1234@gmail.com"
             phoneNumber={+237670203775}
             join="07/07/2023"
@@ -33,7 +35,7 @@ const userDetailsLayout = ({ children }) => {
             nBalance={5000}
             fee={5000}
           />
-          <Tab
+          {/* <Tab
             options={[
               { title: "Transactions", url: "/dashboard/users/2/transactions" },
               {
@@ -51,7 +53,7 @@ const userDetailsLayout = ({ children }) => {
               { title: "Debit Cards", url: "/dashboard/users/2/debit-cards" },
             ]}
             defaultTab="Transactions"
-          />
+          /> */}
         </>
       )}
       {children}

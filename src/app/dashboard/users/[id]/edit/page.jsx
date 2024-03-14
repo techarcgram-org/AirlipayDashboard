@@ -1,17 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  CheckboxInput,
-  FileInput,
-  SelectInput,
-  TextInput,
-} from "@/components/";
+import { SelectInput, TextInput } from "@/components/";
 import { Formik } from "formik";
 import data from "@/constant/data";
 import { useDispatch, useSelector } from "react-redux";
-import { addClient } from "../../../GlobalRedux/Features/clientSlice";
-import { createClientValidator } from "@/app/validatorSchemas/createClientValidator";
 import Spinner from "@/components/Spinner";
 
 const Page = () => {
@@ -28,9 +21,9 @@ const Page = () => {
     <div className="flex justify-center max-w-full mx-auto bg-gray-300 p-4">
       <div className="max-w-3xl w-[48rem]">
         <div className="flex items-start my-3">
-          <h2 className="capitalize text-2xl font-bold">create user</h2>
+          <h2 className="capitalize text-2xl font-bold">Edit user</h2>
         </div>
-        <div className="flex mb-4">
+        {/* <div className="flex mb-4">
           <input
             type="checkbox"
             id="multiple"
@@ -39,7 +32,7 @@ const Page = () => {
           <label className="ml-2 font-semibold" htmlFor="multiple">
             Add multiple users
           </label>
-        </div>
+        </div> */}
         <Formik
           initialValues={{
             name: "",
@@ -225,7 +218,7 @@ const Page = () => {
                 {loading ? (
                   <Spinner size={25} loading={true} />
                 ) : (
-                  "register user"
+                  "register client"
                 )}
               </button>
             </form>

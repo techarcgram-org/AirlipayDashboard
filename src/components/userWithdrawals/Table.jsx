@@ -1,17 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
+import { useRouter } from "next/navigation";
 import Modal from "../common/modal";
 import { AddUser } from "..";
 
 const Table = ({ users, columns, filter }) => {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  // const [currentUrl, setCurrentUrl] = useState("");
+  const [currentUrlUser, setCurrentUrlUser] = useState("");
 
   // Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -27,6 +31,19 @@ const Table = ({ users, columns, filter }) => {
   );
   const currentUsers = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+
+  // current url
+  useEffect(() => {
+    const currentURL = window.location.href;
+    // const dashboardIndex = currentURL.indexOf("/dashboard");
+    // const urlFromDashboard = currentURL.substring(dashboardIndex);
+    // setCurrentUrl(urlFromDashboard);
+
+    const parts = currentURL.split("/");
+    const index = parts.indexOf("dashboard");
+    const desiredValue = parts[index + 1];
+    setCurrentUrlUser(desiredValue);
+  }, []);
 
   // open modal
   const openModal = () => {
@@ -139,7 +156,10 @@ const Table = ({ users, columns, filter }) => {
                       className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
                     >
                       <button
-                        onClick={() => openModal()} // Add handleEdit function
+                        // onClick={() => openModal()} // Add handleEdit function
+                        onClick={() => {
+                          router.push(`/dashboard/${currentUrlUser}/2/edit`);
+                        }}
                         className="text-green-600 underline"
                       >
                         <FiEdit2 />
@@ -205,7 +225,7 @@ const Table = ({ users, columns, filter }) => {
                     className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
                   >
                     <div className="text-sm text-gray-900">
-                      <Link href="/dashboard/users/2">
+                      <Link href={`/dashboard/${currentUrlUser}/2`}>
                         {user[column.field]}
                       </Link>
                     </div>

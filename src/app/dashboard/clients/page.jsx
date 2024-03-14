@@ -5,7 +5,11 @@ import data from "../../../constant/data";
 
 const Page = () => {
   return (
-    <Table tab="View Clients" users={data.usersTable} columns={data.columns} />
+    <Table
+      tab="View Clients"
+      users={data.clientsTable}
+      columns={data.clientColumns}
+    />
   );
 };
 

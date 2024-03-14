@@ -1,19 +1,13 @@
 "use client";
 
-import { UserDetails } from "@/components";
+import ClientDetails from "@/components/client/clientDetails";
 import Info from "@/components/Info";
 import Tab from "@/components/common/Tab";
 import { useSelector } from "react-redux";
 
-// export const metadata = {
-//   title: "AirliPay client",
-//   description: "your number one salary solution",
-// };
-
 const userDetailsLayout = ({ children }) => {
   const { errorMessage, error } = useSelector((state) => state.clients);
   const currentUrl = window.location.href;
-  // Define a regular expression to match the pattern id/edit where id is a number
   const regex = /\/(\d+)\/edit/;
   const match = currentUrl.match(regex);
 
@@ -22,7 +16,7 @@ const userDetailsLayout = ({ children }) => {
       <Info message={errorMessage} error={error} />
       {!match && (
         <>
-          <UserDetails
+          <ClientDetails
             email="charles1234@gmail.com"
             phoneNumber={+237670203775}
             join="07/07/2023"
@@ -35,20 +29,22 @@ const userDetailsLayout = ({ children }) => {
           />
           <Tab
             options={[
-              { title: "Transactions", url: "/dashboard/users/2/transactions" },
               {
-                title: "Activity Feed",
-                url: "/dashboard/users/2/activity-feed",
+                title: "Transactions",
+                url: "/dashboard/clients/2/transactions",
+              },
+              {
+                title: "User Roster",
+                url: "/dashboard/clients/2/user-roster",
               },
               {
                 title: "Bank Accounts",
-                url: "/dashboard/users/2/bank-accounts",
+                url: "/dashboard/clients/2/bank-accounts",
               },
               {
-                title: "Momo Accounts",
-                url: "/dashboard/users/2/momo-accounts",
+                title: "Payment History",
+                url: "/dashboard/clients/2/payment-history",
               },
-              { title: "Debit Cards", url: "/dashboard/users/2/debit-cards" },
             ]}
             defaultTab="Transactions"
           />

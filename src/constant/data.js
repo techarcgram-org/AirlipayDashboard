@@ -153,177 +153,83 @@ const usersTable = [
   },
 ];
 
-const clientsTable = [
+const adminsTable = [
   {
-    id: 5,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 6,
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Google",
-    status: "active",
+    id: 7,
+    name: "James Anderson",
+    email: "james.anderson@example.com",
+    phoneNumber: "+237 (672)-499-932",
+    adminId: "0000001",
   },
   {
     id: 7,
     name: "James Anderson",
     email: "james.anderson@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "reviewed",
+    phoneNumber: "+237 (672)-499-932",
+    adminId: "0000001",
   },
   {
-    id: 8,
-    name: "Ava Thompson",
-    email: "ava.thompson@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "YouTube",
-    status: "reviewed",
-  },
-  {
-    id: 9,
-    name: "Sophia Martin",
-    email: "sophia.martin@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "cancelled",
-  },
-  {
-    id: 10,
+    id: 7,
     name: "James Anderson",
     email: "james.anderson@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Facebook",
-    status: "cancelled",
+    phoneNumber: "+237 (672)-499-932",
+    adminId: "0000001",
   },
   {
-    id: 11,
-    name: "Ava Thompson",
-    email: "ava.thompson@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "active",
+    id: 7,
+    name: "James Anderson",
+    email: "james.anderson@example.com",
+    phoneNumber: "+237 (672)-499-932",
+    adminId: "0000001",
   },
   {
-    id: 12,
-    name: "Matthew Taylor",
-    email: "matthew.taylor@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "cancelled",
+    id: 7,
+    name: "James Anderson",
+    email: "james.anderson@example.com",
+    phoneNumber: "+237 (672)-499-932",
+    adminId: "0000001",
   },
+];
+
+const clientsTable = [
   {
-    id: 13,
+    id: 5,
     name: "John Doe",
     email: "john.doe@example.com",
-    // role: "Admin",
-    // address: "Limbe",
     contact: "670203775",
-    employerId: "Airlipay",
-    status: "cancelled",
+    clientId: "00000001",
+
   },
   {
-    id: 14,
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    // role: "User",
-    // address: "Limbe",
+    id: 5,
+    name: "John Doe",
+    email: "john.doe@example.com",
     contact: "670203775",
-    employerId: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 15,
-    name: "Michael Johnson",
-    email: "michael.johnson@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "620161833",
-    employerId: "Airlipay",
-    status: "reviewed",
-  },
-  {
-    id: 16,
-    name: "Emily Davis",
-    email: "emily.davis@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "620161833",
-    employerId: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 17,
-    name: "Robert Wilson",
-    email: "robert.wilson@example.com",
-    // role: "Admin",
-    // address: "Limbe",
+    clientId: "00000001",
+
+  }, {
+    id: 5,
+    name: "John Doe",
+    email: "john.doe@example.com",
     contact: "670203775",
-    employerId: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 18,
-    name: "Sarah Johnson",
-    email: "sarah.johnson@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "620161833",
-    employerId: "Airlipay",
-    status: "cancelled",
-  },
-  {
-    id: 19,
-    name: "David Lee",
-    email: "david.lee@example.com",
-    // role: "Admin",
-    // address: "Limbe",
+    clientId: "00000001",
+
+  }, {
+    id: 5,
+    name: "John Doe",
+    email: "john.doe@example.com",
     contact: "670203775",
-    employerId: "Airlipay",
-    status: "active",
+    clientId: "00000001",
+
   },
-  {
-    id: 20,
-    name: "Emma Wilson",
-    email: "emma.wilson@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "cancelled",
-  },
-  {
-    id: 21,
-    name: "Christopher Brown",
-    email: "christopher.brown@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "620161833",
-    employerId: "Airlipay",
-    status: "reviewed",
-  },
+];
+const clientColumns = [
+  { id: "name", header: "Name", field: "name" },
+  { id: "email", header: "Email Address", field: "email" },
+  { id: "contact", header: "Phone Number", field: "contact" },
+  { id: "clientId", header: "Client ID", field: "clientId" },
+  { id: "edit", header: "Edit", field: "" },
+  { id: "delete", header: "Delete", field: "" },
 ];
 
 const columns = [
@@ -337,6 +243,15 @@ const columns = [
   { id: "edit", header: "Edit", field: "" },
   { id: "delete", header: "Delete", field: "" },
   // Add more column objects as needed
+];
+
+const adminsColumns = [
+  { id: "name", header: "Admin Name", field: "name" },
+  { id: "email", header: "Email Address", field: "email" },
+  { id: "phoneNumber", header: "Phone Number", field: "phoneNumber" },
+  { id: "adminId", header: "Admin ID", field: "adminId" },
+  { id: "edit", header: "Edit", field: "" },
+  { id: "delete", header: "Delete", field: "" },
 ];
 
 const usersDetails = [
@@ -443,16 +358,6 @@ const usersDetails = [
   },
 ];
 
-const clientColumns = [
-  { id: "name", header: "Name", field: "name" },
-  { id: "employerId", header: "EmployeeId", field: "employerId" },
-  { id: "email", header: "Email Address", field: "email" },
-  // { id: "role", header: "Role", field: "role" },
-  // { id: "address", header: "Address", field: "address" },
-  { id: "contact", header: "Phone Number", field: "contact" },
-  { id: "status", header: "Status", field: "status" },
-];
-
 const clientPaymentsTable = [
   {
     id: 1, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
@@ -460,12 +365,12 @@ const clientPaymentsTable = [
     transferredBeforePayDay: "XAF 350,000"
   },
   {
-    id: 1, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
+    id: 2, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
     payDay: "06/09/2024", transactionId: "000000001",
     transferredBeforePayDay: "XAF 350,000"
   },
   {
-    id: 1, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
+    id: 3, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
     payDay: "06/09/2024", transactionId: "000000001",
     transferredBeforePayDay: "XAF 350,000"
   },
@@ -594,6 +499,8 @@ const sex = [
 const data = {
   sidebarData,
   usersTable,
+  adminsTable,
+  adminsColumns,
   columns,
   clientColumns,
   clientsTable,

@@ -28,18 +28,18 @@ const Page = () => {
     <div className="flex justify-center max-w-full mx-auto bg-gray-300 p-4">
       <div className="max-w-3xl w-[48rem]">
         <div className="flex items-start my-3">
-          <h2 className="capitalize text-2xl font-bold">create user</h2>
+          <h2 className="capitalize text-2xl font-bold">create admin</h2>
         </div>
-        <div className="flex mb-4">
+        {/* <div className="flex mb-4">
           <input
             type="checkbox"
             id="multiple"
             onChange={() => setMultiple(!multiple)}
           />
           <label className="ml-2 font-semibold" htmlFor="multiple">
-            Add multiple users
+            Add multiple admins
           </label>
-        </div>
+        </div> */}
         <Formik
           initialValues={{
             name: "",
@@ -135,6 +135,15 @@ const Page = () => {
                       required
                     />
                     <TextInput
+                      label="Primary Phone"
+                      name="primaryPhone"
+                      value={values.primaryPhone}
+                      onChange={handleChange}
+                      placeholder="670000000"
+                      type="number"
+                      required
+                    />
+                    {/* <TextInput
                       label="Date of Birth"
                       name="dob"
                       value={values.dob}
@@ -159,7 +168,7 @@ const Page = () => {
                       placeholder="10000"
                       type="number"
                       required
-                    />
+                    /> */}
                   </div>
 
                   {/* Second Column */}
@@ -198,15 +207,6 @@ const Page = () => {
                       required
                     />
                     <TextInput
-                      label="Primary Phone"
-                      name="primaryPhone"
-                      value={values.primaryPhone}
-                      onChange={handleChange}
-                      placeholder="670000000"
-                      type="number"
-                      required
-                    />
-                    <TextInput
                       label="Secondary Phone Number"
                       name="secondaryPhone"
                       value={values.secondaryPhone}
@@ -225,7 +225,7 @@ const Page = () => {
                 {loading ? (
                   <Spinner size={25} loading={true} />
                 ) : (
-                  "register user"
+                  "register admin"
                 )}
               </button>
             </form>

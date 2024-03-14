@@ -6,12 +6,15 @@ import { userTransactions } from "@/utils/data/transactions";
 
 const page = () => {
   return (
-    <Table
-      tab="Transactions"
-      users={userTransactions}
-      columns={data.userTransactionColumns}
-      filter={true}
-    />
+    <>
+      <h2 className="font-bold">Transactions</h2>
+      <Table
+        tab="Transactions"
+        users={userTransactions}
+        columns={data.userTransactionColumns}
+        filter={true}
+      />
+    </>
   );
 };
 

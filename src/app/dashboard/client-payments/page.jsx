@@ -1,10 +1,12 @@
 "use client";
+
 import { Table } from "@/components";
 import data from "@/constant/data";
 
 const page = () => {
   return (
     <div>
+      <h2 className="font-bold">Client Payments</h2>
       <Table
         tab="Client Payment"
         users={data.clientPaymentsTable}

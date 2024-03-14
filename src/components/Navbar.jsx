@@ -120,15 +120,15 @@ const Navbar = ({ showNav, setShowNav }) => {
         <Menu as="div" className="relative inline-block text-left">
           <div>
             <Menu.Button className="inline-flex w-full justify-center items-center">
-              <AiFillMail className="h-6 w-6" />
-              <AiFillSetting className="ml-2 h-6 w-6 text-gray-700" />
-              <Image
+              <AiOutlineMenu className="h-6 w-6" />
+              {/* <AiFillSetting className="ml-2 h-6 w-6 text-gray-700" /> */}
+              {/* <Image
                 src={images.randolph}
                 alt="profile picture"
                 width={50}
                 height={50}
                 className="rounded-full ml-2"
-              />
+              /> */}
               {/* <span className="hidden md:block font-medium text-gray-700">
                 Rettson
               </span> */}
