@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  app:
+  airlipay-dashboard:
     image: airlipay-container
     build:
       context: ./
@@ -8,4 +8,4 @@ services:
     env_file:
       - .env.production
     ports:
-      - "3001:3000"
+      - "3001:3001"
