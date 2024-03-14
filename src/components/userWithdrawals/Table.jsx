@@ -167,21 +167,35 @@ const Table = ({ users, columns, filter }) => {
                   const status = user[column.field];
                   let statusStyle = "";
                   if (status === "active") {
-                    statusStyle = "bg-green-600";
+                    statusStyle = "text-green-600";
                   } else if (status === "cancelled") {
-                    statusStyle = "bg-red-600";
+                    statusStyle = "text-red-600";
+                  } else if (status === "banned") {
+                    statusStyle = "text-red-600";
+                  } else if (status === "blocked") {
+                    statusStyle = "text-red-900";
                   } else if (status === "reviewed") {
-                    statusStyle = "bg-yellow-600";
+                    statusStyle = "text-yellow-600";
+                  } else if (status === "pending") {
+                    statusStyle = "text-yellow-600";
+                  } else if (status === "deactivated") {
+                    statusStyle = "text-purple-600";
                   }
 
                   return (
                     <td
                       key={column.id}
-                      className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center mx-2 ${statusStyle}`}
+                      // className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center mx-2 ${statusStyle}`}
+                      className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center mx-2`}
                     >
-                      <div className="text-sm text-white font-bold capitalize">
+                      {/* <div className="text-sm text-white font-bold capitalize">
                         {status}
-                      </div>
+                      </div> */}
+                      <select
+                        className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
+                      >
+                        <option>{status.toUpperCase()}</option>
+                      </select>
                     </td>
                   );
                 }
