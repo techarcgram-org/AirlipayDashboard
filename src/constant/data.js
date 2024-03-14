@@ -593,11 +593,20 @@ const columnsDetails = [
 
 const transactionColumns = [
   { id: "date", header: "Date", field: "date" },
-  { id: "description", header: "Description", field: "description" },
+  { id: "description", header: "Description (Purpose, last four)", field: "description" },
   { id: "amount", header: "Amount", field: "amount" },
   { id: "fee", header: "Fee", field: "fee" },
   { id: "balanceBefore", header: "Balance Before", field: "balanceBefore" },
   { id: "balanceAfter", header: "Balance After", field: "balanceAfter" },
+];
+
+const userTransactionColumns = [
+  { id: "date", header: "Date", field: "date" },
+  { id: "description", header: "Description (Type, last four)", field: "description" },
+  { id: "amount", header: "Amount", field: "amount" },
+  { id: "fee", header: "Fee", field: "fee" },
+  { id: "user", header: "User", field: "user" },
+  { id: "employer", header: "Employer", field: "employer" },
 ];
 
 const banksColumns = [
@@ -674,6 +683,7 @@ const data = {
   usersDetails,
   columnsDetails,
   transactionColumns,
+  userTransactionColumns,
   banksColumns,
   paymentColumns,
   cameroonBanks,

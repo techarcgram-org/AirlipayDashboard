@@ -35,9 +35,9 @@ export default function DashboardLayout({ children }) {
     if (typeof window != undefined) {
       addEventListener("resize", handleResize);
     }
-    if (!isLoggedIn()) {
-      router.push("/login");
-    }
+    // if (!isLoggedIn()) {
+    //   router.push("/login");
+    // }
     return () => {
       removeEventListener("resize", handleResize);
     };
@@ -68,9 +68,8 @@ export default function DashboardLayout({ children }) {
       <div className={`righ-section ${showNav ? "col-span-6" : "col-span-7"}`}>
         <Navbar showNav={showNav} setShowNav={setShowNav} />
         <main
-          className={`py-4 m-4 transition-all duration-[400ms] bg-white ${
-            showNav && !isMobile ? "" : ""
-          }`}
+          className={`py-4 m-4 transition-all duration-[400ms] bg-white ${showNav && !isMobile ? "" : ""
+            }`}
         >
           <div className="px-4 md:px-16">{children}</div>
         </main>

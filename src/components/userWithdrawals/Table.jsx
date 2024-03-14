@@ -7,7 +7,7 @@ import { FiEdit2 } from "react-icons/fi";
 import Modal from "../common/modal";
 import { AddUser } from "..";
 
-const Table = ({ users, columns }) => {
+const Table = ({ users, columns, filter }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
@@ -87,6 +87,22 @@ const Table = ({ users, columns }) => {
             <option value={15}>15</option>
           </select>
           <span className="mx-2">entries</span>
+          {filter && (
+            <>
+              <select className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2">
+                <option>TRANSACTION TYPE</option>
+                <option>Type one</option>
+                <option>Type two</option>
+                <option>Type three</option>
+              </select>
+              <select className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2 ml-2">
+                <option>EMPLOYMENT</option>
+                <option>Employer one</option>
+                <option>Employer two</option>
+                <option>Employer three</option>
+              </select>
+            </>
+          )}
         </div>
         <input
           type="text"
