@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  app:
+    image: airlipay-dashboard
+    build:
+      context: ./
+      target: dev
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3001:3000"
