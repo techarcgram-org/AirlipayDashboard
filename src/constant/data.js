@@ -453,6 +453,41 @@ const clientColumns = [
   { id: "status", header: "Status", field: "status" },
 ];
 
+const clientPaymentsTable = [
+  {
+    id: 1, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
+    payDay: "06/09/2024", transactionId: "000000001",
+    transferredBeforePayDay: "XAF 350,000"
+  },
+  {
+    id: 1, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
+    payDay: "06/09/2024", transactionId: "000000001",
+    transferredBeforePayDay: "XAF 350,000"
+  },
+  {
+    id: 1, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
+    payDay: "06/09/2024", transactionId: "000000001",
+    transferredBeforePayDay: "XAF 350,000"
+  },
+];
+
+const clientPayments = [
+  { id: "status", header: "Status", field: "status" },
+  { id: "client", header: "Clent", field: "client" },
+  { id: "payPeriodEnding", header: "Pay Period  Ending", field: "payPeriodEnding" },
+  { id: "payDay", header: "Pay Day", field: "payDay" },
+  {
+    id: "transactionId",
+    header: "Transaction ID",
+    field: "transactionId",
+  },
+  {
+    id: "transferredBeforePayDay",
+    header: "Transferred Before Payday",
+    field: "transferredBeforePayDay",
+  },
+];
+
 const columnsDetails = [
   {
     id: "userInformation",
@@ -562,6 +597,8 @@ const data = {
   columns,
   clientColumns,
   clientsTable,
+  clientPaymentsTable,
+  clientPayments,
   usersDetails,
   columnsDetails,
   transactionColumns,

@@ -187,7 +187,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
         </div>
 
         <div className="">
-          <Link href="/dashboard/clients/payment">
+          <Link href="/dashboard/clientPayments">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
                 router.pathname == "/billing"
