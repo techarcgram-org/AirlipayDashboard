@@ -4,11 +4,11 @@ pipeline {
         CI = 'true'
     }
     stages {
-        // stage('Build') {
-        //     steps {
-        //         sh 'docker compose build'
-        //     }
-        // }
+        stage('Build') {
+            steps {
+                sh 'docker compose build'
+            }
+        }
         // stage('Test') {
         //     steps {
         //         sh './jenkins/scripts/test.sh'
