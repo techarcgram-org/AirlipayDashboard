@@ -1,14 +1,12 @@
 version: "3.8"
 services:
   app:
+    image: airlipay-container
     build:
-      context: .
+      context: ./
       dockerfile: Dockerfile
-    container_name: airlipay-dashboard
-    env_file:
-      - .env.local.example
     volumes:
-      - /home/techarcgram/:/app
+      - .:/app
       - /app/node_modules
       - /app/.next
     ports:
