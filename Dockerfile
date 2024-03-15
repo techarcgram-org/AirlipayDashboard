@@ -53,15 +53,19 @@ RUN chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=prebuild --chown=10101 /app/.next/standalone ./
-COPY --from=prebuild --chown=10101 /app/.next/static ./.next/static
-COPY --from=prebuild --chown=10101 /app/.next/static ./.next/standalone/.next/static
-COPY --from=prebuild --chown=10101 /app/public ./
-COPY --from=prebuild --chown=10101 /app/public ./public
-COPY --from=prebuild --chown=10101 /app/.next/server ./.next/standalone/server
-COPY --from=prebuild --chown=10101 /app/.next/cache ./.next/standalone/cache
-COPY --from=prebuild --chown=10101 /app/.next/static ./_next/static
-COPY --from=prebuild --chown=10101 /app/.next ./_next
+# COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+# COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/standalone/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public ./
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/server ./.next/standalone/server
+COPY --from=builder --chown=nextjs:nodejs /app/.next/cache ./.next/standalone/cache
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./_next/static
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./_next
+
 
 USER nextjs
 
