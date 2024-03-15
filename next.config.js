@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: "standalone",
 
   async redirects() {
     return [
@@ -13,6 +12,7 @@ const nextConfig = {
       },
     ];
   },
+  output: "standalone",
 };
 
 module.exports = nextConfig;

@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker compose build'
+                sh 'docker build -t nextjs-docker .'
             }
         }
         // stage('Test') {
@@ -16,7 +16,7 @@ pipeline {
         // }
         stage('Deliver') {
             steps {
-                sh 'docker compose up'
+                sh 'docker run -p 3001:3001 nextjs-docker'
             }
         }
     }

@@ -6,6 +6,6 @@ services:
       context: ./
       dockerfile: Dockerfile
     env_file:
-      - .env.production
+      - .env.development.sample
     ports:
       - "3001:3001"
