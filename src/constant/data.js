@@ -58,101 +58,6 @@ const sidebarData = [
   },
 ];
 
-const usersTable = [
-  {
-    id: 7,
-    firstName: "James Anderson",
-    lastName: "Anderson",
-    email: "james.anderson@example.com",
-    phoneNumber: "+237 (672)-499-932",
-    employer: "Airlipay",
-    userId: "000001",
-    status: "active",
-  },
-  {
-    id: 7,
-    firstName: "James Anderson",
-    lastName: "Anderson",
-    email: "james.anderson@example.com",
-    phoneNumber: "+237 (672)-499-932",
-    employer: "Airlipay",
-    userId: "000001",
-    status: "pending",
-  }, {
-    id: 7,
-    firstName: "James Anderson",
-    lastName: "Anderson",
-    email: "james.anderson@example.com",
-    phoneNumber: "+237 (672)-499-932",
-    employer: "Airlipay",
-    userId: "000001",
-    status: "pending",
-  }, {
-    id: 7,
-    firstName: "James Anderson",
-    lastName: "Anderson",
-    email: "james.anderson@example.com",
-    phoneNumber: "+237 (672)-499-932",
-    employer: "Airlipay",
-    userId: "000001",
-    status: "deactivated",
-  }, {
-    id: 7,
-    firstName: "James Anderson",
-    lastName: "Anderson",
-    email: "james.anderson@example.com",
-    phoneNumber: "+237 (672)-499-932",
-    employer: "Airlipay",
-    userId: "000001",
-    status: "deactivated",
-  }, {
-    id: 7,
-    firstName: "James Anderson",
-    lastName: "Anderson",
-    email: "james.anderson@example.com",
-    phoneNumber: "+237 (672)-499-932",
-    employer: "Airlipay",
-    userId: "000001",
-    status: "banned",
-  }, {
-    id: 7,
-    firstName: "James Anderson",
-    lastName: "Anderson",
-    email: "james.anderson@example.com",
-    phoneNumber: "+237 (672)-499-932",
-    employer: "Airlipay",
-    userId: "000001",
-    status: "banned",
-  }, {
-    id: 7,
-    firstName: "James Anderson",
-    lastName: "Anderson",
-    email: "james.anderson@example.com",
-    phoneNumber: "+237 (672)-499-932",
-    employer: "Airlipay",
-    userId: "000001",
-    status: "blocked",
-  }, {
-    id: 7,
-    firstName: "James Anderson",
-    lastName: "Anderson",
-    email: "james.anderson@example.com",
-    phoneNumber: "+237 (672)-499-932",
-    employer: "Airlipay",
-    userId: "000001",
-    status: "blocked",
-  }, {
-    id: 7,
-    firstName: "James Anderson",
-    lastName: "Anderson",
-    email: "james.anderson@example.com",
-    phoneNumber: "+237 (672)-499-932",
-    employer: "Airlipay",
-    userId: "000001",
-    status: "active",
-  },
-];
-
 const adminsTable = [
   {
     id: 7,
@@ -223,6 +128,7 @@ const clientsTable = [
 
   },
 ];
+
 const clientColumns = [
   { id: "name", header: "Name", field: "name" },
   { id: "email", header: "Email Address", field: "email" },
@@ -250,6 +156,65 @@ const adminsColumns = [
   { id: "email", header: "Email Address", field: "email" },
   { id: "phoneNumber", header: "Phone Number", field: "phoneNumber" },
   { id: "adminId", header: "Admin ID", field: "adminId" },
+  { id: "edit", header: "Edit", field: "" },
+  { id: "delete", header: "Delete", field: "" }
+]
+
+const usersTable = [
+  {
+    id: 7,
+    name: "James Anderson",
+    address: "Molyko Buea",
+    email: "james.anderson@example.com",
+    employee_id: "0000000001",
+    employer: "Airlipay",
+    status: "active",
+  },
+  {
+    id: 7,
+    name: "James Anderson",
+    address: "Molyko Buea",
+    email: "james.anderson@example.com",
+    employee_id: "0000000001",
+    employer: "Airlipay",
+    status: "cancelled",
+  },
+  {
+    id: 7,
+    name: "James Anderson",
+    address: "Molyko Buea",
+    email: "james.anderson@example.com",
+    employee_id: "0000000001",
+    employer: "Airlipay",
+    status: "banned",
+  },
+  {
+    id: 7,
+    name: "James Anderson",
+    address: "Molyko Buea",
+    email: "james.anderson@example.com",
+    employee_id: "0000000001",
+    employer: "Airlipay",
+    status: "reviewed",
+  },
+  {
+    id: 7,
+    name: "James Anderson",
+    address: "Molyko Buea",
+    email: "james.anderson@example.com",
+    employee_id: "0000000001",
+    employer: "Airlipay",
+    status: "pending",
+  },
+];
+
+const userColumns = [
+  { id: "name", header: "Name", field: "name" },
+  { id: "email", header: "Email", field: "email" },
+  { id: "address", header: "Address", field: "region" },
+  { id: "employee_id", header: "Employee ID", field: "employee_id" },
+  { id: "employer", header: "Employer", field: "employer" },
+  { id: "status", header: "Status", field: "status" },
   { id: "edit", header: "Edit", field: "" },
   { id: "delete", header: "Delete", field: "" },
 ];
@@ -515,6 +480,7 @@ const data = {
   cameroonBanks,
   regionsInCameroon,
   sex,
+  userColumns,
 };
 
 export default data;

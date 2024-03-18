@@ -184,7 +184,7 @@ const Table = ({ users, columns, filter }) => {
                 }
                 if (column.id === "status") {
                   // Handle status column
-                  const status = user["account_status"];
+                  const status = user["status"];
                   let statusStyle = "";
                   if (status === "active") {
                     statusStyle = "text-green-600";
@@ -213,7 +213,7 @@ const Table = ({ users, columns, filter }) => {
                       <select
                         className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
                       >
-                        <option>{status.toUpperCase()}</option>
+                        <option>{status?.toUpperCase()}</option>
                       </select>
                     </td>
                   );
