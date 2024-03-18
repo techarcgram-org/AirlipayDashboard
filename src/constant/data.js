@@ -515,7 +515,6 @@ const data = {
   cameroonBanks,
   regionsInCameroon,
   sex,
-  userColumns,
 };
 
 export default data;
