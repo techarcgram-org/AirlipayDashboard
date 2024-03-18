@@ -184,7 +184,7 @@ const Table = ({ users, columns, filter }) => {
                 }
                 if (column.id === "status") {
                   // Handle status column
-                  const status = user[column.field];
+                  const status = user["account_status"];
                   let statusStyle = "";
                   if (status === "active") {
                     statusStyle = "text-green-600";
@@ -201,7 +201,6 @@ const Table = ({ users, columns, filter }) => {
                   } else if (status === "deactivated") {
                     statusStyle = "text-purple-600";
                   }
-
                   return (
                     <td
                       key={column.id}
@@ -216,6 +215,20 @@ const Table = ({ users, columns, filter }) => {
                       >
                         <option>{status.toUpperCase()}</option>
                       </select>
+                    </td>
+                  );
+                }
+                if (column.id === "address") {
+                  return (
+                    <td
+                      key={column.id}
+                      className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
+                    >
+                      <div className="text-sm text-gray-900">
+                        <Link href="/dashboard/users/2">
+                          {`${user["street"]}, ${user["city"]}, ${user["region"]} `}
+                        </Link>
+                      </div>
                     </td>
                   );
                 }

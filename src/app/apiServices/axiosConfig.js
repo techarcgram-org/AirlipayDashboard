@@ -1,7 +1,6 @@
-const axios = require("axios");
+import axios from "axios";
 
-axios.defaults.baseURL = process.env.BASE_URL;
-axios.defaults.headers.post["Content-Type"] =
-  "application/x-www-form-urlencoded";
+console.log("base URL", process.env.NEXT_PUBLIC_BASE_URL);
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default axios;

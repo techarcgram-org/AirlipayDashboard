@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  airlipay-dashboard:
+    image: airlipay-container
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - .env.development.sample
+    ports:
+      - "3001:3001"

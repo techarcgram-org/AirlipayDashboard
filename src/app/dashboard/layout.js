@@ -6,7 +6,8 @@ import { Navbar, Sidebar } from "../../components";
 import { Transition } from "@headlessui/react";
 import { isLoggedIn } from "@/utils/utils";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { listUsers } from "../GlobalRedux/Features/userSlice";
 
 // const inter = Inter({ subsets: ['latin'] })
 
@@ -20,6 +21,7 @@ export default function DashboardLayout({ children }) {
   const [isMobile, setIsMobile] = useState(false);
   const sidebarRef = createRef();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   function handleResize() {
     if (innerWidth <= 640) {
@@ -41,13 +43,7 @@ export default function DashboardLayout({ children }) {
     return () => {
       removeEventListener("resize", handleResize);
     };
-  }, []);
-
-  // useEffect(() => {
-  //   if (!loggedIn) {
-  //     router.push("/login");
-  //   }
-  // }, [loggedIn, router]);
+  }, [router, dispatch]);
 
   return (
     <div className="grid grid-cols-7 h-screen">

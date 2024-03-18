@@ -40,13 +40,11 @@ const clientSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(addClient.fulfilled, (state, action) => {
-        console.log("PAYLOAD", action.payload);
         state.data = [action.payload.data];
         state.loading = false;
         state.errorMessage = "Success creating client";
       })
       .addCase(addClient.rejected, (state, action) => {
-        console.log(action.payload.data);
         state.loading = false;
         state.errorMessage = action.payload.data.message;
         state.error = true;

@@ -2,7 +2,9 @@
 
 import Info from "@/components/Info";
 import { Tab } from "../../../components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { listUsers } from "@/app/GlobalRedux/Features/userSlice";
 
 // export const metadata = {
 //   title: "AirliPay client",
@@ -11,6 +13,12 @@ import { useSelector } from "react-redux";
 
 const UserLayout = ({ children }) => {
   const { errorMessage, error } = useSelector((state) => state.clients);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(listUsers());
+  }, [dispatch]);
+
   return (
     <div className="mt-1 md:right-6">
       <h2 className="font-bold">Users</h2>
