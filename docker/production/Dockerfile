@@ -39,9 +39,10 @@ EXPOSE 3001
 ENV PORT 3001
 ENV HOSTNAME "0.0.0.0"
 # Start Next.js based on the preferred package manager
-CMD \
-  if [ -f yarn.lock ]; then yarn start; \
-  elif [ -f package-lock.json ]; then npm run start; \
-  elif [ -f pnpm-lock.yaml ]; then pnpm start; \
-  else npm run start; \
-  fi
+# CMD \
+#   if [ -f yarn.lock ]; then yarn start; \
+#   elif [ -f package-lock.json ]; then npm run start; \
+#   elif [ -f pnpm-lock.yaml ]; then pnpm start; \
+#   else npm run start; \
+#   fi
+CMD [ "node", ".next/standalone/server.js"]
