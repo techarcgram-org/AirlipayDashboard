@@ -45,4 +45,4 @@ ENV HOSTNAME "0.0.0.0"
 #   elif [ -f pnpm-lock.yaml ]; then pnpm start; \
 #   else npm run start; \
 #   fi
-CMD [ "node", ".next/standalone/server.js"]
+CMD [ "npm", "start"]
