@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { createUser, getUsers, getUser, editUser, deleteUser } from "@/app/apiServices/userService";
+import { createAdmin, getAdmins, getAdmin, editAdmin, deleteAdmin } from "@/app/apiServices/userService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -10,12 +10,12 @@ const initialState = {
   errorMessage: null,
 };
 
-export const addUser = createAsyncThunk(
-  "users/create",
+export const addAdmin = createAsyncThunk(
+  "admins/create",
   async (data, thunkAPI) => {
     let response;
     try {
-      response = await createUser(data);
+      response = await createAdmin(data);
       return response.data;
     } catch (error) {
       console.log("THUNK CLIENT ERROR", error);
@@ -25,12 +25,12 @@ export const addUser = createAsyncThunk(
   }
 );
 
-export const listUsers = createAsyncThunk(
-  "users/get",
+export const listAdmins = createAsyncThunk(
+  "admins/listAdmins",
   async (thunkAPI) => {
     let response;
     try {
-      response = await getUsers();
+      response = await getAdmins();
       return response.data;
     } catch (error) {
       console.log("THUNK CLIENT ERROR", error);
@@ -40,12 +40,12 @@ export const listUsers = createAsyncThunk(
   }
 );
 
-export const listUser = createAsyncThunk(
-  "users/getUser",
+export const listAdmin = createAsyncThunk(
+  "admins/listAdmin",
   async (id, thunkAPI) => {
     let response;
     try {
-      response = await getUser(id);
+      response = await getAdmin(id);
       return response.data;
     } catch (error) {
       console.log("THUNK CLIENT ERROR", error);
@@ -55,12 +55,12 @@ export const listUser = createAsyncThunk(
   }
 );
 
-export const updateUser = createAsyncThunk(
-  "users/updateUser",
+export const updateAdmin = createAsyncThunk(
+  "admins/updateAdmin",
   async (data, thunkAPI) => {
     let response;
     try {
-      response = await editUser(data);
+      response = await editAdmin(data);
       return response.data;
     } catch (error) {
       console.log("THUNK CLIENT ERROR", error);
@@ -70,12 +70,12 @@ export const updateUser = createAsyncThunk(
   }
 );
 
-export const removeUser = createAsyncThunk(
-  "users/removeUser",
+export const removeAdmin = createAsyncThunk(
+  "admins/removeAdmin",
   async (id, thunkAPI) => {
     let response;
     try {
-      response = await deleteUser(id);
+      response = await deleteAdmin(id);
       return response.data;
     } catch (error) {
       console.log("THUNK CLIENT ERROR", error);
@@ -85,87 +85,87 @@ export const removeUser = createAsyncThunk(
   }
 );
 
-const userSlice = createSlice({
-  name: "users",
+const adminSlice = createSlice({
+  name: "admins",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(addUser.pending, (state) => {
+      .addCase(addAdmin.pending, (state) => {
         state.loading = true;
         state.error = false;
         state.errorMessage = null;
       })
-      .addCase(addUser.fulfilled, (state, action) => {
+      .addCase(addAdmin.fulfilled, (state, action) => {
         state.data = [action.payload.data];
         state.loading = false;
-        state.errorMessage = "Success creating user";
+        state.errorMessage = "Success creating admin";
       })
-      .addCase(addUser.rejected, (state, action) => {
+      .addCase(addAdmin.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload.data.message;
         state.error = true;
       })
       // 
-      .addCase(listUsers.pending, (state) => {
+      .addCase(listAdmins.pending, (state) => {
         state.loading = true;
         state.error = false;
         state.errorMessage = null;
       })
-      .addCase(listUsers.fulfilled, (state, action) => {
+      .addCase(listAdmins.fulfilled, (state, action) => {
         state.data = action.payload;
         state.loading = false;
-        state.errorMessage = "Success listing users";
+        state.errorMessage = "Success listing admins";
       })
-      .addCase(listUsers.rejected, (state, action) => {
+      .addCase(listAdmins.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload.data.message;
         state.error = true;
       })
       // 
-      .addCase(listUser.pending, (state) => {
+      .addCase(listAdmin.pending, (state) => {
         state.loading = true;
         state.error = false;
         state.errorMessage = null;
       })
-      .addCase(listUser.fulfilled, (state, action) => {
+      .addCase(listAdmin.fulfilled, (state, action) => {
         state.data = action.payload;
         state.loading = false;
-        state.errorMessage = "Success listing user";
+        state.errorMessage = "Success listing admin";
       })
-      .addCase(listUser.rejected, (state, action) => {
+      .addCase(listAdmin.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload.data.message;
         state.error = true;
       })
       // 
-      .addCase(updateUser.pending, (state) => {
+      .addCase(updateAdmin.pending, (state) => {
         state.loading = true;
         state.error = false;
         state.errorMessage = null;
       })
-      .addCase(updateUser.fulfilled, (state, action) => {
+      .addCase(updateAdmin.fulfilled, (state, action) => {
         state.data = action.payload;
         state.loading = false;
-        state.errorMessage = "Success updating user";
+        state.errorMessage = "Success updating admin";
       })
-      .addCase(updateUser.rejected, (state, action) => {
+      .addCase(updateAdmin.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload.data.message;
         state.error = true;
       })
       // 
-      .addCase(removeUser.pending, (state) => {
+      .addCase(removeAdmin.pending, (state) => {
         state.loading = true;
         state.error = false;
         state.errorMessage = null;
       })
-      .addCase(removeUser.fulfilled, (state, action) => {
+      .addCase(removeAdmin.fulfilled, (state, action) => {
         state.data = action.payload;
         state.loading = false;
-        state.errorMessage = "Success deleting user";
+        state.errorMessage = "Success deleting admin";
       })
-      .addCase(removeUser.rejected, (state, action) => {
+      .addCase(removeAdmin.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload.data.message;
         state.error = true;
@@ -173,6 +173,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { } = userSlice.actions;
+export const { } = adminSlice.actions;
 
-export default userSlice.reducer;
+export default adminSlice.reducer;

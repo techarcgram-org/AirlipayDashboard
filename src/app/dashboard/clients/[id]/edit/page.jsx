@@ -1,27 +1,65 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  CheckboxInput,
-  FileInput,
-  SelectInput,
-  TextInput,
-} from "@/components/";
+import { SelectInput, TextInput } from "@/components/";
 import { Formik } from "formik";
-import data from "@/constant/data";
+import dataStatic from "@/constant/data";
 import { useDispatch, useSelector } from "react-redux";
-import { addClient } from "@/app/GlobalRedux/Features/clientSlice";
-import { createClientValidator } from "@/app/validatorSchemas/createClientValidator";
+import { updateClientById } from "@/app/GlobalRedux/Features/clientSlice";
+// import { createClientValidator } from "@/app/validatorSchemas/createClientValidator";
 import Spinner from "@/components/Spinner";
+import Loading from "@/app/loading";
+import { useParams } from "next/navigation";
+import { readClient } from "@/app/GlobalRedux/Features/clientSlice";
 
 const Page = () => {
-  const [files, setFiles] = useState(null);
-  const { loading, error } = useSelector((state) => state.clients);
+  // const [files, setFiles] = useState(null);
+  const { loading, data } = useSelector((state) => state.clients);
   const dispatch = useDispatch();
+  const [user, setUser] = useState(null);
+  const { id } = useParams();
 
   useEffect(() => {
-    console.log("files", files);
-  }, [files]);
+    dispatch(readClient(id));
+  }, [id]);
+
+  useEffect(() => {
+    const getUser = () => {
+      // const userData = data.filter((user) => user?.id === parseInt(id))[0];
+      if (data) {
+        const formattedData = {
+          id: data?.id,
+          name: data?.name,
+          industry: data?.name,
+          taxId: data?.tax_id,
+          clientCommision: data?.client_commision,
+          earningReportStatus: data?.earningReportStatus,
+          nextPaymentDate: data?.next_payment_date,
+          bank: data?.bank,
+          bankAccountNumber: data?.bankAccountNumber,
+          email: data?.accounts?.email,
+          primaryPhone: data?.addresses?.primary_phone_number,
+          city: data?.addresses?.city,
+          region: data?.addresses?.region,
+          street: data?.addresses?.street,
+          mobileMoneyNumber: data?.mobile_money_number,
+          secondaryPhone: data?.addresses?.secondery_phone_number,
+        };
+        setUser(formattedData);
+      }
+    };
+    getUser();
+  }, [data]);
+
+  // useEffect(() => {
+  //   console.log("files", files);
+  // }, [files]);
+
+  if (!user) {
+    return <Loading />;
+  }
+
+  console.log(user);
 
   return (
     <div className="flex justify-center max-w-full mx-auto bg-gray-300 p-4">
@@ -30,27 +68,10 @@ const Page = () => {
           <h2 className="capitalize text-2xl font-bold">update client</h2>
         </div>
         <Formik
-          initialValues={{
-            name: "",
-            street: "",
-            primaryPhone: "",
-            city: "",
-            taxId: "",
-            bankAccountNumber: "",
-            nextPaymentDate: "",
-            email: "",
-            secondaryPhone: "",
-            region: "",
-            bank: "",
-            clientCommision: "",
-            industry: "",
-            password: "",
-            confirmPassword: "",
-            file: null,
-          }}
+          initialValues={user || {}}
           // validationSchema={createClientValidator}
           onSubmit={async (values) => {
-            const response = await dispatch(addClient(values));
+            const response = await dispatch(updateClientById(values));
             if (response.meta.requestStatus === "fulfilled") {
               router.push("/dashboard/clients");
             }
@@ -124,18 +145,9 @@ const Page = () => {
                     label="Region"
                     name="region"
                     // value={values.region}
-                    options={data.regionsInCameroon}
+                    options={dataStatic.regionsInCameroon}
                     onChange={handleChange}
                     type="select"
-                    required
-                  />
-                  <TextInput
-                    label="Tax ID"
-                    name="taxId"
-                    value={values.taxId}
-                    onChange={handleChange}
-                    placeholder="1234567890"
-                    type="text"
                     required
                   />
                 </div>
@@ -156,7 +168,7 @@ const Page = () => {
                     name="bank"
                     // value={values.bank}
                     onChange={handleChange}
-                    options={data.cameroonBanks}
+                    options={dataStatic.cameroonBanks}
                     required
                   />
                   <TextInput
@@ -185,25 +197,18 @@ const Page = () => {
                     type="text"
                   />
                   <TextInput
-                    label="Password"
-                    name="password"
-                    value={values.password}
+                    label="Tax ID"
+                    name="taxId"
+                    value={values.taxId}
                     onChange={handleChange}
-                    placeholder="Password"
-                    type="password"
-                  />
-                  <TextInput
-                    label="Confirm Password"
-                    name="confirmPassword"
-                    value={values.confirmPassword}
-                    onChange={handleChange}
-                    placeholder="Confirm Password"
-                    type="password"
+                    placeholder="1234567890"
+                    type="text"
+                    required
                   />
                 </div>
               </div>
               {/* file upload */}
-              <div className="mx-auto my-4 w-[90%] md:w-[50%] h-auto">
+              {/* <div className="mx-auto my-4 w-[90%] md:w-[50%] h-auto">
                 <p className=" font-semibold ml-1 mb-2">
                   Upload Employee Roaser:
                 </p>
@@ -245,7 +250,7 @@ const Page = () => {
                     />
                   </label>
                 </div>
-              </div>
+              </div> */}
 
               <button
                 type="submit"

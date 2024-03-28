@@ -3,19 +3,35 @@
 import React, { useEffect, useState } from "react";
 import { SelectInput, TextInput } from "@/components/";
 import { Formik } from "formik";
-import data from "@/constant/data";
+import dataStatic from "@/constant/data";
+import { updateUser } from "@/app/GlobalRedux/Features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "@/components/Spinner";
+import { useParams } from "next/navigation";
 
 const Page = () => {
   const [multiple, setMultiple] = useState(false);
   const [files, setFiles] = useState(null);
-  const { loading, error } = useSelector((state) => state.clients);
+  const { loading, data } = useSelector((state) => state.users);
+  const [user, setUser] = useState(null);
   const dispatch = useDispatch();
+  const { id } = useParams();
 
   useEffect(() => {
-    console.log("files", files);
-  }, [files]);
+    const getUser = () => {
+      const userData = data.find((user) => user.id === parseInt(id));
+      setUser(userData);
+    };
+    getUser();
+  }, [data, id]);
+
+  // useEffect(() => {
+  //   console.log("files", files);
+  // }, [files]);
+
+  if (!user) {
+    return <Spinner size={50} loading={true} />;
+  }
 
   return (
     <div className="flex justify-center max-w-full mx-auto bg-gray-300 p-4">
@@ -34,26 +50,27 @@ const Page = () => {
           </label>
         </div> */}
         <Formik
-          initialValues={{
-            name: "",
-            email: "",
-            baseSalary: "",
-            dob: "",
-            sex: "",
-            clientId: "",
-            city: "",
-            street: "",
-            region: "",
-            primaryPhone: "",
-            seconddaryPhone: "",
-          }}
+          initialValues={user || {}}
           // validationSchema={createClientValidator}
           onSubmit={async (values) => {
-            console.log(values);
-            // const response = await dispatch(addClient(values));
-            // if (response.meta.requestStatus === "fulfilled") {
-            //   router.push("/dashboard/clients");
-            // }
+            const data = {
+              id: parseInt(id),
+              name: values.name,
+              email: values.email,
+              baseSalary: values.base_salary,
+              dob: values.dob,
+              sex: values.sex,
+              city: values.city,
+              street: values.street,
+              region: values.region,
+              primaryPhone: values.primary_phone_number,
+              seconddaryPhone: values.secondery_phone_number,
+            };
+            console.log(data);
+            const response = await dispatch(updateUser(data));
+            if (response.meta.requestStatus === "fulfilled") {
+              router.push("/dashboard/users");
+            }
           }}
         >
           {({ values, errors, handleChange, handleSubmit, setFieldValue }) => (
@@ -121,7 +138,7 @@ const Page = () => {
                     <TextInput
                       label="Email Address"
                       name="email"
-                      value={values.email}
+                      value={values?.email}
                       onChange={handleChange}
                       placeholder="Email Address"
                       type="email"
@@ -130,7 +147,7 @@ const Page = () => {
                     <TextInput
                       label="Date of Birth"
                       name="dob"
-                      value={values.dob}
+                      value={values?.dob}
                       onChange={handleChange}
                       placeholder="DD/MM/YY"
                       type="date"
@@ -139,15 +156,15 @@ const Page = () => {
                     <SelectInput
                       label="Sex"
                       name="sex"
-                      value={values.sex}
+                      value={values?.sex}
                       onChange={handleChange}
-                      options={data.sex}
+                      options={dataStatic.sex}
                       required
                     />
                     <TextInput
                       label="Base Salary"
-                      name="baseSalary"
-                      value={values.baseSalary}
+                      name="base_salary"
+                      value={values?.base_salary}
                       onChange={handleChange}
                       placeholder="10000"
                       type="number"
@@ -161,7 +178,7 @@ const Page = () => {
                       <TextInput
                         label="Street"
                         name="street"
-                        value={values.street}
+                        value={values?.street}
                         onChange={handleChange}
                         placeholder="Street"
                         type="text"
@@ -172,7 +189,7 @@ const Page = () => {
                       <TextInput
                         label="City"
                         name="city"
-                        value={values.city}
+                        value={values?.city}
                         onChange={handleChange}
                         placeholder="city"
                         type="text"
@@ -184,16 +201,16 @@ const Page = () => {
                     <SelectInput
                       label="Region"
                       name="region"
-                      // value={values.region}
-                      options={data.regionsInCameroon}
+                      value={values?.region}
+                      options={dataStatic.regionsInCameroon}
                       onChange={handleChange}
                       type="select"
                       required
                     />
                     <TextInput
                       label="Primary Phone"
-                      name="primaryPhone"
-                      value={values.primaryPhone}
+                      name="primary_phone_number"
+                      value={values?.primary_phone_number}
                       onChange={handleChange}
                       placeholder="670000000"
                       type="number"
@@ -201,8 +218,8 @@ const Page = () => {
                     />
                     <TextInput
                       label="Secondary Phone Number"
-                      name="secondaryPhone"
-                      value={values.secondaryPhone}
+                      name="secondery_phone_number"
+                      value={values?.secondery_phone_number}
                       onChange={handleChange}
                       type="number"
                       placeholder="673000000"
@@ -215,11 +232,7 @@ const Page = () => {
                 type="submit"
                 className="w-full bg-[#3F5F90] py-2 mt-8 capitalize text-white text-center text-xl cursor-pointer"
               >
-                {loading ? (
-                  <Spinner size={25} loading={true} />
-                ) : (
-                  "register client"
-                )}
+                {loading ? <Spinner size={25} loading={true} /> : "Update User"}
               </button>
             </form>
           )}

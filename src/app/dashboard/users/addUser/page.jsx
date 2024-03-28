@@ -10,19 +10,19 @@ import {
 import { Formik } from "formik";
 import data from "@/constant/data";
 import { useDispatch, useSelector } from "react-redux";
-import { addClient } from "../../../GlobalRedux/Features/clientSlice";
+import { addUser } from "@/app/GlobalRedux/Features/userSlice";
 import { createClientValidator } from "@/app/validatorSchemas/createClientValidator";
 import Spinner from "@/components/Spinner";
 
 const Page = () => {
   const [multiple, setMultiple] = useState(false);
   const [files, setFiles] = useState(null);
-  const { loading, error } = useSelector((state) => state.clients);
+  const { loading } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log("files", files);
-  }, [files]);
+  // useEffect(() => {
+  //   console.log("files", files);
+  // }, [files]);
 
   return (
     <div className="flex justify-center max-w-full mx-auto bg-gray-300 p-4">
@@ -47,7 +47,7 @@ const Page = () => {
             baseSalary: "",
             dob: "",
             sex: "",
-            clientId: "",
+            clientId: 237,
             city: "",
             street: "",
             region: "",
@@ -56,11 +56,10 @@ const Page = () => {
           }}
           // validationSchema={createClientValidator}
           onSubmit={async (values) => {
-            console.log("USERVALUES", values);
-            // const response = await dispatch(addClient(values));
-            // if (response.meta.requestStatus === "fulfilled") {
-            //   router.push("/dashboard/clients");
-            // }
+            const response = await dispatch(addUser(values));
+            if (response.meta.requestStatus === "fulfilled") {
+              router.push("/dashboard/users");
+            }
           }}
         >
           {({ values, errors, handleChange, handleSubmit, setFieldValue }) => (

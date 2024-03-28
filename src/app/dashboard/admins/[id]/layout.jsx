@@ -1,9 +1,9 @@
 "use client";
 
-import { UserDetails } from "@/components";
+// import { UserDetails } from "@/components";
 import AdminDetails from "@/components/admin/adminDetails";
 import Info from "@/components/Info";
-import Tab from "@/components/common/Tab";
+// import Tab from "@/components/common/Tab";
 import { useSelector } from "react-redux";
 
 // export const metadata = {
@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 const userDetailsLayout = ({ children }) => {
   const { errorMessage, error } = useSelector((state) => state.clients);
   const currentUrl = window.location.href;
-  // Define a regular expression to match the pattern id/edit where id is a number
   const regex = /\/(\d+)\/edit/;
   const match = currentUrl.match(regex);
 

@@ -4,6 +4,7 @@ import React from "react";
 import { FaEdit } from "react-icons/fa";
 
 const ClientDetails = ({
+  username,
   email,
   phoneNumber,
   join,
@@ -21,7 +22,7 @@ const ClientDetails = ({
 
         <div className="flex items-center justify-around">
           <p className="m-2">
-            <strong>AirliPay Inc</strong> #9753428
+            <strong>{username}</strong> #9753428
           </p>
           <button className="mx-2 px-4 h-[24px] bg-green-500 text-white capitalize">
             active

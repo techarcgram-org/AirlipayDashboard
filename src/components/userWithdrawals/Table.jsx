@@ -5,11 +5,14 @@ import React, { useEffect, useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
-import Modal from "../common/modal";
-import { AddUser } from "..";
+// import Modal from "../common/modal";
+// import { AddUser } from "..";
+import { useDispatch } from "react-redux";
+import { deleteClientById } from "@/app/GlobalRedux/Features/clientSlice";
 
 const Table = ({ users, columns, filter }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
@@ -84,9 +87,15 @@ const Table = ({ users, columns, filter }) => {
   };
 
   // Handle delete entry
-  const handleDelete = (userId) => {
-    // Perform delete action for the given userId
-    console.log("Delete user:", userId);
+  const handleDelete = (id) => {
+    const userConfirmed = window.confirm("Do you want to proceed?");
+    if (userConfirmed) {
+      if (currentUrlUser === "clients") {
+        dispatch(deleteClientById(id));
+      }
+    } else {
+      console.log("cancelled");
+    }
   };
 
   return (
@@ -158,7 +167,9 @@ const Table = ({ users, columns, filter }) => {
                       <button
                         // onClick={() => openModal()} // Add handleEdit function
                         onClick={() => {
-                          router.push(`/dashboard/${currentUrlUser}/2/edit`);
+                          router.push(
+                            `/dashboard/${currentUrlUser}/${user.id}/edit`
+                          );
                         }}
                         className="text-green-600 underline"
                       >
@@ -184,21 +195,21 @@ const Table = ({ users, columns, filter }) => {
                 }
                 if (column.id === "status") {
                   // Handle status column
-                  const status = user["status"];
+                  const status = user["account_status"];
                   let statusStyle = "";
-                  if (status === "active") {
+                  if (status === "ACTIVE") {
                     statusStyle = "text-green-600";
-                  } else if (status === "cancelled") {
+                  } else if (status === "CANCELLED") {
                     statusStyle = "text-red-600";
-                  } else if (status === "banned") {
+                  } else if (status === "BANNED") {
                     statusStyle = "text-red-600";
-                  } else if (status === "blocked") {
+                  } else if (status === "BLOCKED") {
                     statusStyle = "text-red-900";
-                  } else if (status === "reviewed") {
+                  } else if (status === "REVIEWED") {
                     statusStyle = "text-yellow-600";
-                  } else if (status === "pending") {
+                  } else if (status === "PENDING") {
                     statusStyle = "text-yellow-600";
-                  } else if (status === "deactivated") {
+                  } else if (status === "DEACTIVATED") {
                     statusStyle = "text-purple-600";
                   }
                   return (
@@ -238,7 +249,7 @@ const Table = ({ users, columns, filter }) => {
                     className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
                   >
                     <div className="text-sm text-gray-900">
-                      <Link href={`/dashboard/${currentUrlUser}/2`}>
+                      <Link href={`/dashboard/${currentUrlUser}/${user.id}`}>
                         {user[column.field]}
                       </Link>
                     </div>

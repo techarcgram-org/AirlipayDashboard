@@ -6,16 +6,17 @@ import { Formik } from "formik";
 import data from "@/constant/data";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "@/components/Spinner";
+import { updateAdmin } from "@/app/GlobalRedux/Features/adminSlice";
 
 const Page = () => {
   const [multiple, setMultiple] = useState(false);
   const [files, setFiles] = useState(null);
-  const { loading, error } = useSelector((state) => state.clients);
+  const { loading } = useSelector((state) => state.admins);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log("files", files);
-  }, [files]);
+  // useEffect(() => {
+  //   console.log("files", files);
+  // }, [files]);
 
   return (
     <div className="flex justify-center max-w-full mx-auto bg-gray-300 p-4">
@@ -50,10 +51,10 @@ const Page = () => {
           // validationSchema={createClientValidator}
           onSubmit={async (values) => {
             console.log(values);
-            // const response = await dispatch(addClient(values));
-            // if (response.meta.requestStatus === "fulfilled") {
-            //   router.push("/dashboard/clients");
-            // }
+            const response = await dispatch(updateAdmin(values));
+            if (response.meta.requestStatus === "fulfilled") {
+              router.push("/dashboard/admins");
+            }
           }}
         >
           {({ values, errors, handleChange, handleSubmit, setFieldValue }) => (

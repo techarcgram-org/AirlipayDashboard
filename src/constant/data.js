@@ -214,7 +214,7 @@ const userColumns = [
   { id: "address", header: "Address", field: "region" },
   { id: "employee_id", header: "Employee ID", field: "employee_id" },
   { id: "employer", header: "Employer", field: "employer" },
-  { id: "status", header: "Status", field: "status" },
+  { id: "status", header: "Status", field: "account_status" },
   { id: "edit", header: "Edit", field: "" },
   { id: "delete", header: "Delete", field: "" },
 ];
@@ -461,7 +461,7 @@ const sex = [
   { value: "F", label: "Female" },
 ];
 
-const data = {
+const dataStatic = {
   sidebarData,
   usersTable,
   adminsTable,
@@ -483,4 +483,4 @@ const data = {
   userColumns,
 };
 
-export default data;
+export default dataStatic;
