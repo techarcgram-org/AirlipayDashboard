@@ -7,11 +7,13 @@ import data from "@/constant/data";
 import { useDispatch, useSelector } from "react-redux";
 import { addClient } from "../../../GlobalRedux/Features/clientSlice";
 import Spinner from "@/components/Spinner";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   // const [files, setFiles] = useState(null);
   const { loading } = useSelector((state) => state.clients);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   // useEffect(() => {
   //   console.log("files", files);

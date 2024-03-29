@@ -4,7 +4,7 @@ import { createAdmin, getAdmins, getAdmin, editAdmin, deleteAdmin } from "@/app/
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  data: [],
+  admins: [],
   loading: false,
   error: false,
   errorMessage: null,
@@ -97,7 +97,7 @@ const adminSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(addAdmin.fulfilled, (state, action) => {
-        state.data = [action.payload.data];
+        state.data = action.payload;
         state.loading = false;
         state.errorMessage = "Success creating admin";
       })

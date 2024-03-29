@@ -148,6 +148,7 @@ const clientSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(deleteClientById.fulfilled, (state, action) => {
+        state.data = state.data.filter(items => items.id !== action.meta.arg)
         state.loading = false;
         state.errorMessage = "Success updating client";
       })

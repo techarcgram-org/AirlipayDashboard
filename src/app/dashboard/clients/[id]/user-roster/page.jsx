@@ -1,16 +1,31 @@
 "use client";
 
 import { Table } from "@/components";
-import data from "@/constant/data";
-import bankAccounts from "@/utils/data/banks";
+import dataStatic from "@/constant/data";
 import React from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "next/navigation";
 
 const page = () => {
+  const { users } = useSelector((state) => state.users);
+  const { id } = useParams();
+
+  const roater = users?.filter((item) => item.client_id === id);
+  const formattedData = roater?.map((item) => {
+    return {
+      name: item.name,
+      employeeId: item?.id,
+      email: item?.email,
+      phoneNumber: item?.primary_phone_number,
+      account_status: item?.account_status,
+    };
+  });
+
   return (
     <Table
-      tab="Bank Accounts"
-      users={bankAccounts}
-      columns={data.banksColumns}
+      tab="User Roster"
+      users={formattedData}
+      columns={dataStatic.clientRoaster}
     />
   );
 };

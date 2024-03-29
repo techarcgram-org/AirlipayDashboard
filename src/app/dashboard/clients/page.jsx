@@ -18,15 +18,17 @@ const Page = () => {
 
   useEffect(() => {
     if (Array.isArray(data)) {
-      const formattedData = data?.map((item) => {
-        return {
-          id: item?.id,
-          name: item?.name,
-          email: item?.accounts.email,
-          contact: item?.addresses.primary_phone_number,
-          clientId: item?.id,
-        };
-      });
+      const formattedData = data
+        ?.map((item) => {
+          return {
+            id: item?.id,
+            name: item?.name,
+            email: item?.accounts.email,
+            contact: item?.addresses.primary_phone_number,
+            clientId: item?.id,
+          };
+        })
+        .reverse();
       setformatted(formattedData);
     }
   }, [data]);

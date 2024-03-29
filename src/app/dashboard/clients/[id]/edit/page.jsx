@@ -5,17 +5,21 @@ import { SelectInput, TextInput } from "@/components/";
 import { Formik } from "formik";
 import dataStatic from "@/constant/data";
 import { useDispatch, useSelector } from "react-redux";
-import { updateClientById } from "@/app/GlobalRedux/Features/clientSlice";
+import {
+  readClient,
+  updateClientById,
+} from "@/app/GlobalRedux/Features/clientSlice";
 // import { createClientValidator } from "@/app/validatorSchemas/createClientValidator";
 import Spinner from "@/components/Spinner";
 import Loading from "@/app/loading";
+import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
-import { readClient } from "@/app/GlobalRedux/Features/clientSlice";
 
 const Page = () => {
   // const [files, setFiles] = useState(null);
   const { loading, data } = useSelector((state) => state.clients);
   const dispatch = useDispatch();
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const { id } = useParams();
 
@@ -58,8 +62,6 @@ const Page = () => {
   if (!user) {
     return <Loading />;
   }
-
-  console.log(user);
 
   return (
     <div className="flex justify-center max-w-full mx-auto bg-gray-300 p-4">

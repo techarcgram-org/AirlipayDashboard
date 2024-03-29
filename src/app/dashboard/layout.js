@@ -37,9 +37,9 @@ export default function DashboardLayout({ children }) {
     if (typeof window != undefined) {
       addEventListener("resize", handleResize);
     }
-    // if (!isLoggedIn()) {
-    //   router.push("/login");
-    // }
+    if (!isLoggedIn()) {
+      router.push("/login");
+    }
     return () => {
       removeEventListener("resize", handleResize);
     };

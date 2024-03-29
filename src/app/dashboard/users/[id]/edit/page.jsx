@@ -4,34 +4,35 @@ import React, { useEffect, useState } from "react";
 import { SelectInput, TextInput } from "@/components/";
 import { Formik } from "formik";
 import dataStatic from "@/constant/data";
-import { updateUser } from "@/app/GlobalRedux/Features/userSlice";
+import { updateUser, listUser } from "@/app/GlobalRedux/Features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "@/components/Spinner";
+import Loading from "@/app/loading";
+import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 
 const Page = () => {
   const [multiple, setMultiple] = useState(false);
   const [files, setFiles] = useState(null);
-  const { loading, data } = useSelector((state) => state.users);
+  const { loading, users } = useSelector((state) => state.users);
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
+  const router = useRouter();
   const { id } = useParams();
 
   useEffect(() => {
-    const getUser = () => {
-      const userData = data.find((user) => user.id === parseInt(id));
-      setUser(userData);
-    };
-    getUser();
-  }, [data, id]);
+    dispatch(listUser(id));
+  }, [id]);
 
   // useEffect(() => {
   //   console.log("files", files);
   // }, [files]);
 
   if (!user) {
-    return <Spinner size={50} loading={true} />;
+    return <Loading />;
   }
+
+  console.log(users);
 
   return (
     <div className="flex justify-center max-w-full mx-auto bg-gray-300 p-4">

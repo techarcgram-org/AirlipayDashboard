@@ -17,10 +17,9 @@ const Login = () => {
     },
     onSubmit: async (values) => {
       const response = await dispatch(loginThunk(values));
-      router.push("/dashboard");
-      // if (response.meta.requestStatus === "fulfilled") {
-      //   router.push("/dashboard");
-      // }
+      if (response.meta.requestStatus === "fulfilled") {
+        router.push("/dashboard");
+      }
     },
   });
 

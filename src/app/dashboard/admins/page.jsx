@@ -7,12 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { listAdmins } from "@/app/GlobalRedux/Features/adminSlice";
 
 const Page = () => {
-  // const { data } = useSelector((state) => state.admins);
+  const { admins } = useSelector((state) => state.admins);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(listAdmins());
   }, []);
+
+  console.log(admins);
+
   return (
     <Table
       tab="View Admins"

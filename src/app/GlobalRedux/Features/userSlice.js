@@ -4,7 +4,7 @@ import { createUser, getUsers, getUser, editUser, deleteUser } from "@/app/apiSe
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  data: [],
+  users: [],
   loading: false,
   error: false,
   errorMessage: null,
@@ -97,7 +97,7 @@ const userSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(addUser.fulfilled, (state, action) => {
-        state.data = [action.payload.data];
+        state.users = action.payload;
         state.loading = false;
         state.errorMessage = "Success creating user";
       })
@@ -113,7 +113,7 @@ const userSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(listUsers.fulfilled, (state, action) => {
-        state.data = action.payload;
+        state.users = action.payload;
         state.loading = false;
         state.errorMessage = "Success listing users";
       })
@@ -129,7 +129,7 @@ const userSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(listUser.fulfilled, (state, action) => {
-        state.data = action.payload;
+        state.users = action.payload;
         state.loading = false;
         state.errorMessage = "Success listing user";
       })
@@ -145,7 +145,7 @@ const userSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.data = action.payload;
+        state.users = action.payload;
         state.loading = false;
         state.errorMessage = "Success updating user";
       })
@@ -161,7 +161,7 @@ const userSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(removeUser.fulfilled, (state, action) => {
-        state.data = action.payload;
+        state.users = action.payload;
         state.loading = false;
         state.errorMessage = "Success deleting user";
       })

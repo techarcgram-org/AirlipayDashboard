@@ -9,6 +9,7 @@ const ClientDetails = ({
   phoneNumber,
   join,
   activated,
+  status,
   address,
   aBalance,
   nBalance,
@@ -24,8 +25,18 @@ const ClientDetails = ({
           <p className="m-2">
             <strong>{username}</strong> #9753428
           </p>
-          <button className="mx-2 px-4 h-[24px] bg-green-500 text-white capitalize">
-            active
+          <button
+            className={`mx-2 px-4 h-[24px] ${
+              status === "PENDING"
+                ? "bg-yellow-500"
+                : status === "ACTIVE"
+                ? "bg-green-500"
+                : status === "DEACTIVATED"
+                ? "bg-red-500"
+                : ""
+            } text-white capitalize`}
+          >
+            {status}
           </button>
           <div className="relative flex items-center justify-center">
             <FaEdit className="absolute top-[20px] -right-4 " />
@@ -55,8 +66,7 @@ const ClientDetails = ({
           </div>
         </div>
       </div>
-      <div className="h-[90%] w-[2px] md:mx-16 mx-4 bg-black"></div>
-      {/* the code below is for the balance section */}
+      {/* <div className="h-[90%] w-[2px] md:mx-16 mx-4 bg-black"></div>
       <div className="w-full">
         <strong>BALANCE DETAILS</strong>
         <div className="flex text">
@@ -69,8 +79,6 @@ const ClientDetails = ({
             <p style={{ color: "#063B87", fontSize: 20 }}>XAF {tAmount}</p>
           </div>
         </div>
-
-        {/* <div className='h-[90%] w-[2px] bg-black' ></div> */}
         <div className="flex">
           <div className="md:m-10 m-4">
             <p> Negative Banlance</p>
@@ -81,7 +89,7 @@ const ClientDetails = ({
             <p style={{ color: "#063B87", fontSize: 20 }}>XAF {fee}</p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

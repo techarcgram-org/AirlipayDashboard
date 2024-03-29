@@ -1,24 +1,39 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  CheckboxInput,
-  FileInput,
-  SelectInput,
-  TextInput,
-} from "@/components/";
+import { SelectInput, TextInput } from "@/components/";
 import { Formik } from "formik";
-import data from "@/constant/data";
+import dataStatic from "@/constant/data";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "@/app/GlobalRedux/Features/userSlice";
-import { createClientValidator } from "@/app/validatorSchemas/createClientValidator";
+import { readClients } from "@/app/GlobalRedux/Features/clientSlice";
+// import { createClientValidator } from "@/app/validatorSchemas/createClientValidator";
 import Spinner from "@/components/Spinner";
+import { useRouter } from "next/navigation";
+import moment from "moment";
 
 const Page = () => {
   const [multiple, setMultiple] = useState(false);
   const [files, setFiles] = useState(null);
+  const [clients, setClients] = useState([]);
   const { loading } = useSelector((state) => state.users);
+  const { data } = useSelector((state) => state.clients);
   const dispatch = useDispatch();
+  const router = useRouter();
+
+  useEffect(() => {
+    dispatch(readClients());
+  }, []);
+
+  useEffect(() => {
+    const formatted = data.map((item) => {
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    });
+    setClients(formatted);
+  }, [data]);
 
   // useEffect(() => {
   //   console.log("files", files);
@@ -47,16 +62,29 @@ const Page = () => {
             baseSalary: "",
             dob: "",
             sex: "",
-            clientId: 237,
+            clientId: "",
             city: "",
             street: "",
             region: "",
             primaryPhone: "",
-            seconddaryPhone: "",
+            secondaryPhone: "",
           }}
           // validationSchema={createClientValidator}
           onSubmit={async (values) => {
-            const response = await dispatch(addUser(values));
+            const newData = {
+              name: values.name,
+              email: values.email,
+              baseSalary: values.baseSalary.toString(),
+              dob: moment(values.dob, "YYYY-MM-DD").format("DD/MM/YYYY"),
+              sex: values.sex,
+              clientId: parseInt(values.clientId),
+              city: values.city,
+              street: values.street,
+              region: values.region,
+              primaryPhone: values.primaryPhone.toString(),
+              secondaryPhone: values.secondaryPhone.toString(),
+            };
+            const response = await dispatch(addUser(newData));
             if (response.meta.requestStatus === "fulfilled") {
               router.push("/dashboard/users");
             }
@@ -146,7 +174,7 @@ const Page = () => {
                       name="sex"
                       value={values.sex}
                       onChange={handleChange}
-                      options={data.sex}
+                      options={dataStatic.sex}
                       required
                     />
                     <TextInput
@@ -190,7 +218,7 @@ const Page = () => {
                       label="Region"
                       name="region"
                       // value={values.region}
-                      options={data.regionsInCameroon}
+                      options={dataStatic.regionsInCameroon}
                       onChange={handleChange}
                       type="select"
                       required
@@ -211,6 +239,15 @@ const Page = () => {
                       onChange={handleChange}
                       type="number"
                       placeholder="673000000"
+                    />
+                    <SelectInput
+                      label="Client"
+                      name="clientId"
+                      // value={values.region}
+                      options={clients}
+                      onChange={handleChange}
+                      type="select"
+                      required
                     />
                   </div>
                 </div>

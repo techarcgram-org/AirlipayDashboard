@@ -6,6 +6,8 @@ import Info from "@/components/Info";
 import Tab from "@/components/common/Tab";
 import { useDispatch, useSelector } from "react-redux";
 import { readClient } from "@/app/GlobalRedux/Features/clientSlice";
+import { readTransactions } from "@/app/GlobalRedux/Features/transactionSlice";
+import { listUsers } from "@/app/GlobalRedux/Features/userSlice";
 import { useParams } from "next/navigation";
 import Loading from "../loading";
 import moment from "moment";
@@ -18,6 +20,8 @@ const userDetailsLayout = ({ children }) => {
 
   useEffect(() => {
     dispatch(readClient(id));
+    dispatch(listUsers());
+    dispatch(readTransactions());
   }, [id]);
 
   useEffect(() => {
@@ -41,13 +45,10 @@ const userDetailsLayout = ({ children }) => {
             username={user?.name}
             email={user?.accounts?.email}
             phoneNumber={user?.addresses?.primary_phone_number}
-            join={moment(user?.created_at).format("DD-MM-YYYY HH:mm")}
+            join={moment(user?.created_at).format("DD/MM/YYYY HH:mm")}
             address={user?.addresses?.city}
+            status={user?.accounts?.account_status}
             activated="08/12/2023"
-            aBalance={5000}
-            tAmount={5000}
-            nBalance={5000}
-            fee={5000}
           />
           <Tab
             options={[
@@ -72,7 +73,7 @@ const userDetailsLayout = ({ children }) => {
           />
         </>
       )}
-      {user && children}
+      {children}
     </div>
   );
 };

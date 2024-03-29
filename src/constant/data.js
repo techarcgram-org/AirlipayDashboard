@@ -138,6 +138,58 @@ const clientColumns = [
   { id: "delete", header: "Delete", field: "" },
 ];
 
+const clientTransactionsColumns = [
+  { id: "date", header: "Date", field: "date" },
+  { id: "employeeName", header: "Employee Name", field: "employeeName" },
+  { id: "amount", header: "Amount", field: "amount" },
+  { id: "transactionId", header: "Transaction ID", field: "transactionId" },
+  { id: "destinaionAccount", header: "Destinaion Account", field: "destinaionAccount" },
+  // { id: "totalTransfered", header: "Total Transfered", field: "totalTransfered" },
+];
+
+const clientRoaster = [
+  { id: "name", header: "Name", field: "name" },
+  { id: "employeeId", header: "Employee ID", field: "employeeId" },
+  { id: "email", header: "Email Address", field: "email" },
+  { id: "phoneNumber", header: "Phone Number", field: "phoneNumber" },
+  { id: "status", header: "Status", field: "status" },
+];
+
+const clientPaymentsTable = [
+  {
+    id: 1, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
+    payDay: "06/09/2024", transactionId: "000000001",
+    transferredBeforePayDay: "XAF 350,000"
+  },
+  {
+    id: 2, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
+    payDay: "06/09/2024", transactionId: "000000001",
+    transferredBeforePayDay: "XAF 350,000"
+  },
+  {
+    id: 3, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
+    payDay: "06/09/2024", transactionId: "000000001",
+    transferredBeforePayDay: "XAF 350,000"
+  },
+];
+
+const clientPayments = [
+  { id: "status", header: "Status", field: "status" },
+  { id: "client", header: "Clent", field: "client" },
+  { id: "payPeriodEnding", header: "Pay Period  Ending", field: "payPeriodEnding" },
+  { id: "payDay", header: "Pay Day", field: "payDay" },
+  {
+    id: "transactionId",
+    header: "Transaction ID",
+    field: "transactionId",
+  },
+  {
+    id: "transferredBeforePayDay",
+    header: "Transferred Before Payday",
+    field: "transferredBeforePayDay",
+  },
+];
+
 const columns = [
   { id: "firstName", header: "First Name", field: "firstName" },
   { id: "lastName", header: "Last Name", field: "lastName" },
@@ -211,7 +263,7 @@ const usersTable = [
 const userColumns = [
   { id: "name", header: "Name", field: "name" },
   { id: "email", header: "Email", field: "email" },
-  { id: "address", header: "Address", field: "region" },
+  { id: "address", header: "Address", field: "address" },
   { id: "employee_id", header: "Employee ID", field: "employee_id" },
   { id: "employer", header: "Employer", field: "employer" },
   { id: "status", header: "Status", field: "account_status" },
@@ -320,41 +372,6 @@ const usersDetails = [
     name: "Mason Hernandez",
     age: 31,
     email: "masonhernandez@example.com",
-  },
-];
-
-const clientPaymentsTable = [
-  {
-    id: 1, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
-    payDay: "06/09/2024", transactionId: "000000001",
-    transferredBeforePayDay: "XAF 350,000"
-  },
-  {
-    id: 2, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
-    payDay: "06/09/2024", transactionId: "000000001",
-    transferredBeforePayDay: "XAF 350,000"
-  },
-  {
-    id: 3, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
-    payDay: "06/09/2024", transactionId: "000000001",
-    transferredBeforePayDay: "XAF 350,000"
-  },
-];
-
-const clientPayments = [
-  { id: "status", header: "Status", field: "status" },
-  { id: "client", header: "Clent", field: "client" },
-  { id: "payPeriodEnding", header: "Pay Period  Ending", field: "payPeriodEnding" },
-  { id: "payDay", header: "Pay Day", field: "payDay" },
-  {
-    id: "transactionId",
-    header: "Transaction ID",
-    field: "transactionId",
-  },
-  {
-    id: "transferredBeforePayDay",
-    header: "Transferred Before Payday",
-    field: "transferredBeforePayDay",
   },
 ];
 
@@ -468,6 +485,8 @@ const dataStatic = {
   adminsColumns,
   columns,
   clientColumns,
+  clientTransactionsColumns,
+  clientRoaster,
   clientsTable,
   clientPaymentsTable,
   clientPayments,
