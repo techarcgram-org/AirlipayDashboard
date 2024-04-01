@@ -1,21 +1,37 @@
 "use client";
 
 // import { UserDetails } from "@/components";
+import { useState, useEffect } from "react";
 import AdminDetails from "@/components/admin/adminDetails";
 import Info from "@/components/Info";
 // import Tab from "@/components/common/Tab";
-import { useSelector } from "react-redux";
-
-// export const metadata = {
-//   title: "AirliPay client",
-//   description: "your number one salary solution",
-// };
+import { useDispatch, useSelector } from "react-redux";
+import { listAdmin } from "@/app/GlobalRedux/Features/adminSlice";
+import { useParams } from "next/navigation";
+import Loading from "../loading";
+import moment from "moment";
 
 const userDetailsLayout = ({ children }) => {
-  const { errorMessage, error } = useSelector((state) => state.clients);
+  const { errorMessage, error, admins } = useSelector((state) => state.admins);
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    dispatch(listAdmin(id));
+  }, [id]);
+
+  useEffect(() => {
+    setUser(admins);
+  }, [admins]);
+
   const currentUrl = window.location.href;
   const regex = /\/(\d+)\/edit/;
   const match = currentUrl.match(regex);
+
+  if (!user) {
+    return <Loading />;
+  }
 
   return (
     <div className="mt-1 md:right-6">
@@ -24,10 +40,12 @@ const userDetailsLayout = ({ children }) => {
       {!match && (
         <>
           <AdminDetails
-            email="charles1234@gmail.com"
-            phoneNumber={+237670203775}
-            join="07/07/2023"
-            address="Molyko Buea"
+            username={user?.name}
+            email={user?.accounts?.email}
+            phoneNumber={user?.addresses?.primary_phone_number}
+            join={moment(user?.created_at).format("DD/MM/YYYY HH:mm")}
+            address={user?.addresses?.city}
+            status={user?.accounts?.account_status}
             activated="08/12/2023"
             aBalance={5000}
             tAmount={5000}

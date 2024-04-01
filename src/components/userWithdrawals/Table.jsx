@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 // import { AddUser } from "..";
 import { useDispatch } from "react-redux";
 import { deleteClientById } from "@/app/GlobalRedux/Features/clientSlice";
+import { removeAdmin } from "@/app/GlobalRedux/Features/adminSlice";
+import { removeUser } from "@/app/GlobalRedux/Features/userSlice";
 
 const Table = ({ users, columns, filter }) => {
   const router = useRouter();
@@ -92,6 +94,12 @@ const Table = ({ users, columns, filter }) => {
     if (userConfirmed) {
       if (currentUrlUser === "clients") {
         dispatch(deleteClientById(id));
+      }
+      if (currentUrlUser === "admins") {
+        dispatch(removeAdmin(id));
+      }
+      if (currentUrlUser === "users") {
+        dispatch(removeUser(id));
       }
     } else {
       console.log("cancelled");

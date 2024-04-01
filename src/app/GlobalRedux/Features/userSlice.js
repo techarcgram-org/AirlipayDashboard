@@ -1,10 +1,12 @@
 "use client"; //this is a client side component
 
-import { createUser, getUsers, getUser, editUser, deleteUser } from "@/app/apiServices/userService";
+import { createUser, getUsers, getUser, editUser, deleteUser, getBanks } from "@/app/apiServices/userService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   users: [],
+  user: null,
+  banks: [],
   loading: false,
   error: false,
   errorMessage: null,
@@ -85,6 +87,21 @@ export const removeUser = createAsyncThunk(
   }
 );
 
+export const listBanks = createAsyncThunk(
+  "users/listBanks",
+  async (thunkAPI) => {
+    let response;
+    try {
+      response = await getBanks();
+      return response.data;
+    } catch (error) {
+      console.log("THUNK CLIENT ERROR", error);
+      return thunkAPI.rejectWithValue({ data: error.response.data });
+    }
+    // Replace with your API call
+  }
+);
+
 const userSlice = createSlice({
   name: "users",
   initialState,
@@ -129,7 +146,7 @@ const userSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(listUser.fulfilled, (state, action) => {
-        state.users = action.payload;
+        state.user = action.payload;
         state.loading = false;
         state.errorMessage = "Success listing user";
       })
@@ -169,7 +186,23 @@ const userSlice = createSlice({
         state.loading = false;
         state.errorMessage = action.payload.data.message;
         state.error = true;
-      });
+      })
+      // 
+      .addCase(listBanks.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        state.errorMessage = null;
+      })
+      .addCase(listBanks.fulfilled, (state, action) => {
+        state.banks = action.payload;
+        state.loading = false;
+        state.errorMessage = "Success listing banks";
+      })
+      .addCase(listBanks.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMessage = action.payload.data.message;
+        state.error = true;
+      })
   },
 });
 

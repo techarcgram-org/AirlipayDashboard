@@ -6,13 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { listUsers } from "@/app/GlobalRedux/Features/userSlice";
 
-// export const metadata = {
-//   title: "AirliPay client",
-//   description: "your number one salary solution",
-// };
-
 const UserLayout = ({ children }) => {
-  const { errorMessage, error } = useSelector((state) => state.clients);
+  const { errorMessage, error } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
   useEffect(() => {

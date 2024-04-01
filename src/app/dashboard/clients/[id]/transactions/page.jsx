@@ -32,7 +32,7 @@ const page = () => {
   });
 
   const clientTransactions = transactionsWithUsers.filter(
-    (item) => item?.user?.client_id === id
+    (item) => item?.user?.client_id === parseInt(id)
   );
 
   const formattedData = clientTransactions.map((item) => {

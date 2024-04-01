@@ -2,10 +2,18 @@
 
 import Info from "@/components/Info";
 import { Tab } from "../../../components";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { listAdmins } from "@/app/GlobalRedux/Features/adminSlice";
 
 const UserLayout = ({ children }) => {
-  const { errorMessage, error } = useSelector((state) => state.clients);
+  const { errorMessage, error } = useSelector((state) => state.admins);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(listAdmins());
+  }, []);
+
   return (
     <div className="mt-1 md:right-6">
       <h2 className="font-bold">Admins</h2>

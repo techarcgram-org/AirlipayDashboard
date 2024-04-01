@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { createAdmin, getAdmins, getAdmin, editAdmin, deleteAdmin } from "@/app/apiServices/userService";
+import { createAdmin, getAdmins, getAdmin, editAdmin, deleteAdmin } from "@/app/apiServices/adminService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -113,8 +113,8 @@ const adminSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(listAdmins.fulfilled, (state, action) => {
-        state.data = action.payload;
         state.loading = false;
+        state.admins = action.payload;
         state.errorMessage = "Success listing admins";
       })
       .addCase(listAdmins.rejected, (state, action) => {
@@ -129,8 +129,8 @@ const adminSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(listAdmin.fulfilled, (state, action) => {
-        state.data = action.payload;
         state.loading = false;
+        state.admins = action.payload;
         state.errorMessage = "Success listing admin";
       })
       .addCase(listAdmin.rejected, (state, action) => {
@@ -145,8 +145,8 @@ const adminSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(updateAdmin.fulfilled, (state, action) => {
-        state.data = action.payload;
         state.loading = false;
+        state.admins = action.payload;
         state.errorMessage = "Success updating admin";
       })
       .addCase(updateAdmin.rejected, (state, action) => {
@@ -161,8 +161,8 @@ const adminSlice = createSlice({
         state.errorMessage = null;
       })
       .addCase(removeAdmin.fulfilled, (state, action) => {
-        state.data = action.payload;
         state.loading = false;
+        state.admins = action.payload;
         state.errorMessage = "Success deleting admin";
       })
       .addCase(removeAdmin.rejected, (state, action) => {

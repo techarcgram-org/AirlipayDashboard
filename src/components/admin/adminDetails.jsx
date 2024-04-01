@@ -4,11 +4,13 @@ import React from "react";
 import { FaEdit } from "react-icons/fa";
 
 const AdminDetails = ({
+  username,
   email,
   phoneNumber,
   join,
   activated,
   address,
+  status,
   aBalance,
   nBalance,
   fee,
@@ -21,10 +23,10 @@ const AdminDetails = ({
 
         <div className="flex items-center justify-around">
           <p className="m-2">
-            <strong>Alvin Ana </strong> #9753428
+            <strong>{username}</strong> #9753428
           </p>
           <button className="mx-2 px-4 h-[24px] bg-green-500 text-white capitalize">
-            active
+            {status}
           </button>
           <div className="relative flex items-center justify-center">
             <FaEdit className="absolute top-[20px] -right-4 " />

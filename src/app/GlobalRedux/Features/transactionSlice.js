@@ -32,7 +32,6 @@ const clientSlice = createSlice({
                 state.errorMessage = null;
             })
             .addCase(readTransactions.fulfilled, (state, action) => {
-                console.log(action)
                 state.transactions = action.payload;
                 state.loading = false;
                 state.errorMessage = "Success reading transactions";

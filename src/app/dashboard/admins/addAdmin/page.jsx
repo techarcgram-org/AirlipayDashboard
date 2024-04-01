@@ -1,28 +1,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  CheckboxInput,
-  FileInput,
-  SelectInput,
-  TextInput,
-} from "@/components/";
+import { SelectInput, TextInput } from "@/components/";
 import { Formik } from "formik";
 import data from "@/constant/data";
 import { useDispatch, useSelector } from "react-redux";
 import { addAdmin } from "@/app/GlobalRedux/Features/adminSlice";
-import { createClientValidator } from "@/app/validatorSchemas/createClientValidator";
+// import { createClientValidator } from "@/app/validatorSchemas/createClientValidator";
 import Spinner from "@/components/Spinner";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
-  const [multiple, setMultiple] = useState(false);
-  const [files, setFiles] = useState(null);
   const { loading } = useSelector((state) => state.admins);
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   console.log("files", files);
-  // }, [files]);
+  const router = useRouter();
 
   return (
     <div className="flex justify-center max-w-full mx-auto bg-gray-300 p-4">
@@ -30,33 +21,20 @@ const Page = () => {
         <div className="flex items-start my-3">
           <h2 className="capitalize text-2xl font-bold">create admin</h2>
         </div>
-        {/* <div className="flex mb-4">
-          <input
-            type="checkbox"
-            id="multiple"
-            onChange={() => setMultiple(!multiple)}
-          />
-          <label className="ml-2 font-semibold" htmlFor="multiple">
-            Add multiple admins
-          </label>
-        </div> */}
         <Formik
           initialValues={{
             name: "",
             email: "",
-            baseSalary: "",
-            dob: "",
-            sex: "",
-            clientId: "",
             city: "",
             street: "",
             region: "",
             primaryPhone: "",
-            seconddaryPhone: "",
+            secondaryPhone: "",
+            mobileMoneyNumber: "",
+            password: "",
           }}
           // validationSchema={createClientValidator}
           onSubmit={async (values) => {
-            console.log(values);
             const response = await dispatch(addAdmin(values));
             if (response.meta.requestStatus === "fulfilled") {
               router.push("/dashboard/admins");
@@ -65,85 +43,46 @@ const Page = () => {
         >
           {({ values, errors, handleChange, handleSubmit, setFieldValue }) => (
             <form onSubmit={handleSubmit} className="flex flex-col w-full">
-              {multiple ? (
-                /* file upload */
-                <div className="flex flex-col flex-between my-4 h-auto">
-                  <p className="font-semibold ml-1 mb-2">
-                    Upload Employee Roaser:
-                  </p>
-                  <div className="flex items-center justify-center w-full">
-                    <label
-                      htmlFor="dropzone-file"
-                      className="flex flex-col items-center justify-center w-full h-20 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                    >
-                      {!values.file ? (
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                            <span className="font-semibold">
-                              Click to upload
-                            </span>{" "}
-                            or drag and drop
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            CSV (MAX. 12Mb)
-                          </p>
-                        </div>
-                      ) : (
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center">
-                          <p className="mb-2 text-sm text-gray-500 dark:text-gray-400 ">
-                            {values.file?.name}
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold">
-                            {(values.file?.size / 1024).toFixed(2)} MB
-                          </p>
-                        </div>
-                      )}
-                      <input
-                        id="dropzone-file"
-                        type="file"
-                        name="file"
-                        className="hidden"
-                        onChange={(event) => {
-                          console.log("EVENT", event);
-                          setFieldValue("file", event.currentTarget.files[0]);
-                          setFiles(event.currentTarget.files[0]);
-                        }}
-                      />
-                    </label>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex justify-between">
-                  {/* First Column */}
-                  <div className="w-1/2 mr-2">
-                    <TextInput
-                      label="Full Name"
-                      name="name"
-                      value={values.name}
-                      onChange={handleChange}
-                      placeholder="User full name"
-                      type="text"
-                      required
-                    />
-                    <TextInput
-                      label="Email Address"
-                      name="email"
-                      value={values.email}
-                      onChange={handleChange}
-                      placeholder="Email Address"
-                      type="email"
-                      required
-                    />
-                    <TextInput
-                      label="Primary Phone"
-                      name="primaryPhone"
-                      value={values.primaryPhone}
-                      onChange={handleChange}
-                      placeholder="670000000"
-                      type="number"
-                      required
-                    />
-                    {/* <TextInput
+              <div className="flex justify-between">
+                {/* First Column */}
+                <div className="w-1/2 mr-2">
+                  <TextInput
+                    label="Full Name"
+                    name="name"
+                    value={values.name}
+                    onChange={handleChange}
+                    placeholder="User full name"
+                    type="text"
+                    required
+                  />
+                  <TextInput
+                    label="Email Address"
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    placeholder="Email Address"
+                    type="email"
+                    required
+                  />
+                  <TextInput
+                    label="Primary Phone"
+                    name="primaryPhone"
+                    value={values.primaryPhone}
+                    onChange={handleChange}
+                    placeholder="670000000"
+                    type="number"
+                    required
+                  />
+                  <TextInput
+                    label="Mobile Money Number"
+                    name="mobileMoneyNumber"
+                    value={values.mobileMoneyNumber}
+                    onChange={handleChange}
+                    placeholder="670000000"
+                    type="number"
+                    required
+                  />
+                  {/* <TextInput
                       label="Date of Birth"
                       name="dob"
                       value={values.dob}
@@ -169,54 +108,61 @@ const Page = () => {
                       type="number"
                       required
                     /> */}
-                  </div>
+                </div>
 
-                  {/* Second Column */}
-                  <div className="w-1/2 ml-2">
-                    <div className="flex items-center w-full justify-between">
-                      <TextInput
-                        label="Street"
-                        name="street"
-                        value={values.street}
-                        onChange={handleChange}
-                        placeholder="Street"
-                        type="text"
-                        half
-                        additionalStyles={{ marginRight: 12 }}
-                        required
-                      />
-                      <TextInput
-                        label="City"
-                        name="city"
-                        value={values.city}
-                        onChange={handleChange}
-                        placeholder="city"
-                        type="text"
-                        half
-                        additionalStyles={{ marginLeft: 12 }}
-                        required
-                      />
-                    </div>
-                    <SelectInput
-                      label="Region"
-                      name="region"
-                      // value={values.region}
-                      options={data.regionsInCameroon}
+                {/* Second Column */}
+                <div className="w-1/2 ml-2">
+                  <div className="flex items-center w-full justify-between">
+                    <TextInput
+                      label="Street"
+                      name="street"
+                      value={values.street}
                       onChange={handleChange}
-                      type="select"
+                      placeholder="Street"
+                      type="text"
+                      half
+                      additionalStyles={{ marginRight: 12 }}
                       required
                     />
                     <TextInput
-                      label="Secondary Phone Number"
-                      name="secondaryPhone"
-                      value={values.secondaryPhone}
+                      label="City"
+                      name="city"
+                      value={values.city}
                       onChange={handleChange}
-                      type="number"
-                      placeholder="673000000"
+                      placeholder="city"
+                      type="text"
+                      half
+                      additionalStyles={{ marginLeft: 12 }}
+                      required
                     />
                   </div>
+                  <SelectInput
+                    label="Region"
+                    name="region"
+                    // value={values.region}
+                    options={data.regionsInCameroon}
+                    onChange={handleChange}
+                    type="select"
+                    required
+                  />
+                  <TextInput
+                    label="Secondary Phone Number"
+                    name="secondaryPhone"
+                    value={values.secondaryPhone}
+                    onChange={handleChange}
+                    type="number"
+                    placeholder="673000000"
+                  />
+                  <TextInput
+                    label="Password"
+                    name="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    placeholder="Password"
+                    type="password"
+                  />
                 </div>
-              )}
+              </div>
 
               <button
                 type="submit"

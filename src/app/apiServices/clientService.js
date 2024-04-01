@@ -14,7 +14,6 @@ export async function getClient(id) {
 }
 
 export async function updateClient(data) {
-  axios.defaults.headers["Content-Type"] = "multipart/form-data";
   return await axios.patch(`/client/${data.id}`, data);
 }
 

@@ -19,3 +19,7 @@ export async function editUser(data) {
 export async function deleteUser(id) {
   return await axios.delete(`/users/${id}`);
 }
+
+export async function getBanks() {
+  return await axios.get(`/users/list-banks`);
+}
