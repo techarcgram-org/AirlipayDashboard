@@ -41,8 +41,8 @@ const page = () => {
       description: item?.description,
       amount: item?.amount,
       fee: item?.fees,
-      beforeBalance: item?.old_balance,
-      afterBalance: item?.new_balance,
+      balanceBefore: item?.old_balance,
+      balanceAfter: item?.new_balance,
     };
   });
 

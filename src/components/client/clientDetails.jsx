@@ -21,7 +21,7 @@ const ClientDetails = ({
       <div className="w-full">
         {/* <h2>Client details</h2> */}
 
-        <div className="flex items-center justify-around">
+        <div className="flex items-center justify-between">
           <p className="m-2">
             <strong>{username}</strong> #9753428
           </p>
@@ -38,10 +38,10 @@ const ClientDetails = ({
           >
             {status}
           </button>
-          <div className="relative flex items-center justify-center">
+          {/* <div className="relative flex items-center justify-center">
             <FaEdit className="absolute top-[20px] -right-4 " />
             <p className="m-2">edit</p>
-          </div>
+          </div> */}
         </div>
         <div className="">
           <div className="w-full p-2 flex items-center md:justify-between gap-2 justify-center my-2">

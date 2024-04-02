@@ -400,6 +400,7 @@ const transactionColumns = [
   { id: "description", header: "Description (Purpose, last four)", field: "description" },
   { id: "amount", header: "Amount", field: "amount" },
   { id: "fee", header: "Fee", field: "fee" },
+  { id: "user", header: "User", field: "user" },
   { id: "balanceBefore", header: "Balance Before", field: "balanceBefore" },
   { id: "balanceAfter", header: "Balance After", field: "balanceAfter" },
 ];
@@ -409,8 +410,8 @@ const userTransactionColumns = [
   { id: "description", header: "Description (Type, last four)", field: "description" },
   { id: "amount", header: "Amount", field: "amount" },
   { id: "fee", header: "Fee", field: "fee" },
-  { id: "beforeBalance", header: "Balance Before", field: "beforeBalance" },
-  { id: "afterBalance", header: "Balance After", field: "afterBalance" },
+  { id: "balanceBefore", header: "Balance Before", field: "balanceBefore" },
+  { id: "balanceAfter", header: "Balance After", field: "balanceAfter" },
 ];
 
 const banksColumns = [

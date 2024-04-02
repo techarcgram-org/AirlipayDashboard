@@ -50,8 +50,9 @@ const page = () => {
       description: item?.description,
       amount: item?.amount,
       fee: item?.fees,
-      beforeBalance: `XAF ${formatMoney(item?.old_balance)}`,
-      afterBalance: `XAF ${formatMoney(item?.new_balance)}`,
+      user: item?.user?.name,
+      balanceBefore: `XAF ${formatMoney(item?.old_balance)}`,
+      balanceAfter: `XAF ${formatMoney(item?.new_balance)}`,
     };
   });
 
@@ -65,7 +66,7 @@ const page = () => {
       <Table
         tab="Transactions"
         users={formattedData}
-        columns={dataStatic.userTransactionColumns}
+        columns={dataStatic.transactionColumns}
         filter={true}
       />
     </>

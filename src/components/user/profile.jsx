@@ -26,10 +26,10 @@ const UserDetails = ({
           <button className="mx-2 px-4 h-[24px] bg-green-500 text-white capitalize">
             active
           </button>
-          <div className="relative flex items-center justify-center">
+          {/* <div className="relative flex items-center justify-center">
             <FaEdit className="absolute top-[20px] -right-4 " />
             <p className="m-2">edit</p>
-          </div>
+          </div> */}
         </div>
         <div className="">
           <div className="w-full p-2 flex items-center md:justify-between gap-2 justify-center my-2">
