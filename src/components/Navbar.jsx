@@ -1,3 +1,5 @@
+"use client";
+
 import { Menu, Popover, Transition } from "@headlessui/react";
 import { BellIcon, CheckIcon } from "@heroicons/react/24/outline";
 import {
@@ -5,24 +7,36 @@ import {
   CreditCardIcon,
   PencilIcon,
 } from "@heroicons/react/24/solid";
+import { HiUser } from "react-icons/hi";
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
 import { AiFillMail, AiFillSetting, AiOutlineMenu } from "react-icons/ai";
 import images from "../constant/images";
+import { useDispatch } from "react-redux";
+import { deleteAccount } from "@/app/GlobalRedux/Features/accountSlice";
+import { useRouter } from "next/navigation";
 
 const Navbar = ({ showNav, setShowNav }) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const logout = () => {
+    dispatch(deleteAccount());
+    window.location.href = "/";
+  };
   return (
     <div
-      className={`sticky top-0 w-full h-16 flex justify-between items-center transition-all duration-[400ms] bg-white ${
+      className={`w-full h-16 flex justify-between items-center transition-all duration-[400ms] bg-white ${
         showNav ? "" : ""
       }`}
     >
       <div className="pl-4 relative right-2 md:pl-16">
-        <AiOutlineMenu
-          className="h-8 w-8 text-gray-700 cursor-pointer"
-          onClick={() => setShowNav(!showNav)}
-        />
+        {!showNav && (
+          <AiOutlineMenu
+            className="h-8 w-8 text-gray-700 cursor-pointer"
+            onClick={() => setShowNav(!showNav)}
+          />
+        )}
       </div>
       <div className="flex items-center pr-4 md:pr-16">
         <Popover className="relative">
@@ -107,15 +121,15 @@ const Navbar = ({ showNav, setShowNav }) => {
         <Menu as="div" className="relative inline-block text-left">
           <div>
             <Menu.Button className="inline-flex w-full justify-center items-center">
-              <AiFillMail className="h-6 w-6" />
-              <AiFillSetting className="ml-2 h-6 w-6 text-gray-700" />
-              <Image
+              <AiOutlineMenu className="h-6 w-6" />
+              {/* <AiFillSetting className="ml-2 h-6 w-6 text-gray-700" /> */}
+              {/* <Image
                 src={images.randolph}
                 alt="profile picture"
                 width={50}
                 height={50}
                 className="rounded-full ml-2"
-              />
+              /> */}
               {/* <span className="hidden md:block font-medium text-gray-700">
                 Rettson
               </span> */}
@@ -132,6 +146,15 @@ const Navbar = ({ showNav, setShowNav }) => {
           >
             <Menu.Items className="absolute right-0 w-56 z-50 mt-2 origin-top-right bg-white rounded shadow-sm">
               <div className="p-1">
+                <Menu.Item>
+                  <Link
+                    href="/dashboard/profile"
+                    className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
+                  >
+                    <HiUser className="h-4 w-4 mr-2" />
+                    Profile
+                  </Link>
+                </Menu.Item>
                 <Menu.Item>
                   <Link
                     href="#"
@@ -157,6 +180,15 @@ const Navbar = ({ showNav, setShowNav }) => {
                   >
                     <Cog8ToothIcon className="h-4 w-4 mr-2" />
                     Settings
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link
+                    href="#"
+                    className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
+                    onClick={() => logout()}
+                  >
+                    Logout
                   </Link>
                 </Menu.Item>
               </div>

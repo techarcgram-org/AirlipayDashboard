@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    environment {
+        CI = 'true'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                // sh 'docker compose build'
+                sh 'docker build -t airlipay-dashboard .'
+            }
+        }
+        // stage('Test') {
+        //     steps {
+        //         sh './jenkins/scripts/test.sh'
+        //     }
+        // }
+        stage('Run') {
+            steps {
+                // sh 'docker compose up'
+                sh 'docker run -p 3001:3001 airlipay-dashboard'
+            }
+        }
+    }
+}

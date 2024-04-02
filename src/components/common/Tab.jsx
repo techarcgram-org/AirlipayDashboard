@@ -1,31 +1,32 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const Tab = ({ options, defaultTab, children }) => {
+const Tab = ({ options, defaultTab }) => {
   const [activeTab, setActiveTab] = useState(defaultTab);
+  const router = useRouter();
 
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
   return (
     <div className="">
       <div className="flex justify-start min-w-[400px] my-4 mt-6">
-        {options.map((option) => (
+        {options.map((option, index) => (
           <button
-            key={option}
-            className={`px-4 py-2 ${
-              activeTab === option ? "bg-[#3F5F90] text-white" : "bg-gray-300"
+            key={index}
+            className={`px-4 mx-[2px] py-2 ${
+              activeTab === option.title
+                ? "bg-[#3F5F90] text-white"
+                : "bg-gray-300"
             }`}
-            onClick={() => handleTabClick(option)}
+            onClick={() => {
+              setActiveTab(option.title);
+              router.push(option.url);
+            }}
           >
-            {option}
+            {option.title}
           </button>
         ))}
       </div>
-      {children.length > 1
-        ? children.find((child) => child.props.tab === activeTab)
-        : children}
     </div>
   );
 };

@@ -1,4 +1,3 @@
-import { CreditCardIcon } from "@heroicons/react/24/solid";
 import images from "./images";
 
 const sidebarData = [
@@ -59,216 +58,41 @@ const sidebarData = [
   },
 ];
 
-const usersTable = [
+const adminsTable = [
   {
     id: 7,
     name: "James Anderson",
     email: "james.anderson@example.com",
-    role: "Admin",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "active",
+    phoneNumber: "+237 (672)-499-932",
+    adminId: "0000001",
   },
   {
-    id: 8,
-    name: "Ava Thompson",
-    email: "ava.thompson@example.com",
-    role: "User",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Facebook",
-    status: "active",
-  },
-  {
-    id: 9,
-    name: "Sophia Martin",
-    email: "sophia.martin@example.com",
-    role: "User",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "reviewed",
-  },
-  {
-    id: 10,
+    id: 7,
     name: "James Anderson",
     email: "james.anderson@example.com",
-    role: "Admin",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Facebook",
-    status: "reviewed",
+    phoneNumber: "+237 (672)-499-932",
+    adminId: "0000001",
   },
   {
-    id: 11,
-    name: "Ava Thompson",
-    email: "ava.thompson@example.com",
-    role: "User",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "cancelled",
-  },
-  {
-    id: 12,
-    name: "Matthew Taylor",
-    email: "matthew.taylor@example.com",
-    role: "Admin",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 13,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    role: "Admin",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "reviewed",
-  },
-  {
-    id: 14,
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    role: "User",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 15,
-    name: "Michael Johnson",
-    email: "michael.johnson@example.com",
-    role: "Admin",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 16,
-    name: "Emily Davis",
-    email: "emily.davis@example.com",
-    role: "User",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "cancelled",
-  },
-  {
-    id: 17,
-    name: "Robert Wilson",
-    email: "robert.wilson@example.com",
-    role: "Admin",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "cancelled",
-  },
-  {
-    id: 18,
-    name: "Sarah Johnson",
-    email: "sarah.johnson@example.com",
-    role: "User",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 19,
-    name: "David Lee",
-    email: "david.lee@example.com",
-    role: "Admin",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "reviewed",
-  },
-  {
-    id: 20,
-    name: "Emma Wilson",
-    email: "emma.wilson@example.com",
-    role: "User",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 21,
-    name: "Christopher Brown",
-    email: "christopher.brown@example.com",
-    role: "Admin",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "reviewed",
-  },
-  {
-    id: 22,
-    name: "Olivia Davis",
-    email: "olivia.davis@example.com",
-    role: "User",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "cancelled",
-  },
-  {
-    id: 23,
-    name: "Daniel Wilson",
-    email: "daniel.wilson@example.com",
-    role: "Admin",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "reviewed",
-  },
-  {
-    id: 24,
-    name: "Sophia Martin",
-    email: "sophia.martin@example.com",
-    role: "User",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 25,
+    id: 7,
     name: "James Anderson",
     email: "james.anderson@example.com",
-    role: "Admin",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "cancelled",
+    phoneNumber: "+237 (672)-499-932",
+    adminId: "0000001",
   },
   {
-    id: 26,
-    name: "Ava Thompson",
-    email: "ava.thompson@example.com",
-    role: "User",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "active",
+    id: 7,
+    name: "James Anderson",
+    email: "james.anderson@example.com",
+    phoneNumber: "+237 (672)-499-932",
+    adminId: "0000001",
   },
   {
-    id: 27,
-    name: "Matthew Taylor",
-    email: "matthew.taylor@example.com",
-    role: "Admin",
-    address: "Limbe",
-    contact: "670203775",
-    employer: "Airlipay",
-    status: "active",
+    id: 7,
+    name: "James Anderson",
+    email: "james.anderson@example.com",
+    phoneNumber: "+237 (672)-499-932",
+    adminId: "0000001",
   },
 ];
 
@@ -277,185 +101,174 @@ const clientsTable = [
     id: 5,
     name: "John Doe",
     email: "john.doe@example.com",
-    // role: "Admin",
-    // address: "Limbe",
     contact: "670203775",
-    employerId: "Airlipay",
-    status: "active",
+    clientId: "00000001",
+
   },
   {
-    id: 6,
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    // role: "User",
-    // address: "Limbe",
+    id: 5,
+    name: "John Doe",
+    email: "john.doe@example.com",
     contact: "670203775",
-    employerId: "Google",
+    clientId: "00000001",
+
+  }, {
+    id: 5,
+    name: "John Doe",
+    email: "john.doe@example.com",
+    contact: "670203775",
+    clientId: "00000001",
+
+  }, {
+    id: 5,
+    name: "John Doe",
+    email: "john.doe@example.com",
+    contact: "670203775",
+    clientId: "00000001",
+
+  },
+];
+
+const clientColumns = [
+  { id: "name", header: "Name", field: "name" },
+  { id: "email", header: "Email Address", field: "email" },
+  { id: "contact", header: "Phone Number", field: "contact" },
+  { id: "clientId", header: "Client ID", field: "clientId" },
+  { id: "edit", header: "Edit", field: "" },
+  { id: "delete", header: "Delete", field: "" },
+];
+
+const clientTransactionsColumns = [
+  { id: "date", header: "Date", field: "date" },
+  { id: "employeeName", header: "Employee Name", field: "employeeName" },
+  { id: "amount", header: "Amount", field: "amount" },
+  { id: "transactionId", header: "Transaction ID", field: "transactionId" },
+  { id: "destinaionAccount", header: "Destinaion Account", field: "destinaionAccount" },
+  // { id: "totalTransfered", header: "Total Transfered", field: "totalTransfered" },
+];
+
+const clientRoaster = [
+  { id: "name", header: "Name", field: "name" },
+  { id: "employeeId", header: "Employee ID", field: "employeeId" },
+  { id: "email", header: "Email Address", field: "email" },
+  { id: "phoneNumber", header: "Phone Number", field: "phoneNumber" },
+  { id: "status", header: "Status", field: "status" },
+];
+
+const clientPaymentsTable = [
+  {
+    id: 1, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
+    payDay: "06/09/2024", transactionId: "000000001",
+    transferredBeforePayDay: "XAF 350,000"
+  },
+  {
+    id: 2, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
+    payDay: "06/09/2024", transactionId: "000000001",
+    transferredBeforePayDay: "XAF 350,000"
+  },
+  {
+    id: 3, status: "active", client: "AirliPay", payPeriodEnding: "06/09/2024",
+    payDay: "06/09/2024", transactionId: "000000001",
+    transferredBeforePayDay: "XAF 350,000"
+  },
+];
+
+const clientPayments = [
+  { id: "status", header: "Status", field: "status" },
+  { id: "client", header: "Clent", field: "client" },
+  { id: "payPeriodEnding", header: "Pay Period  Ending", field: "payPeriodEnding" },
+  { id: "payDay", header: "Pay Day", field: "payDay" },
+  {
+    id: "transactionId",
+    header: "Transaction ID",
+    field: "transactionId",
+  },
+  {
+    id: "transferredBeforePayDay",
+    header: "Transferred Before Payday",
+    field: "transferredBeforePayDay",
+  },
+];
+
+const columns = [
+  { id: "firstName", header: "First Name", field: "firstName" },
+  { id: "lastName", header: "Last Name", field: "lastName" },
+  { id: "email", header: "Email", field: "email" },
+  { id: "phoneNumber", header: "Phone Number", field: "phoneNumber" },
+  { id: "employer", header: "Employer", field: "employer" },
+  { id: "userId", header: "User ID", field: "userId" },
+  { id: "status", header: "Status", field: "status" },
+  { id: "edit", header: "Edit", field: "" },
+  { id: "delete", header: "Delete", field: "" },
+  // Add more column objects as needed
+];
+
+const adminsColumns = [
+  { id: "name", header: "Admin Name", field: "name" },
+  { id: "email", header: "Email Address", field: "email" },
+  { id: "phoneNumber", header: "Phone Number", field: "phoneNumber" },
+  { id: "adminId", header: "Admin ID", field: "adminId" },
+  { id: "edit", header: "Edit", field: "" },
+  { id: "delete", header: "Delete", field: "" }
+]
+
+const usersTable = [
+  {
+    id: 7,
+    name: "James Anderson",
+    address: "Molyko Buea",
+    email: "james.anderson@example.com",
+    employee_id: "0000000001",
+    employer: "Airlipay",
     status: "active",
   },
   {
     id: 7,
     name: "James Anderson",
+    address: "Molyko Buea",
     email: "james.anderson@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "reviewed",
-  },
-  {
-    id: 8,
-    name: "Ava Thompson",
-    email: "ava.thompson@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "YouTube",
-    status: "reviewed",
-  },
-  {
-    id: 9,
-    name: "Sophia Martin",
-    email: "sophia.martin@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
+    employee_id: "0000000001",
+    employer: "Airlipay",
     status: "cancelled",
   },
   {
-    id: 10,
+    id: 7,
     name: "James Anderson",
+    address: "Molyko Buea",
     email: "james.anderson@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Facebook",
-    status: "cancelled",
+    employee_id: "0000000001",
+    employer: "Airlipay",
+    status: "banned",
   },
   {
-    id: 11,
-    name: "Ava Thompson",
-    email: "ava.thompson@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 12,
-    name: "Matthew Taylor",
-    email: "matthew.taylor@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "cancelled",
-  },
-  {
-    id: 13,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "cancelled",
-  },
-  {
-    id: 14,
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 15,
-    name: "Michael Johnson",
-    email: "michael.johnson@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "620161833",
-    employerId: "Airlipay",
+    id: 7,
+    name: "James Anderson",
+    address: "Molyko Buea",
+    email: "james.anderson@example.com",
+    employee_id: "0000000001",
+    employer: "Airlipay",
     status: "reviewed",
   },
   {
-    id: 16,
-    name: "Emily Davis",
-    email: "emily.davis@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "620161833",
-    employerId: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 17,
-    name: "Robert Wilson",
-    email: "robert.wilson@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 18,
-    name: "Sarah Johnson",
-    email: "sarah.johnson@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "620161833",
-    employerId: "Airlipay",
-    status: "cancelled",
-  },
-  {
-    id: 19,
-    name: "David Lee",
-    email: "david.lee@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "active",
-  },
-  {
-    id: 20,
-    name: "Emma Wilson",
-    email: "emma.wilson@example.com",
-    // role: "User",
-    // address: "Limbe",
-    contact: "670203775",
-    employerId: "Airlipay",
-    status: "cancelled",
-  },
-  {
-    id: 21,
-    name: "Christopher Brown",
-    email: "christopher.brown@example.com",
-    // role: "Admin",
-    // address: "Limbe",
-    contact: "620161833",
-    employerId: "Airlipay",
-    status: "reviewed",
+    id: 7,
+    name: "James Anderson",
+    address: "Molyko Buea",
+    email: "james.anderson@example.com",
+    employee_id: "0000000001",
+    employer: "Airlipay",
+    status: "pending",
   },
 ];
 
-const columns = [
+const userColumns = [
   { id: "name", header: "Name", field: "name" },
   { id: "email", header: "Email", field: "email" },
-  { id: "role", header: "Role", field: "role" },
   { id: "address", header: "Address", field: "address" },
-  { id: "contact", header: "Contact", field: "contact" },
+  { id: "employee_id", header: "Employee ID", field: "employee_id" },
   { id: "employer", header: "Employer", field: "employer" },
+  { id: "status", header: "Status", field: "account_status" },
   { id: "edit", header: "Edit", field: "" },
   { id: "delete", header: "Delete", field: "" },
-  { id: "status", header: "Status", field: "status" },
-  // Add more column objects as needed
 ];
 
 const usersDetails = [
@@ -562,16 +375,6 @@ const usersDetails = [
   },
 ];
 
-const clientColumns = [
-  { id: "name", header: "Name", field: "name" },
-  { id: "employerId", header: "ClientId", field: "employerId" },
-  { id: "email", header: "Email Address", field: "email" },
-  // { id: "role", header: "Role", field: "role" },
-  // { id: "address", header: "Address", field: "address" },
-  { id: "contact", header: "Phone Number", field: "contact" },
-  { id: "status", header: "Status", field: "status" },
-];
-
 const columnsDetails = [
   {
     id: "userInformation",
@@ -592,14 +395,111 @@ const columnsDetails = [
   },
 ];
 
-const data = {
+const transactionColumns = [
+  { id: "date", header: "Date", field: "date" },
+  { id: "description", header: "Description (Purpose, last four)", field: "description" },
+  { id: "amount", header: "Amount", field: "amount" },
+  { id: "fee", header: "Fee", field: "fee" },
+  { id: "balanceBefore", header: "Balance Before", field: "balanceBefore" },
+  { id: "balanceAfter", header: "Balance After", field: "balanceAfter" },
+];
+
+const userTransactionColumns = [
+  { id: "date", header: "Date", field: "date" },
+  { id: "description", header: "Description (Type, last four)", field: "description" },
+  { id: "amount", header: "Amount", field: "amount" },
+  { id: "fee", header: "Fee", field: "fee" },
+  { id: "beforeBalance", header: "Balance Before", field: "beforeBalance" },
+  { id: "afterBalance", header: "Balance After", field: "afterBalance" },
+];
+
+const banksColumns = [
+  { id: "bankName", header: "Bank Name", field: "bankName" },
+  { id: "accountNumber", header: "AccountNumber", field: "accountNumber" },
+  { id: "balance", header: "Balance", field: "balance" },
+];
+
+const paymentColumns = [
+  { id: "date", header: "Payment date", field: "date" },
+  { id: "employeeName", header: "Employee Name", field: "employeeName" },
+  { id: "amount", header: "Amount", field: "amount" },
+  { id: "transactionID", header: "Transaction ID", field: "transactionID" },
+  {
+    id: "destinationAccount",
+    header: "Destination Account",
+    field: "destinationAccount",
+  },
+  {
+    id: "totalAmountTransferred",
+    header: "Total Amount Transferred",
+    filed: "totalAmountTransferred",
+  },
+];
+
+const regionsInCameroon = [
+  { value: "adamaoua", label: "Adamaoua" },
+  { value: "centre", label: "Centre" },
+  { value: "east", label: "East" },
+  { value: "farNorth", label: "Far North" },
+  { value: "littoral", label: "Littoral" },
+  { value: "north", label: "North" },
+  { value: "northwest", label: "Northwest" },
+  { value: "west", label: "West" },
+  { value: "south", label: "South" },
+  { value: "southwest", label: "Southwest" },
+];
+
+const cameroonBanks = [
+  { value: "afriland_first_bank", label: "Afriland First Bank" },
+  { value: "banque_atlantique", label: "Banque Atlantique" },
+  {
+    value: "bicec",
+    label:
+      "Banque Internationale du Cameroun pour l'Epargne et le Crédit (BICEC)",
+  },
+  { value: "bnc", label: "Banque Nationale de Crédit (BNC)" },
+  {
+    value: "bsic",
+    label:
+      "Banque Sahélo-Saharienne pour l'Investissement et le Commerce (BSIC)",
+  },
+  { value: "cbc", label: "Commercial Bank of Cameroon (CBC)" },
+  { value: "ecobank", label: "Ecobank Cameroon" },
+  { value: "equity_bank", label: "Equity Bank Cameroon" },
+  {
+    value: "standard_chartered_bank",
+    label: "Standard Chartered Bank Cameroon",
+  },
+  { value: "ubc", label: "Union Bank of Cameroon (UBC)" },
+];
+
+const sex = [
+  { value: "M", label: "Male" },
+  { value: "F", label: "Female" },
+];
+
+const dataStatic = {
   sidebarData,
   usersTable,
+  adminsTable,
+  adminsColumns,
   columns,
   clientColumns,
+  clientTransactionsColumns,
+  clientRoaster,
   clientsTable,
+  clientPaymentsTable,
+  clientPayments,
   usersDetails,
-  columnsDetails
+  columnsDetails,
+  transactionColumns,
+  userTransactionColumns,
+  banksColumns,
+  paymentColumns,
+  cameroonBanks,
+  regionsInCameroon,
+  sex,
+  userColumns,
 };
 
-export default data;
+export default dataStatic;
