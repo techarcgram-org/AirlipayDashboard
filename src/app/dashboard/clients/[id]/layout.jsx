@@ -48,7 +48,7 @@ const userDetailsLayout = ({ children }) => {
             join={moment(user?.created_at).format("DD/MM/YYYY HH:mm")}
             address={user?.addresses?.city}
             status={user?.accounts?.account_status}
-            activated="08/12/2023"
+            activated={user?.activation_date}
           />
           <Tab
             options={[

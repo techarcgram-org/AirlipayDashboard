@@ -11,10 +11,6 @@ const ClientDetails = ({
   activated,
   status,
   address,
-  aBalance,
-  nBalance,
-  fee,
-  tAmount,
 }) => {
   return (
     <div className=" md:w-full flex p-4 items-center justify-between h-[300px]">
@@ -23,7 +19,7 @@ const ClientDetails = ({
 
         <div className="flex items-center justify-between">
           <p className="m-2">
-            <strong>{username}</strong> #9753428
+            <strong>{username}</strong>
           </p>
           <button
             className={`mx-2 px-4 h-[24px] ${

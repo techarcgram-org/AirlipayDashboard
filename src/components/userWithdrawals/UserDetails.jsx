@@ -11,6 +11,7 @@ const UserDetails = ({
   phoneNumber,
   join,
   activated,
+  userId,
   address,
   aBalance,
   nBalance,
@@ -24,7 +25,7 @@ const UserDetails = ({
 
         <div className="flex items-center justify-between">
           <p className="m-2">
-            <strong>{username}</strong> #9753428
+            <strong>{username}</strong> {userId}
           </p>
           <button className="mx-2 px-4 h-[24px] bg-green-500 text-white capitalize">
             {status}
