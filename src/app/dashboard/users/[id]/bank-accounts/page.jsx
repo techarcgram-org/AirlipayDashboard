@@ -3,10 +3,16 @@
 import { Tab, Table, UserDetails } from "@/components";
 import data from "@/constant/data";
 import bankAccounts from "@/utils/data/banks";
-import transactions from "@/utils/data/transactions";
-import React from "react";
+import { useSelector } from "react-redux";
+import moment from "moment";
+import { useParams } from "next/navigation";
 
 const page = () => {
+  const { banks } = useSelector((state) => state.users);
+  const { id } = useParams();
+
+  console.log(banks);
+
   return (
     <Table
       tab="Bank Accounts"

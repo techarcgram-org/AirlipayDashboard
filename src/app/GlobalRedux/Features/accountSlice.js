@@ -26,7 +26,7 @@ const accountSlice = createSlice({
     addAccount: (state, action) => {
       state.data = action.payload;
     },
-    updateAccount: (state, action) => {},
+    updateAccount: (state, action) => { },
     deleteAccount: (state, action) => {
       state.data = {};
       state.isLoggedIn = false;

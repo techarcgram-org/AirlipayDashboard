@@ -1,27 +1,23 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  CheckboxInput,
-  FileInput,
-  SelectInput,
-  TextInput,
-} from "@/components/";
+import { SelectInput, TextInput } from "@/components/";
 import { Formik } from "formik";
 import data from "@/constant/data";
 import { useDispatch, useSelector } from "react-redux";
 import { addClient } from "../../../GlobalRedux/Features/clientSlice";
-import { createClientValidator } from "@/app/validatorSchemas/createClientValidator";
 import Spinner from "@/components/Spinner";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
-  const [files, setFiles] = useState(null);
-  const { loading, error } = useSelector((state) => state.clients);
+  // const [files, setFiles] = useState(null);
+  const { loading } = useSelector((state) => state.clients);
   const dispatch = useDispatch();
+  const router = useRouter();
 
-  useEffect(() => {
-    console.log("files", files);
-  }, [files]);
+  // useEffect(() => {
+  //   console.log("files", files);
+  // }, [files]);
 
   return (
     <div className="flex justify-center max-w-full mx-auto bg-gray-300 p-4">
@@ -203,7 +199,7 @@ const Page = () => {
                 </div>
               </div>
               {/* file upload */}
-              <div className="mx-auto my-4 w-[90%] md:w-[50%] h-auto">
+              {/* <div className="mx-auto my-4 w-[90%] md:w-[50%] h-auto">
                 <p className=" font-semibold ml-1 mb-2">
                   Upload Employee Roaser:
                 </p>
@@ -244,7 +240,7 @@ const Page = () => {
                     />
                   </label>
                 </div>
-              </div>
+              </div> */}
 
               <button
                 type="submit"

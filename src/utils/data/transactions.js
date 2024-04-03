@@ -43,8 +43,42 @@ function generateTransactions() {
   return transactions;
 }
 
+// Generate an array of 20 objects with random data
+function generateUserTransactions() {
+  const transactions = [];
+  const startDate = new Date(2023, 0, 1);
+  const endDate = new Date(2023, 9, 31);
+
+  for (let i = 0; i < 20; i++) {
+    const id = i + 1;
+    const date = getRandomDate(startDate, endDate);
+    // const date = "26/09/2002"
+    const description = `Transaction ${id}`;
+    const amount = getRandomNumber(-1000, 1000);
+    const fee = getRandomNumber(0, 10);
+    const user = "Alvin Ana";
+    const employer = "AirliPay";
+
+    const transaction = {
+      id,
+      date,
+      description,
+      amount,
+      fee,
+      user,
+      employer,
+    };
+
+    transactions.push(transaction);
+  }
+
+  return transactions;
+}
+
 // Generate an array of 20 objects
 const transactions = generateTransactions();
+const userTransactions = generateUserTransactions()
 // console.log(transactions);
 
+export { userTransactions }
 export default transactions
