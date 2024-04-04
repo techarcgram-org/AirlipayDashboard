@@ -1,20 +1,11 @@
 "use client";
 
 import { Fragment, useEffect, useState, createRef } from "react";
-import { Inter } from "next/font/google";
 import { Navbar, Sidebar } from "../../components";
 import { Transition } from "@headlessui/react";
 import { isLoggedIn } from "@/utils/utils";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { listUsers } from "../GlobalRedux/Features/userSlice";
-
-// const inter = Inter({ subsets: ['latin'] })
-
-// export const metadata = {
-//   title: "AirliPay Dashboard",
-//   description: "your number one salary solution",
-// };
+import { useDispatch, } from "react-redux";
 
 export default function DashboardLayout({ children }) {
   const [showNav, setShowNav] = useState(true);
