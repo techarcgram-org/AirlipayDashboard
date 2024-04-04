@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import { Tab } from "..";
-import { FaEdit } from "react-icons/fa";
 
 const UserDetails = ({
   username,
