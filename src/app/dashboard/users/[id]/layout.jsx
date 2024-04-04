@@ -16,9 +16,7 @@ import Loading from "../loading";
 import moment from "moment";
 
 const userDetailsLayout = ({ children }) => {
-  const { errorMessage, error, user, users } = useSelector(
-    (state) => state.users
-  );
+  const { errorMessage, error, user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const { id } = useParams();
   const [userData, setUserData] = useState(null);

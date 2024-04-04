@@ -1,8 +1,14 @@
 "use client";
 
-import React from "react";
-
-const UserDetails = ({ email, phoneNumber, join, activated, address }) => {
+const UserDetails = ({
+  name,
+  email,
+  phoneNumber,
+  join,
+  status,
+  activated,
+  address,
+}) => {
   return (
     <div className=" md:w-full flex p-4 items-center justify-between h-[300px]">
       <div className="w-full">
@@ -11,12 +17,12 @@ const UserDetails = ({ email, phoneNumber, join, activated, address }) => {
         <div className="grid grid-cols-3 gap-2 my-2">
           <div className="flex items-start">
             <p className="m-2">
-              <strong>Alvin Ana </strong> #9753428
+              <strong>{name}</strong>
             </p>
           </div>
           <div className="flex items-start">
             <button className="mx-2 px-4 h-[24px] bg-green-500 text-white capitalize">
-              active
+              {status}
             </button>
           </div>
         </div>
