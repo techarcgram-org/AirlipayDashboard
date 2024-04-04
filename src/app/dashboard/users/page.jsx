@@ -35,8 +35,6 @@ const Page = () => {
     return <Loading />;
   }
 
-  console.log(usersList);
-
   return (
     <Table
       tab="View Users"

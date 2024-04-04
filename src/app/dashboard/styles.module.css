@@ -1,0 +1,102 @@
+.rows h3 {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.users,
+.transactions,
+.clients,
+.invoices {
+    display: flex;
+    /* flex-wrap: wrap; */
+}
+
+.users .card {
+    width: 25%;
+    margin: 1%;
+    border-radius: 3px;
+    padding: 20px;
+    background-color: #EEF0FF;
+}
+
+.transactions .card {
+    width: 33%;
+    margin: 1%;
+    border-radius: 3px;
+    padding: 20px;
+    background-color: #EEF0FF;
+}
+
+.invoices .card,
+.clients .card {
+    width: 50%;
+    margin: 1%;
+    border-radius: 3px;
+    padding: 20px;
+    background-color: #EEF0FF;
+}
+
+.card {
+    display: flex;
+}
+
+.card .icon {
+    width: 50px;
+    font-size: 40px;
+    margin-top: 8px;
+}
+
+.detail h3 {
+    width: 80%;
+    font-weight: bold;
+    font-size: 35px;
+    margin: 0;
+}
+
+.detail p {
+    font-weight: bold;
+}
+
+.green {
+    color: #008000;
+}
+
+.red {
+    color: #ff0000;
+}
+
+.darkred {
+    color: #8b0000;
+}
+
+.yellow {
+    color: #c3c302;
+}
+
+.blue {
+    color: #00008b;
+}
+
+.purple {
+    color: #800080;
+}
+
+@media screen and (max-width: 768px) {
+
+    .invoices .card,
+    .clients .card,
+    .users .card,
+    .transactions .card {
+        width: 45% !important;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .invoices .card,
+    .clients .card,
+    .users .card,
+    .transactions .card {
+        width: 100% !important;
+    }
+}

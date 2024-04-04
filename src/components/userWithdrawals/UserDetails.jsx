@@ -21,39 +21,91 @@ const UserDetails = ({
   return (
     <div className=" md:w-full flex p-4 items-center justify-between h-[300px]">
       <div className="w-full">
-        <h2>User details</h2>
-
-        <div className="flex items-center justify-between">
-          <p className="m-2">
-            <strong>{username}</strong> {userId}
-          </p>
-          <button className="mx-2 px-4 h-[24px] bg-green-500 text-white capitalize">
-            {status}
-          </button>
-          {/* <div className="relative flex items-center justify-center">
-            <FaEdit className="absolute top-[20px] -right-4 " />
-            <p className="m-2">edit</p>
-          </div> */}
+        <div className="grid grid-cols-2 gap-2 my-2">
+          <div className="flex items-start">
+            <p className="m-2">
+              <strong>{username}</strong>
+            </p>
+          </div>
+          <div className="flex items-start">
+            <button
+              className={`mx-2 px-4 h-[24px] ${
+                status === "PENDING"
+                  ? "bg-yellow-500"
+                  : status === "ACTIVE"
+                  ? "bg-green-500"
+                  : status === "DEACTIVATED"
+                  ? "bg-red-500"
+                  : ""
+              } text-white capitalize`}
+            >
+              {status}
+            </button>
+          </div>
         </div>
-        <div className="">
-          <div className="w-full p-2 flex items-center md:justify-between gap-2 justify-center my-2">
-            <strong>Email</strong>
+
+        <div className="grid grid-cols-2 gap-2 my-2">
+          <div className="flex items-start">
+            <p className="m-2">
+              <strong>User ID</strong>
+            </p>
+          </div>
+          <div className="flex items-start">
+            <strong>{userId}</strong>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 my-2">
+          <div className="flex items-start">
+            <p className="m-2">
+              <strong>Email</strong>
+            </p>
+          </div>
+          <div className="flex items-start">
             <strong>{email}</strong>
           </div>
-          <div className="w-full p-2 flex items-center justify-between my-2">
-            <strong>Tel</strong>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 my-2">
+          <div className="flex items-start">
+            <p className="m-2">
+              <strong>Tel</strong>
+            </p>
+          </div>
+          <div className="flex items-start">
             <strong>{phoneNumber}</strong>
           </div>
-          <div className="w-full p-2 flex items-center justify-between my-2">
-            <strong>Joined</strong>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 my-2">
+          <div className="flex items-start">
+            <p className="m-2">
+              <strong>Joined</strong>
+            </p>
+          </div>
+          <div className="flex items-start">
             <strong>{join}</strong>
           </div>
-          <div className="w-full p-2 flex items-center justify-between my-2">
-            <strong>Activated</strong>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 my-2">
+          <div className="flex items-start">
+            <p className="m-2">
+              <strong>Activated</strong>
+            </p>
+          </div>
+          <div className="flex items-start">
             <strong>{activated}</strong>
           </div>
-          <div className="w-full p-2 flex items-center justify-between my-2">
-            <strong>Address</strong>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 my-2">
+          <div className="flex items-start">
+            <p className="m-2">
+              <strong>Address</strong>
+            </p>
+          </div>
+          <div className="flex items-start">
             <strong>{address}</strong>
           </div>
         </div>

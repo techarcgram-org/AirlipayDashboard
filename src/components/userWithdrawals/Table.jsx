@@ -8,9 +8,19 @@ import { useRouter } from "next/navigation";
 // import Modal from "../common/modal";
 // import { AddUser } from "..";
 import { useDispatch } from "react-redux";
-import { deleteClientById } from "@/app/GlobalRedux/Features/clientSlice";
-import { removeAdmin } from "@/app/GlobalRedux/Features/adminSlice";
-import { removeUser } from "@/app/GlobalRedux/Features/userSlice";
+import {
+  deleteClientById,
+  updateClientById,
+} from "@/app/GlobalRedux/Features/clientSlice";
+import {
+  removeAdmin,
+  updateAdmin,
+} from "@/app/GlobalRedux/Features/adminSlice";
+import {
+  removeUser,
+  updateUser,
+  listUsers,
+} from "@/app/GlobalRedux/Features/userSlice";
 
 const Table = ({ users, columns, filter, transactionTypes, employers }) => {
   const router = useRouter();
@@ -21,6 +31,7 @@ const Table = ({ users, columns, filter, transactionTypes, employers }) => {
   const [modalOpen, setModalOpen] = useState(false);
   // const [currentUrl, setCurrentUrl] = useState("");
   const [currentUrlUser, setCurrentUrlUser] = useState("");
+  const [status, setStatus] = useState({});
 
   // Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -82,11 +93,30 @@ const Table = ({ users, columns, filter, transactionTypes, employers }) => {
     setItemsPerPage(parseInt(e.target.value));
   };
 
-  // Handle edit entry
-  const handleEdit = (userId) => {
-    // Perform edit action for the given userId
-    console.log("Edit user:", userId);
+  // Handle update status
+  const handleUpdateStatus = () => {
+    try {
+      const data = { id: status.id, accountStatus: status.status };
+      if (currentUrlUser === "clients") {
+        dispatch(updateClientById(data));
+        window.location.reload();
+      }
+      if (currentUrlUser === "admins") {
+        dispatch(updateAdmin(data));
+        window.location.reload();
+      }
+      if (currentUrlUser === "users") {
+        dispatch(updateUser(data));
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   };
+
+  useEffect(() => {
+    handleUpdateStatus();
+  }, [status]);
 
   // Handle delete entry
   const handleDelete = (id) => {
@@ -239,8 +269,16 @@ const Table = ({ users, columns, filter, transactionTypes, employers }) => {
                       </div> */}
                       <select
                         className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
+                        onChange={(e) =>
+                          setStatus({ id: user.id, status: e.target.value })
+                        }
                       >
                         <option>{status?.toUpperCase()}</option>
+                        <option value={"PENDING"}>PENDING</option>
+                        <option value={"ACTIVE"}>ACTIVE</option>
+                        <option value={"BLOCKED"}>BLOCKED</option>
+                        <option value={"BANNED"}>BANNED</option>
+                        <option value={"DEACTIVATED"}>DEACTIVATED</option>
                       </select>
                     </td>
                   );
