@@ -3,11 +3,13 @@
 import { FaRegEnvelope, FaLock } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "../GlobalRedux/Features/accountSlice";
+import Spinner from "@/components/Spinner";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.account);
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -64,7 +66,7 @@ const Login = () => {
         </a>
       </div>
       <button type="submit" className=" bg-blue-800 text-white py-2 mt-8">
-        Log in
+        {loading ? <Spinner /> : " Log in"}
       </button>
       <p className="text-sm mt-4 self-center">
         Can't Log in?{" "}

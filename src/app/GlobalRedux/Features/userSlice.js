@@ -1,12 +1,14 @@
 "use client"; //this is a client side component
 
-import { createUser, getUsers, getUser, editUser, deleteUser, getBanks } from "@/app/apiServices/userService";
+import { createUser, getUsers, getUser, editUser, deleteUser, getBanks, getMomoAccounts, getAirlipayBalance } from "@/app/apiServices/userService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   users: [],
   user: null,
   banks: [],
+  momoAccounts: [],
+  airlipayBalance: [],
   loading: false,
   error: false,
   errorMessage: null,
@@ -93,6 +95,36 @@ export const listBanks = createAsyncThunk(
     let response;
     try {
       response = await getBanks();
+      return response.data;
+    } catch (error) {
+      console.log("THUNK CLIENT ERROR", error);
+      return thunkAPI.rejectWithValue({ data: error.response.data });
+    }
+    // Replace with your API call
+  }
+);
+
+export const listMomoAccounts = createAsyncThunk(
+  "users/listMomoAccounts",
+  async (thunkAPI) => {
+    let response;
+    try {
+      response = await getMomoAccounts();
+      return response.data;
+    } catch (error) {
+      console.log("THUNK CLIENT ERROR", error);
+      return thunkAPI.rejectWithValue({ data: error.response.data });
+    }
+    // Replace with your API call
+  }
+);
+
+export const listAirlipayBalance = createAsyncThunk(
+  "users/listAirlipayBalance",
+  async (id, thunkAPI) => {
+    let response;
+    try {
+      response = await getAirlipayBalance(id);
       return response.data;
     } catch (error) {
       console.log("THUNK CLIENT ERROR", error);
@@ -199,6 +231,38 @@ const userSlice = createSlice({
         state.errorMessage = "Success listing banks";
       })
       .addCase(listBanks.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMessage = action.payload.data.message;
+        state.error = true;
+      })
+      //
+      .addCase(listMomoAccounts.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        state.errorMessage = null;
+      })
+      .addCase(listMomoAccounts.fulfilled, (state, action) => {
+        state.momoAccounts = action.payload;
+        state.loading = false;
+        state.errorMessage = "Success listing momo accounts";
+      })
+      .addCase(listMomoAccounts.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMessage = action.payload.data.message;
+        state.error = true;
+      })
+      // 
+      .addCase(listAirlipayBalance.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        state.errorMessage = null;
+      })
+      .addCase(listAirlipayBalance.fulfilled, (state, action) => {
+        state.airlipayBalance = action.payload;
+        state.loading = false;
+        state.errorMessage = "Success listing airlipay balance";
+      })
+      .addCase(listAirlipayBalance.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload.data.message;
         state.error = true;

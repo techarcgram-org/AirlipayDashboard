@@ -10,13 +10,18 @@ import {
   listUsers,
   listUser,
   listBanks,
+  listMomoAccounts,
+  listAirlipayBalance,
 } from "@/app/GlobalRedux/Features/userSlice";
 import { useParams } from "next/navigation";
 import Loading from "../loading";
 import moment from "moment";
+import { formatMoney } from "@/utils/utils";
 
 const userDetailsLayout = ({ children }) => {
-  const { errorMessage, error, user } = useSelector((state) => state.users);
+  const { errorMessage, error, user, airlipayBalance } = useSelector(
+    (state) => state.users
+  );
   const dispatch = useDispatch();
   const { id } = useParams();
   const [userData, setUserData] = useState(null);
@@ -26,6 +31,8 @@ const userDetailsLayout = ({ children }) => {
     dispatch(listUsers());
     dispatch(readTransactions());
     dispatch(listBanks());
+    dispatch(listMomoAccounts());
+    dispatch(listAirlipayBalance(id));
   }, [id]);
 
   useEffect(() => {
@@ -54,7 +61,7 @@ const userDetailsLayout = ({ children }) => {
             status={userData?.accounts?.account_status}
             activated={userData?.activation_date}
             userId={userData?.employee_id}
-            aBalance={5000}
+            aBalance={formatMoney(airlipayBalance?.balance)}
             tAmount={5000}
             nBalance={5000}
             fee={5000}

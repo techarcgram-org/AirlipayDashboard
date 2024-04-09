@@ -11,7 +11,7 @@ const page = () => {
   const { banks } = useSelector((state) => state.users);
   const { id } = useParams();
 
-  console.log("banks", banks);
+  // console.log("banks", banks);
 
   return (
     <Table

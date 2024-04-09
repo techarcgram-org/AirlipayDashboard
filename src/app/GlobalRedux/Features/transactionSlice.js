@@ -10,9 +10,9 @@ const initialState = {
     errorMessage: null,
 };
 
-export const readTransactions = createAsyncThunk("transactions/readTransactions", async (thunkAPI) => {
+export const readTransactions = createAsyncThunk("transactions/readTransactions", async (data, thunkAPI) => {
     try {
-        const response = await getTransactions()
+        const response = await getTransactions(data)
         return response.data
     } catch (error) {
         console.log("THUNK CLIENT ERROR", error);

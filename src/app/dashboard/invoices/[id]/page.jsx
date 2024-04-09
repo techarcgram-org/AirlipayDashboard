@@ -1,23 +1,56 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import styles from "./styles/invoice.module.css";
+import { useSelector } from "react-redux";
+import { useParams } from "next/navigation";
+import moment from "moment";
 
 const page = () => {
+  const { id } = useParams();
+  const { invoices } = useSelector((state) => state.invoices);
+  const { data } = useSelector((state) => state.clients);
+  const [invoiceData, setInvoiceData] = useState({});
+
+  useEffect(() => {
+    if (Array.isArray(invoices) && Array.isArray(data)) {
+      const findClientById = (clientId) => {
+        return data.find((client) => client.id === clientId);
+      };
+
+      const invoicesWithClients = invoices.map((invoice) => {
+        const client = findClientById(invoice.client_id);
+        return { ...invoice, client };
+      });
+
+      const dataItem = invoicesWithClients?.filter(
+        (item) => item.id === parseInt(id)
+      )[0];
+      setInvoiceData(dataItem);
+    }
+  }, [id, invoices, data]);
+
+  console.log(invoiceData);
+
   return (
     <div className={styles.invoice}>
       <h2 className={styles.title}>Earned Wage Access Reimbursement Invoice</h2>
       <div className={styles.invoice_number}>
         <h3>Invoice Number</h3>
-        <p>7346823488349</p>
+        <p>{invoiceData?.invoice_number}</p>
       </div>
       <div className={styles.invoice_date}>
         <h3>Date</h3>
-        <p>7346823488349</p>
+        <p>{moment(invoiceData?.created_at).format("DD/MM/YYYY HH:mm")} </p>
       </div>
       <div className={styles.address}>
         <div>
           <h3>To:</h3>
-          <p>Njeiforbi Limited</p>
-          <p>Molyko, Buea</p>
+          <p>{invoiceData?.client?.name}</p>
+          <p>
+            {invoiceData?.client?.addresses?.street}
+            {", "}
+            {invoiceData?.client?.addresses?.city}
+          </p>
         </div>
         <div>
           <h3>From:</h3>

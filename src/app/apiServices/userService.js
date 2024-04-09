@@ -21,5 +21,13 @@ export async function deleteUser(id) {
 }
 
 export async function getBanks() {
-  return await axios.get(`/users/list-banks`);
+  return await axios.get(`/users/list-user-banks`);
+}
+
+export async function getMomoAccounts() {
+  return await axios.get(`/account-settings/list-user-momo-accounts`);
+}
+
+export async function getAirlipayBalance(id) {
+  return await axios.get(`/users/${id}/airlipay-balance`);
 }

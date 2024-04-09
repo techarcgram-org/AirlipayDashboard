@@ -406,6 +406,16 @@ const transactionColumns = [
   { id: "balanceAfter", header: "Balance After", field: "balanceAfter" },
 ];
 
+const invoiceColumns = [
+  { id: "invoiceNumber", header: "Invoice Number", field: "invoiceNumber" },
+  { id: "client", header: "Client", field: "client" },
+  { id: "status", header: "Status", field: "status" },
+  { id: "from", header: "From", field: "from" },
+  { id: "to", header: "To", field: "to" },
+  { id: "taxes", header: "Taxes", field: "taxes" },
+  { id: "totalFees", header: "Total Fees", field: "totalFees" },
+  { id: "totalAmount", header: "Total Amount", field: "totalAmount" }]
+
 const userTransactionColumns = [
   { id: "date", header: "Date", field: "date" },
   { id: "description", header: "Description (Type, last four)", field: "description" },
@@ -502,6 +512,7 @@ const dataStatic = {
   regionsInCameroon,
   sex,
   userColumns,
+  invoiceColumns
 };
 
 export default dataStatic;

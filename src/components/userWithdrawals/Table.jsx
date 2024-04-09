@@ -16,13 +16,17 @@ import {
   removeAdmin,
   updateAdmin,
 } from "@/app/GlobalRedux/Features/adminSlice";
-import {
-  removeUser,
-  updateUser,
-  listUsers,
-} from "@/app/GlobalRedux/Features/userSlice";
+import { removeUser, updateUser } from "@/app/GlobalRedux/Features/userSlice";
 
-const Table = ({ users, columns, filter, transactionTypes, employers }) => {
+const Table = ({
+  users,
+  columns,
+  filter,
+  transactionTypes,
+  employers,
+  setTxnType,
+  setEmployer,
+}) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,7 +44,7 @@ const Table = ({ users, columns, filter, transactionTypes, employers }) => {
   const filteredUsers = users.filter((user) =>
     columns.some((column) =>
       user[column.field]
-        .toString()
+        ?.toString()
         .toLowerCase()
         .includes(searchQuery.toLowerCase())
     )
@@ -153,7 +157,10 @@ const Table = ({ users, columns, filter, transactionTypes, employers }) => {
           <span className="mx-2">entries</span>
           {filter && (
             <>
-              <select className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2">
+              <select
+                className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2"
+                onChange={(e) => setTxnType(e.target.value)}
+              >
                 <option>TRANSACTION TYPE</option>
                 {transactionTypes?.map((item, index) => {
                   return (
@@ -163,7 +170,10 @@ const Table = ({ users, columns, filter, transactionTypes, employers }) => {
                   );
                 })}
               </select>
-              <select className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2 ml-2">
+              <select
+                className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2 ml-2"
+                onChange={(e) => setEmployer(e.target.value)}
+              >
                 <option>EMPLOYER</option>
                 {employers?.map((item, index) => {
                   return (

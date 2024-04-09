@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Table } from "../../../components";
 import dataStatic from "@/constant/data";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,11 +14,19 @@ const page = () => {
   const { transactions } = useSelector((state) => state.transactions);
   const { users, loading } = useSelector((state) => state.users);
   const dispatch = useDispatch();
+  const [txnType, setTxnType] = useState("DEPOSIT");
+  const [employer, setEmployer] = useState("");
+  const [filteredByEmployer, setFilteredByEmployer] = useState([]);
 
   useEffect(() => {
-    dispatch(readTransactions());
+    dispatch(readTransactions({ txnType }));
     dispatch(listUsers());
   }, []);
+
+  useEffect(() => {
+    dispatch(readTransactions({ txnType }));
+    dispatch(listUsers());
+  }, [txnType]);
 
   const userMap = {};
   users?.forEach((user) => {
@@ -44,7 +52,35 @@ const page = () => {
   //   (item) => item?.user_id === parseInt(id)
   // );
 
+  useEffect(() => {
+    const fetchFilteredTransactions = async () => {
+      const filtered = await transactionsWithUsers?.filter(
+        (item) => item.user.client_id === parseInt(employer)
+      );
+      setFilteredByEmployer(filtered);
+    };
+
+    fetchFilteredTransactions();
+  }, [employer]);
+
+  console.log(filteredByEmployer);
+
   const formattedData = transactionsWithUsers?.map((item) => {
+    return {
+      date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
+      description: `${item?.transaction_type} Last 4: ${
+        item?.phone_number?.slice(-4) || "NAN"
+      }`,
+      amount: formatMoney(item?.amount),
+      fee: formatMoney(item?.fees),
+      user: item?.user?.name,
+      employer: item?.user?.client_name,
+      balanceBefore: `XAF ${formatMoney(item?.old_balance)}`,
+      balanceAfter: `XAF ${formatMoney(item?.new_balance)}`,
+    };
+  });
+
+  const formattedFilteredData = filteredByEmployer?.map((item) => {
     return {
       date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
       description: `${item?.transaction_type} Last 4: ${
@@ -87,11 +123,17 @@ const page = () => {
       <h2 className="font-bold">Transactions</h2>
       <Table
         tab="Transactions"
-        users={formattedData}
+        users={
+          formattedFilteredData.length > 0
+            ? formattedFilteredData
+            : formattedData
+        }
         columns={dataStatic.transactionColumns}
         filter={true}
         transactionTypes={transactionTypes}
         employers={employers}
+        setTxnType={setTxnType}
+        setEmployer={setEmployer}
       />
     </>
   );
