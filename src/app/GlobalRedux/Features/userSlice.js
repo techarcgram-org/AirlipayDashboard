@@ -91,10 +91,10 @@ export const removeUser = createAsyncThunk(
 
 export const listBanks = createAsyncThunk(
   "users/listBanks",
-  async (thunkAPI) => {
+  async (id, thunkAPI) => {
     let response;
     try {
-      response = await getBanks();
+      response = await getBanks(id);
       return response.data;
     } catch (error) {
       console.log("THUNK CLIENT ERROR", error);

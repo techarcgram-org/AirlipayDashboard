@@ -271,6 +271,11 @@ const userColumns = [
   { id: "delete", header: "Delete", field: "" },
 ];
 
+const userMomoAcoountsColumns = [
+  { id: "operator", header: "Operator", field: "operator" },
+  { id: "phone_number", header: "Phone Number", field: "phone_number" },
+];
+
 const usersDetails = [
   { id: 1, name: "John Doe", age: 30, email: "johndoe@example.com" },
   { id: 2, name: "Jane Smith", age: 25, email: "janesmith@example.com" },
@@ -414,7 +419,18 @@ const invoiceColumns = [
   { id: "to", header: "To", field: "to" },
   { id: "taxes", header: "Taxes", field: "taxes" },
   { id: "totalFees", header: "Total Fees", field: "totalFees" },
-  { id: "totalAmount", header: "Total Amount", field: "totalAmount" }]
+  { id: "totalAmount", header: "Total Amount", field: "totalAmount" }
+]
+
+const clientInvoiceColumns = [
+  { id: "invoiceNumber", header: "Invoice Number", field: "invoiceNumber" },
+  { id: "status", header: "Status", field: "status" },
+  { id: "from", header: "From", field: "from" },
+  { id: "to", header: "To", field: "to" },
+  { id: "taxes", header: "Taxes", field: "taxes" },
+  { id: "totalFees", header: "Total Fees", field: "totalFees" },
+  { id: "totalAmount", header: "Total Amount", field: "totalAmount" }
+]
 
 const userTransactionColumns = [
   { id: "date", header: "Date", field: "date" },
@@ -512,7 +528,9 @@ const dataStatic = {
   regionsInCameroon,
   sex,
   userColumns,
-  invoiceColumns
+  userMomoAcoountsColumns,
+  invoiceColumns,
+  clientInvoiceColumns
 };
 
 export default dataStatic;

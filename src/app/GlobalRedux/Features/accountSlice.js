@@ -14,8 +14,13 @@ const initialState = {
 export const loginThunk = createAsyncThunk(
   "account/login",
   async (data, thunkAPI) => {
-    const response = await login(data); // Replace with your API call
-    return response.data;
+    try {
+      const response = await login(data);
+      return response.data;
+    } catch (error) {
+      console.log("THUNK CLIENT ERROR", error);
+      return thunkAPI.rejectWithValue({ data: error.response.data });
+    }
   }
 );
 

@@ -20,12 +20,12 @@ export async function deleteUser(id) {
   return await axios.delete(`/users/${id}`);
 }
 
-export async function getBanks() {
-  return await axios.get(`/users/list-user-banks`);
+export async function getBanks(id) {
+  return await axios.get(`/users/${id}/list-banks`);
 }
 
-export async function getMomoAccounts() {
-  return await axios.get(`/account-settings/list-user-momo-accounts`);
+export async function getMomoAccounts(id) {
+  return await axios.get(`/users/${id}/list-banks`);
 }
 
 export async function getAirlipayBalance(id) {

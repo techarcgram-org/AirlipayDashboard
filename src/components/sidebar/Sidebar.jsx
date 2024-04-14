@@ -237,7 +237,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
             </div>
           </Link>
         </div>
-        <div className="">
+        {/* <div className="">
           <Link href="/dashboard/login">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
@@ -259,7 +259,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
               </div>
             </div>
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

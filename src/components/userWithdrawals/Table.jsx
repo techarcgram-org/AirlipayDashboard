@@ -315,8 +315,10 @@ const Table = ({
                     <div className="text-sm text-gray-900">
                       <Link
                         href={
-                          user.id
+                          user.id && currentUrlUser != "payments"
                             ? `/dashboard/${currentUrlUser}/${user.id}`
+                            : user.id && currentUrlUser === "payments"
+                            ? ""
                             : ""
                         }
                       >

@@ -1,13 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./styles/invoice.module.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "next/navigation";
 import moment from "moment";
+import { listInvoiceTransactions } from "@/app/GlobalRedux/Features/invoiceSlice";
+import Loading from "@/app/loading";
 
 const page = () => {
   const { id } = useParams();
-  const { invoices } = useSelector((state) => state.invoices);
+  const dispatch = useDispatch();
+  const { invoices, transactions, loading } = useSelector(
+    (state) => state.invoices
+  );
   const { data } = useSelector((state) => state.clients);
   const [invoiceData, setInvoiceData] = useState({});
 
@@ -29,7 +34,15 @@ const page = () => {
     }
   }, [id, invoices, data]);
 
-  console.log(invoiceData);
+  useEffect(() => {
+    dispatch(listInvoiceTransactions(parseInt(id)));
+  }, [id]);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  console.log(transactions);
 
   return (
     <div className={styles.invoice}>

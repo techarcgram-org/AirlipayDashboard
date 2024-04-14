@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
 import { AiFillMail, AiFillSetting, AiOutlineMenu } from "react-icons/ai";
+import { IoLogOut } from "react-icons/io5";
 import images from "../constant/images";
 import { useDispatch } from "react-redux";
 import { deleteAccount } from "@/app/GlobalRedux/Features/accountSlice";
@@ -155,7 +156,7 @@ const Navbar = ({ showNav, setShowNav }) => {
                     Profile
                   </Link>
                 </Menu.Item>
-                <Menu.Item>
+                {/* <Menu.Item>
                   <Link
                     href="#"
                     className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
@@ -181,13 +182,14 @@ const Navbar = ({ showNav, setShowNav }) => {
                     <Cog8ToothIcon className="h-4 w-4 mr-2" />
                     Settings
                   </Link>
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item>
                   <Link
                     href="#"
                     className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
                     onClick={() => logout()}
                   >
+                    <IoLogOut className="h-4 w-4 mr-2" />
                     Logout
                   </Link>
                 </Menu.Item>

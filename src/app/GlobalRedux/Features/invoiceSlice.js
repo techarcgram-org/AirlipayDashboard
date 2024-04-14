@@ -1,10 +1,11 @@
 "use client"; //this is a client side component
 
-import { getInvoices } from "@/app/apiServices/invoiceService";
+import { getInvoices, getInvoiceTransactions } from "@/app/apiServices/invoiceService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   invoices: [],
+  transactions: [],
   loading: false,
   error: false,
   errorMessage: null,
@@ -12,9 +13,28 @@ const initialState = {
 
 export const listInvoices = createAsyncThunk(
   "invoice/listInvoices",
-  async () => {
-    const response = await getInvoices(); // Replace with your API call
-    return response.data;
+  async (thunkAPI) => {
+    try {
+      const response = await getInvoices();
+      return response.data;
+    } catch (error) {
+      console.log("THUNK CLIENT ERROR", error);
+      return thunkAPI.rejectWithValue({ data: error.response.data });
+    }
+
+  }
+);
+
+export const listInvoiceTransactions = createAsyncThunk(
+  "invoice/listInvoiceTransactions",
+  async (id, thunkAPI) => {
+    try {
+      const response = await getInvoiceTransactions(id);
+      return response.data;
+    } catch (error) {
+      console.log("THUNK CLIENT ERROR", error);
+      return thunkAPI.rejectWithValue({ data: error.response.data });
+    }
   }
 );
 
@@ -36,6 +56,22 @@ const accountSlice = createSlice({
         state.errorMessage = "Success reading invoices";
       })
       .addCase(listInvoices.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMessage = action.payload.data.message;
+        state.error = true;
+      })
+
+      .addCase(listInvoiceTransactions.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+        state.errorMessage = null;
+      })
+      .addCase(listInvoiceTransactions.fulfilled, (state, action) => {
+        state.transactions = action.payload;
+        state.loading = false;
+        state.errorMessage = "Success reading invoice transactions";
+      })
+      .addCase(listInvoiceTransactions.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload.data.message;
         state.error = true;

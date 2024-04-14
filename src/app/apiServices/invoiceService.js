@@ -4,6 +4,6 @@ export async function getInvoices() {
   return await axios.get(`/invoice`);
 }
 
-export async function getClientInvoices(id) {
-  return await axios.get(`/client/${id}/invoices`);
+export async function getInvoiceTransactions(id) {
+  return await axios.get(`/invoice/${id}/transactions`);
 }

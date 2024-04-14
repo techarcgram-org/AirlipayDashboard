@@ -9,8 +9,8 @@ import { readTransactions } from "@/app/GlobalRedux/Features/transactionSlice";
 import {
   listUsers,
   listUser,
-  listBanks,
-  listMomoAccounts,
+  // listBanks,
+  // listMomoAccounts,
   listAirlipayBalance,
 } from "@/app/GlobalRedux/Features/userSlice";
 import { useParams } from "next/navigation";
@@ -19,7 +19,7 @@ import moment from "moment";
 import { formatMoney } from "@/utils/utils";
 
 const userDetailsLayout = ({ children }) => {
-  const { errorMessage, error, user, airlipayBalance } = useSelector(
+  const { errorMessage, error, user, users, airlipayBalance } = useSelector(
     (state) => state.users
   );
   const dispatch = useDispatch();
@@ -27,12 +27,12 @@ const userDetailsLayout = ({ children }) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    dispatch(listUser(id));
+    dispatch(listUser(parseInt(id)));
     dispatch(listUsers());
     dispatch(readTransactions());
-    dispatch(listBanks());
-    dispatch(listMomoAccounts());
-    dispatch(listAirlipayBalance(id));
+    // dispatch(listBanks(parseInt(id)));
+    // dispatch(listMomoAccounts(id));
+    dispatch(listAirlipayBalance(parseInt(id)));
   }, [id]);
 
   useEffect(() => {
@@ -76,18 +76,18 @@ const userDetailsLayout = ({ children }) => {
               //   title: "Activity Feed",
               //   url: `/dashboard/users/${id}/activity-feed`,
               // },
-              {
-                title: "Bank Accounts",
-                url: `/dashboard/users/${id}/bank-accounts`,
-              },
+              // {
+              //   title: "Bank Accounts",
+              //   url: `/dashboard/users/${id}/bank-accounts`,
+              // },
               {
                 title: "Momo Accounts",
                 url: `/dashboard/users/${id}/momo-accounts`,
               },
-              {
-                title: "Debit Cards",
-                url: `/dashboard/users/${id}/debit-cards`,
-              },
+              // {
+              //   title: "Debit Cards",
+              //   url: `/dashboard/users/${id}/debit-cards`,
+              // },
             ]}
             defaultTab="Transactions"
           />

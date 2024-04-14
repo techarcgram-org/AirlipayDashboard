@@ -46,6 +46,8 @@ const page = () => {
     };
   });
 
+  console.log(transactions);
+
   return (
     <Table
       tab="Transactions"
