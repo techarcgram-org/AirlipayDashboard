@@ -42,8 +42,6 @@ const page = () => {
     return <Loading />;
   }
 
-  console.log(transactions);
-
   return (
     <div className={styles.invoice}>
       <h2 className={styles.title}>Earned Wage Access Reimbursement Invoice</h2>
