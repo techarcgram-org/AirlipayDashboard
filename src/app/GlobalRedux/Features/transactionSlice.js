@@ -37,7 +37,7 @@ const clientSlice = createSlice({
                 state.errorMessage = "Success reading transactions";
             })
             .addCase(readTransactions.rejected, (state, action) => {
-                state.loading = false;
+                state.loading = false
                 state.errorMessage = action.payload.data.message;
                 state.error = true;
             })

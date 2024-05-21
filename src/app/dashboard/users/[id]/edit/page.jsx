@@ -56,7 +56,7 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    const formatted = data.map((item) => {
+    const formatted = data?.map((item) => {
       return {
         label: item.name,
         value: item.id,
@@ -83,17 +83,20 @@ const Page = () => {
               id: parseInt(id),
               name: values.name,
               email: values.email,
-              baseSalary: values.baseSalary.toString(),
+              baseSalary: parseInt(values.baseSalary),
               dob: moment(values.dob, "YYYY-MM-DD").format("DD/MM/YYYY"),
               sex: values.sex,
               clientId: parseInt(values.clientId),
               city: values.city,
               street: values.street,
               region: values.region,
-              primaryPhone: values.primaryPhone.toString(),
-              secondaryPhone: values.secondaryPhone.toString(),
+              primaryPhone: values.primaryPhone
+                ? values.primaryPhone?.toString()
+                : undefined,
+              secondaryPhone: values.secondaryPhone
+                ? values.secondaryPhone?.toString()
+                : undefined,
             };
-            console.log(data);
             const response = await dispatch(updateUser(data));
             if (response.meta.requestStatus === "fulfilled") {
               router.push("/dashboard/users");

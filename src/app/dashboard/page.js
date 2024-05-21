@@ -11,6 +11,7 @@ import { listUsers } from "../GlobalRedux/Features/userSlice";
 import { listAdmins } from "../GlobalRedux/Features/adminSlice";
 import { readClients } from "../GlobalRedux/Features/clientSlice";
 import { readTransactions } from "../GlobalRedux/Features/transactionSlice";
+import { listInvoices } from "../GlobalRedux/Features/invoiceSlice";
 
 const page = () => {
   const dispatch = useDispatch()
@@ -18,6 +19,7 @@ const page = () => {
   const { admins } = useSelector((state) => state.admins);
   const { users } = useSelector((state) => state.users);
   const { transactions } = useSelector((state) => state.transactions);
+  const { invoices } = useSelector((state) => state.invoices);
 
   const [txnData, setTxnData] = useState([])
   const [successfulTxn, setSuccessfulTxn] = useState([])
@@ -40,6 +42,9 @@ const page = () => {
   const [activeClients, setActiveClients] = useState([])
   const [decClients, setDecClients] = useState([])
   const [blockedClients, setBlockeClients] = useState([])
+
+  const [invoiceData, setInvoiceData] = useState([])
+  const [paidInvoice, setPaidInvoice] = useState([])
 
   const categorizeTxns = () => {
     const success = txnData.filter(txn => txn.status === 'SUCCESS');
@@ -85,11 +90,18 @@ const page = () => {
     setBlockeClients(blocked);
   };
 
+  const categorizeInvoices = () => {
+    const treated = invoiceData.filter(inv => inv.status === 'TREATED');
+
+    setPaidInvoice(treated);
+  };
+
   useEffect(() => {
     dispatch(listUsers())
     dispatch(listAdmins())
     dispatch(readClients())
     dispatch(readTransactions())
+    dispatch(listInvoices());
   }, [])
 
   useEffect(() => {
@@ -97,7 +109,8 @@ const page = () => {
     setUserData(users)
     setClientData(data)
     setTxnData(transactions)
-  }, [users, admins, data, transactions])
+    setInvoiceData(invoices)
+  }, [users, admins, data, transactions, invoices])
 
   useEffect(() => {
     categorizeAdmins()
@@ -108,12 +121,18 @@ const page = () => {
   }, [userData])
 
   useEffect(() => {
-    categorizeClients()
+    if (clientData.length > 0) {
+      categorizeClients()
+    }
   }, [clientData])
 
   useEffect(() => {
     categorizeTxns()
   }, [txnData])
+
+  useEffect(() => {
+    categorizeInvoices()
+  }, [invoiceData])
 
   return (
     <div>
@@ -244,14 +263,14 @@ const page = () => {
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.green}`}><BsClipboardCheckFill /></div>
             <div className={styles.detail}>
-              <h3 className={styles.green}>0</h3>
+              <h3 className={styles.green}>{paidInvoice?.length}</h3>
               <p>Paid</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.darkred}`}><BsClipboardMinusFill /></div>
             <div className={styles.detail}>
-              <h3 className={styles.darkred}>0</h3>
+              <h3 className={styles.darkred}>{invoiceData?.length - paidInvoice?.length}</h3>
               <p>Unpaid</p>
             </div>
           </div>

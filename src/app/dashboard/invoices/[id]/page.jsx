@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import moment from "moment";
 import { listInvoiceTransactions } from "@/app/GlobalRedux/Features/invoiceSlice";
 import Loading from "@/app/loading";
+import { formatMoney } from "@/utils/utils";
 
 const page = () => {
   const { id } = useParams();
@@ -97,7 +98,7 @@ const page = () => {
             <tr>
               <td>Total Amount Due</td>
               <td>-</td>
-              <td>500,000 XAF</td>
+              <td>{formatMoney(invoiceData?.totalAmount)} XAF</td>
             </tr>
           </tfoot>
         </table>

@@ -73,6 +73,7 @@ const Page = () => {
           initialValues={user || {}}
           // validationSchema={createClientValidator}
           onSubmit={async (values) => {
+            console.log(values);
             const response = await dispatch(updateClientById(values));
             if (response.meta.requestStatus === "fulfilled") {
               router.push("/dashboard/clients");

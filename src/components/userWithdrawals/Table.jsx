@@ -113,6 +113,14 @@ const Table = ({
         dispatch(updateUser(data));
         window.location.reload();
       }
+      if (currentUrlUser === "payments") {
+        //  dispatch(updateUser(data));
+        window.location.reload();
+      }
+      if (currentUrlUser === "invoices") {
+        //  dispatch(updateUser(data));
+        window.location.reload();
+      }
     } catch (error) {
       console.log("error", error);
     }

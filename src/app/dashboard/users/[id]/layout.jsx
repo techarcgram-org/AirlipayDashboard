@@ -19,6 +19,7 @@ import moment from "moment";
 import { formatMoney } from "@/utils/utils";
 
 const userDetailsLayout = ({ children }) => {
+  const { transactions } = useSelector((state) => state.transactions);
   const { errorMessage, error, user, users, airlipayBalance } = useSelector(
     (state) => state.users
   );
@@ -38,6 +39,32 @@ const userDetailsLayout = ({ children }) => {
   useEffect(() => {
     setUserData(user);
   }, [user]);
+
+  const userMap = {};
+  users?.forEach((user) => {
+    userMap[user.id] = user;
+  });
+
+  const attachUserToTransaction = (transaction) => {
+    const userId = transaction.user_id;
+    if (userMap[userId]) {
+      const clonedTransaction = { ...transaction };
+      clonedTransaction.user = userMap[userId];
+      return clonedTransaction;
+    } else {
+      return transaction;
+    }
+  };
+
+  const transactionsWithUsers = transactions?.map((transaction) => {
+    return attachUserToTransaction(transaction);
+  });
+
+  const userTransactions = transactionsWithUsers.filter(
+    (item) => item?.user_id === parseInt(id)
+  );
+
+  console.log(transactions);
 
   const currentUrl = window.location.href;
   const regex = /\/(\d+)\/edit/;
