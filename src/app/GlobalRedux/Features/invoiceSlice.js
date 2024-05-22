@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { getInvoices, getInvoiceTransactions } from "@/app/apiServices/invoiceService";
+import { getInvoices, getInvoiceTransactions, editInvoice } from "@/app/apiServices/invoiceService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -38,6 +38,21 @@ export const listInvoiceTransactions = createAsyncThunk(
   }
 );
 
+export const updateInvoice = createAsyncThunk(
+  "users/updateInvoice",
+  async (data, thunkAPI) => {
+    let response;
+    try {
+      response = await editInvoice(data);
+      return response.data;
+    } catch (error) {
+      console.log("THUNK CLIENT ERROR", error);
+      return thunkAPI.rejectWithValue({ data: error.response.data });
+    }
+    // Replace with your API call
+  }
+);
+
 const accountSlice = createSlice({
   name: "invoice",
   initialState,
@@ -60,7 +75,7 @@ const accountSlice = createSlice({
         state.errorMessage = action.payload.data.message;
         state.error = true;
       })
-
+      // 
       .addCase(listInvoiceTransactions.pending, (state, action) => {
         state.loading = true;
         state.error = false;
@@ -72,6 +87,22 @@ const accountSlice = createSlice({
         state.errorMessage = "Success reading invoice transactions";
       })
       .addCase(listInvoiceTransactions.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMessage = action.payload.data.message;
+        state.error = true;
+      })
+      // update invoice
+      .addCase(updateInvoice.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        state.errorMessage = null;
+      })
+      .addCase(updateInvoice.fulfilled, (state, action) => {
+        state.users = action.payload;
+        state.loading = false;
+        state.errorMessage = "Success updating invoice";
+      })
+      .addCase(updateInvoice.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload.data.message;
         state.error = true;

@@ -17,6 +17,7 @@ import {
   updateAdmin,
 } from "@/app/GlobalRedux/Features/adminSlice";
 import { removeUser, updateUser } from "@/app/GlobalRedux/Features/userSlice";
+import { updateInvoice } from "@/app/GlobalRedux/Features/invoiceSlice";
 
 const Table = ({
   users,
@@ -114,11 +115,12 @@ const Table = ({
         window.location.reload();
       }
       if (currentUrlUser === "payments") {
-        //  dispatch(updateUser(data));
-        window.location.reload();
+        console.log(data);
+        dispatch(updateInvoice(data));
+        // window.location.reload();
       }
       if (currentUrlUser === "invoices") {
-        //  dispatch(updateUser(data));
+        dispatch(updateInvoice(data));
         window.location.reload();
       }
     } catch (error) {
@@ -285,19 +287,32 @@ const Table = ({
                       {/* <div className="text-sm text-white font-bold capitalize">
                         {status}
                       </div> */}
-                      <select
-                        className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
-                        onChange={(e) =>
-                          setStatus({ id: user.id, status: e.target.value })
-                        }
-                      >
-                        <option>{status?.toUpperCase()}</option>
-                        <option value={"PENDING"}>PENDING</option>
-                        <option value={"ACTIVE"}>ACTIVE</option>
-                        <option value={"BLOCKED"}>BLOCKED</option>
-                        <option value={"BANNED"}>BANNED</option>
-                        <option value={"DEACTIVATED"}>DEACTIVATED</option>
-                      </select>
+                      {currentUrlUser === "payments" || "invoices" ? (
+                        <select
+                          className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
+                          onChange={(e) =>
+                            setStatus({ id: user.id, status: e.target.value })
+                          }
+                        >
+                          <option>{status?.toUpperCase()}</option>
+                          <option value={"TREATED"}>TREATED</option>
+                          <option value={"NOT_TREATED"}>NOT_TREATED</option>
+                        </select>
+                      ) : (
+                        <select
+                          className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
+                          onChange={(e) =>
+                            setStatus({ id: user.id, status: e.target.value })
+                          }
+                        >
+                          <option>{status?.toUpperCase()}</option>
+                          <option value={"PENDING"}>PENDING</option>
+                          <option value={"ACTIVE"}>ACTIVE</option>
+                          <option value={"BLOCKED"}>BLOCKED</option>
+                          <option value={"BANNED"}>BANNED</option>
+                          <option value={"DEACTIVATED"}>DEACTIVATED</option>
+                        </select>
+                      )}
                     </td>
                   );
                 }
