@@ -115,9 +115,8 @@ const Table = ({
         window.location.reload();
       }
       if (currentUrlUser === "payments") {
-        console.log(data);
         dispatch(updateInvoice(data));
-        // window.location.reload();
+        window.location.reload();
       }
       if (currentUrlUser === "invoices") {
         dispatch(updateInvoice(data));
