@@ -56,13 +56,17 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    const formatted = data?.map((item) => {
+    const formatted = data.map((item) => {
       return {
         label: item.name,
         value: item.id,
       };
     });
-    setClients(formatted);
+
+    const dummyData = { label: "Select Client", value: null };
+    const formattedWithDummy = [dummyData, ...formatted];
+
+    setClients(formattedWithDummy);
   }, [data]);
 
   if (!userData) {

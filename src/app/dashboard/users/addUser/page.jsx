@@ -32,7 +32,11 @@ const Page = () => {
         value: item.id,
       };
     });
-    setClients(formatted);
+
+    const dummyData = { label: "Select Client", value: null };
+    const formattedWithDummy = [dummyData, ...formatted];
+
+    setClients(formattedWithDummy);
   }, [data]);
 
   // useEffect(() => {

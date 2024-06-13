@@ -465,6 +465,7 @@ const paymentColumns = [
 ];
 
 const regionsInCameroon = [
+  { value: null, label: "Select Regon" },
   { value: "adamaoua", label: "Adamaoua" },
   { value: "centre", label: "Centre" },
   { value: "east", label: "East" },
@@ -478,6 +479,7 @@ const regionsInCameroon = [
 ];
 
 const cameroonBanks = [
+  { value: null, label: "Select Bank Account" },
   { value: "afriland_first_bank", label: "Afriland First Bank" },
   { value: "banque_atlantique", label: "Banque Atlantique" },
   {
@@ -502,6 +504,7 @@ const cameroonBanks = [
 ];
 
 const sex = [
+  { value: null, label: "Select Sex" },
   { value: "M", label: "Male" },
   { value: "F", label: "Female" },
 ];
