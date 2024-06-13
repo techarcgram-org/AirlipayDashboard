@@ -16,9 +16,7 @@ import Loading from "../loading";
 import moment from "moment";
 
 const userDetailsLayout = ({ children }) => {
-  const { errorMessage, error, user, users } = useSelector(
-    (state) => state.users
-  );
+  const { errorMessage, error, user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const { id } = useParams();
   const [userData, setUserData] = useState(null);
@@ -54,7 +52,8 @@ const userDetailsLayout = ({ children }) => {
             join={moment(userData?.created_at).format("DD/MM/YYYY HH:mm")}
             address={userData?.addresses?.city}
             status={userData?.accounts?.account_status}
-            activated="08/12/2023"
+            activated={userData?.activation_date}
+            userId={userData?.employee_id}
             aBalance={5000}
             tAmount={5000}
             nBalance={5000}

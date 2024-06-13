@@ -8,11 +8,21 @@ import { useRouter } from "next/navigation";
 // import Modal from "../common/modal";
 // import { AddUser } from "..";
 import { useDispatch } from "react-redux";
-import { deleteClientById } from "@/app/GlobalRedux/Features/clientSlice";
-import { removeAdmin } from "@/app/GlobalRedux/Features/adminSlice";
-import { removeUser } from "@/app/GlobalRedux/Features/userSlice";
+import {
+  deleteClientById,
+  updateClientById,
+} from "@/app/GlobalRedux/Features/clientSlice";
+import {
+  removeAdmin,
+  updateAdmin,
+} from "@/app/GlobalRedux/Features/adminSlice";
+import {
+  removeUser,
+  updateUser,
+  listUsers,
+} from "@/app/GlobalRedux/Features/userSlice";
 
-const Table = ({ users, columns, filter }) => {
+const Table = ({ users, columns, filter, transactionTypes, employers }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +31,7 @@ const Table = ({ users, columns, filter }) => {
   const [modalOpen, setModalOpen] = useState(false);
   // const [currentUrl, setCurrentUrl] = useState("");
   const [currentUrlUser, setCurrentUrlUser] = useState("");
+  const [status, setStatus] = useState({});
 
   // Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -82,11 +93,30 @@ const Table = ({ users, columns, filter }) => {
     setItemsPerPage(parseInt(e.target.value));
   };
 
-  // Handle edit entry
-  const handleEdit = (userId) => {
-    // Perform edit action for the given userId
-    console.log("Edit user:", userId);
+  // Handle update status
+  const handleUpdateStatus = () => {
+    try {
+      const data = { id: status.id, accountStatus: status.status };
+      if (currentUrlUser === "clients") {
+        dispatch(updateClientById(data));
+        window.location.reload();
+      }
+      if (currentUrlUser === "admins") {
+        dispatch(updateAdmin(data));
+        window.location.reload();
+      }
+      if (currentUrlUser === "users") {
+        dispatch(updateUser(data));
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   };
+
+  useEffect(() => {
+    handleUpdateStatus();
+  }, [status]);
 
   // Handle delete entry
   const handleDelete = (id) => {
@@ -125,15 +155,23 @@ const Table = ({ users, columns, filter }) => {
             <>
               <select className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2">
                 <option>TRANSACTION TYPE</option>
-                <option>Type one</option>
-                <option>Type two</option>
-                <option>Type three</option>
+                {transactionTypes?.map((item, index) => {
+                  return (
+                    <option value={item} key={index}>
+                      {item}
+                    </option>
+                  );
+                })}
               </select>
               <select className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2 ml-2">
-                <option>EMPLOYMENT</option>
-                <option>Employer one</option>
-                <option>Employer two</option>
-                <option>Employer three</option>
+                <option>EMPLOYER</option>
+                {employers?.map((item, index) => {
+                  return (
+                    <option value={item.id} key={index}>
+                      {item?.name}
+                    </option>
+                  );
+                })}
               </select>
             </>
           )}
@@ -231,8 +269,16 @@ const Table = ({ users, columns, filter }) => {
                       </div> */}
                       <select
                         className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
+                        onChange={(e) =>
+                          setStatus({ id: user.id, status: e.target.value })
+                        }
                       >
                         <option>{status?.toUpperCase()}</option>
+                        <option value={"PENDING"}>PENDING</option>
+                        <option value={"ACTIVE"}>ACTIVE</option>
+                        <option value={"BLOCKED"}>BLOCKED</option>
+                        <option value={"BANNED"}>BANNED</option>
+                        <option value={"DEACTIVATED"}>DEACTIVATED</option>
                       </select>
                     </td>
                   );
@@ -257,7 +303,13 @@ const Table = ({ users, columns, filter }) => {
                     className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
                   >
                     <div className="text-sm text-gray-900">
-                      <Link href={`/dashboard/${currentUrlUser}/${user.id}`}>
+                      <Link
+                        href={
+                          user.id
+                            ? `/dashboard/${currentUrlUser}/${user.id}`
+                            : ""
+                        }
+                      >
                         {user[column.field]}
                       </Link>
                     </div>

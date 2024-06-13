@@ -133,7 +133,7 @@ const clientColumns = [
   { id: "name", header: "Name", field: "name" },
   { id: "email", header: "Email Address", field: "email" },
   { id: "contact", header: "Phone Number", field: "contact" },
-  { id: "clientId", header: "Client ID", field: "clientId" },
+  { id: "status", header: "Status", field: "status" },
   { id: "edit", header: "Edit", field: "" },
   { id: "delete", header: "Delete", field: "" },
 ];
@@ -207,7 +207,7 @@ const adminsColumns = [
   { id: "name", header: "Admin Name", field: "name" },
   { id: "email", header: "Email Address", field: "email" },
   { id: "phoneNumber", header: "Phone Number", field: "phoneNumber" },
-  { id: "adminId", header: "Admin ID", field: "adminId" },
+  { id: "status", header: "Status", field: "status" },
   { id: "edit", header: "Edit", field: "" },
   { id: "delete", header: "Delete", field: "" }
 ]
@@ -265,7 +265,7 @@ const userColumns = [
   { id: "email", header: "Email", field: "email" },
   { id: "address", header: "Address", field: "address" },
   { id: "employee_id", header: "Employee ID", field: "employee_id" },
-  { id: "employer", header: "Employer", field: "employer" },
+  { id: "client_name", header: "Employer", field: "client_name" },
   { id: "status", header: "Status", field: "account_status" },
   { id: "edit", header: "Edit", field: "" },
   { id: "delete", header: "Delete", field: "" },
@@ -401,6 +401,7 @@ const transactionColumns = [
   { id: "amount", header: "Amount", field: "amount" },
   { id: "fee", header: "Fee", field: "fee" },
   { id: "user", header: "User", field: "user" },
+  { id: "employer", header: "Employer", field: "employer" },
   { id: "balanceBefore", header: "Balance Before", field: "balanceBefore" },
   { id: "balanceAfter", header: "Balance After", field: "balanceAfter" },
 ];

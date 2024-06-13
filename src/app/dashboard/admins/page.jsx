@@ -25,7 +25,7 @@ const Page = () => {
             name: item?.name,
             email: item?.accounts.email,
             phoneNumber: item?.addresses.primary_phone_number,
-            adminId: item?.id,
+            account_status: item?.accounts?.account_status,
           };
         })
         .reverse();

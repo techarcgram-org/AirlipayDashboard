@@ -44,17 +44,39 @@ const page = () => {
   //   (item) => item?.user_id === parseInt(id)
   // );
 
-  const formattedData = transactionsWithUsers.map((item) => {
+  const formattedData = transactionsWithUsers?.map((item) => {
     return {
       date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
-      description: item?.description,
-      amount: item?.amount,
-      fee: item?.fees,
+      description: `${item?.transaction_type} Last 4: ${
+        item?.phone_number?.slice(-4) || "NAN"
+      }`,
+      amount: formatMoney(item?.amount),
+      fee: formatMoney(item?.fees),
       user: item?.user?.name,
+      employer: item?.user?.client_name,
       balanceBefore: `XAF ${formatMoney(item?.old_balance)}`,
       balanceAfter: `XAF ${formatMoney(item?.new_balance)}`,
     };
   });
+
+  const transactionTypes = Array.from(
+    new Set(
+      transactionsWithUsers?.map((item) => {
+        return item?.transaction_type;
+      })
+    )
+  );
+
+  const employers = Array.from(
+    new Set(
+      transactionsWithUsers
+        ?.map((item) => ({
+          id: item?.user?.id,
+          name: item?.user?.client_name,
+        }))
+        .map(({ id }) => id) // Extracting only the id for uniqueness
+    )
+  ).map((id) => ({ id }));
 
   if (loading) {
     return <Loading />;
@@ -68,6 +90,8 @@ const page = () => {
         users={formattedData}
         columns={dataStatic.transactionColumns}
         filter={true}
+        transactionTypes={transactionTypes}
+        employers={employers}
       />
     </>
   );

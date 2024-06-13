@@ -10,7 +10,7 @@ const page = () => {
   const { users } = useSelector((state) => state.users);
   const { id } = useParams();
 
-  const roater = users?.filter((item) => item.client_id === id);
+  const roater = users?.filter((item) => item.client_id === parseInt(id));
   const formattedData = roater?.map((item) => {
     return {
       name: item.name,

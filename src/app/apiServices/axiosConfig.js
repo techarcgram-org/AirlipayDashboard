@@ -1,5 +1,6 @@
 import axios from "axios";
 
+console.log("base URL", process.env.NEXT_PUBLIC_API_URL);
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 if (typeof window !== "undefined" && window.localStorage) {
