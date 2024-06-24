@@ -7,6 +7,7 @@ const ClientDetails = ({
   username,
   email,
   phoneNumber,
+  nextPaymentDate,
   join,
   activated,
   status,
@@ -57,6 +58,17 @@ const ClientDetails = ({
           </div>
           <div className="flex items-start">
             <strong>{phoneNumber}</strong>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2 my-2">
+          <div className="flex items-start">
+            <p className="m-2">
+              <strong>Next Payment Date</strong>
+            </p>
+          </div>
+          <div className="flex items-start">
+            <strong>{nextPaymentDate}</strong>
           </div>
         </div>
 

@@ -63,14 +63,14 @@ const page = () => {
     fetchFilteredTransactions();
   }, [employer]);
 
-  console.log(filteredByEmployer);
-
   const formattedData = transactionsWithUsers?.map((item) => {
     return {
       date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
-      description: `${item?.transaction_type} Last 4: ${
-        item?.phone_number?.slice(-4) || "NAN"
-      }`,
+      description:
+        item?.transaction_type === "WITHDRAW"
+          ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`
+          : `${item?.transaction_type}`,
+
       amount: formatMoney(item?.amount),
       fee: formatMoney(item?.fees),
       user: item?.user?.name,
@@ -83,9 +83,12 @@ const page = () => {
   const formattedFilteredData = filteredByEmployer?.map((item) => {
     return {
       date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
-      description: `${item?.transaction_type} Last 4: ${
-        item?.phone_number?.slice(-4) || "NAN"
-      }`,
+
+      description:
+        item?.transaction_type === "WITHDRAW"
+          ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`
+          : `${item?.transaction_type}`,
+
       amount: formatMoney(item?.amount),
       fee: formatMoney(item?.fees),
       user: item?.user?.name,

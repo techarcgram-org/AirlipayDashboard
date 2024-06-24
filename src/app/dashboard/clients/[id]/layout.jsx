@@ -21,7 +21,7 @@ const userDetailsLayout = ({ children }) => {
   useEffect(() => {
     dispatch(readClient(id));
     dispatch(listUsers());
-    dispatch(readTransactions());
+    dispatch(readTransactions({ txnType: "" }));
   }, [id]);
 
   useEffect(() => {
@@ -45,6 +45,9 @@ const userDetailsLayout = ({ children }) => {
             username={user?.name}
             email={user?.accounts?.email}
             phoneNumber={user?.addresses?.primary_phone_number}
+            nextPaymentDate={moment(user?.next_payment_date).format(
+              "DD/MM/YYYY"
+            )}
             join={moment(user?.created_at).format("DD/MM/YYYY HH:mm")}
             address={user?.addresses?.city}
             status={user?.accounts?.account_status}

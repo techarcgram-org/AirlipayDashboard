@@ -140,6 +140,7 @@ const clientColumns = [
 
 const clientTransactionsColumns = [
   { id: "date", header: "Date", field: "date" },
+  { id: "description", header: "Description (Purpose, last four)", field: "description" },
   { id: "employeeName", header: "Employee Name", field: "employeeName" },
   { id: "amount", header: "Amount", field: "amount" },
   { id: "transactionId", header: "Transaction ID", field: "transactionId" },

@@ -2,14 +2,21 @@
 
 import { Table } from "@/components";
 import dataStatic from "@/constant/data";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { useParams } from "next/navigation";
+import { useEffect } from "react";
+import { readTransactions } from "@/app/GlobalRedux/Features/transactionSlice";
 
 const page = () => {
   const { transactions } = useSelector((state) => state.transactions);
   const { users } = useSelector((state) => state.users);
+  const dispatch = useDispatch();
   const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(readTransactions({ txnType: "" }));
+  }, []);
 
   const userMap = {};
   users?.forEach((user) => {
@@ -38,6 +45,10 @@ const page = () => {
   const formattedData = clientTransactions.map((item) => {
     return {
       date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
+      description:
+        item?.transaction_type === "WITHDRAW"
+          ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`
+          : `${item?.transaction_type}`,
       employeeName: item?.user?.name,
       amount: item?.amount,
       transactionId: item?.id,

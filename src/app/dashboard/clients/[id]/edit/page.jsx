@@ -49,6 +49,7 @@ const Page = () => {
           mobileMoneyNumber: data?.mobile_money_number,
           secondaryPhone: data?.addresses?.secondery_phone_number,
         };
+
         setUser(formattedData);
       }
     };
@@ -147,7 +148,7 @@ const Page = () => {
                   <SelectInput
                     label="Region"
                     name="region"
-                    // value={values.region}
+                    value={values.region}
                     options={dataStatic.regionsInCameroon}
                     onChange={handleChange}
                     type="select"
@@ -169,7 +170,7 @@ const Page = () => {
                   <SelectInput
                     label="Bank Name"
                     name="bank"
-                    // value={values.bank}
+                    value={values.bank}
                     onChange={handleChange}
                     options={dataStatic.cameroonBanks}
                     required

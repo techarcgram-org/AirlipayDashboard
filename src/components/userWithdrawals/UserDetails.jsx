@@ -126,7 +126,7 @@ const UserDetails = ({
         {/* <div className='h-[90%] w-[2px] bg-black' ></div> */}
         <div className="flex">
           <div className="md:m-10 m-4">
-            <p> Negative Banlance</p>
+            <p>Base Salary</p>
             <p style={{ color: "#063B87", fontSize: 20 }}>XAF {nBalance}</p>
           </div>
           <div className="md:m-10 m-4">

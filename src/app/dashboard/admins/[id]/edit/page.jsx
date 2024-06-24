@@ -137,7 +137,7 @@ const Page = () => {
                   <SelectInput
                     label="Region"
                     name="region"
-                    // value={values.region}
+                    value={values.region}
                     options={data.regionsInCameroon}
                     onChange={handleChange}
                     type="select"

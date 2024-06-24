@@ -36,7 +36,7 @@ const Page = () => {
           name: user?.name,
           email: user?.accounts.email,
           baseSalary: user?.base_salary,
-          dob: user?.dob,
+          dob: new Date(user.dob).toDateString().split("T")[0],
           sex: user?.sex,
           clientId: user?.client_id,
           city: user?.addresses.city,
@@ -50,6 +50,8 @@ const Page = () => {
     };
     getUser();
   }, [user]);
+
+  // console.log(userData.dob);
 
   useEffect(() => {
     dispatch(readClients());
@@ -235,7 +237,7 @@ const Page = () => {
                     <SelectInput
                       label="Region"
                       name="region"
-                      // value={values.region}
+                      value={values.region}
                       options={dataStatic.regionsInCameroon}
                       onChange={handleChange}
                       type="select"
@@ -261,7 +263,7 @@ const Page = () => {
                     <SelectInput
                       label="Client"
                       name="clientId"
-                      // value={values.region}
+                      value={values.clientId}
                       options={clients}
                       onChange={handleChange}
                       type="select"

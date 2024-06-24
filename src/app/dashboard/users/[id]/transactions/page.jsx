@@ -38,15 +38,16 @@ const page = () => {
   const formattedData = userTransactions.map((item) => {
     return {
       date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
-      description: item?.description,
+      description:
+        item?.transaction_type === "WITHDRAW"
+          ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`
+          : `${item?.transaction_type}`,
       amount: item?.amount,
       fee: item?.fees,
       balanceBefore: item?.old_balance,
       balanceAfter: item?.new_balance,
     };
   });
-
-  console.log(transactions);
 
   return (
     <Table

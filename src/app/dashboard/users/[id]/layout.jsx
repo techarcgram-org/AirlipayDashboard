@@ -30,7 +30,7 @@ const userDetailsLayout = ({ children }) => {
   useEffect(() => {
     dispatch(listUser(parseInt(id)));
     dispatch(listUsers());
-    dispatch(readTransactions());
+    dispatch(readTransactions({ txnType: "" }));
     // dispatch(listBanks(parseInt(id)));
     // dispatch(listMomoAccounts(id));
     dispatch(listAirlipayBalance(parseInt(id)));
@@ -64,8 +64,7 @@ const userDetailsLayout = ({ children }) => {
     (item) => item?.user_id === parseInt(id)
   );
 
-  console.log(transactions);
-
+  // const currentUrl = typeof window !== "undefined" && window.location.href;
   const currentUrl = window.location.href;
   const regex = /\/(\d+)\/edit/;
   const match = currentUrl.match(regex);
@@ -90,7 +89,7 @@ const userDetailsLayout = ({ children }) => {
             userId={userData?.employee_id}
             aBalance={formatMoney(airlipayBalance?.balance)}
             tAmount={5000}
-            nBalance={5000}
+            nBalance={formatMoney(userData?.base_salary)}
             fee={5000}
           />
           <Tab
