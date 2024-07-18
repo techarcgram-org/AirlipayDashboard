@@ -85,7 +85,9 @@ const userDetailsLayout = ({ children }) => {
             join={moment(userData?.created_at).format("DD/MM/YYYY HH:mm")}
             address={userData?.addresses?.city}
             status={userData?.accounts?.account_status}
-            activated={userData?.activation_date}
+            activated={moment(userData?.accounts?.activation_date).format(
+              "DD/MM/YYYY HH:mm"
+            )}
             userId={userData?.employee_id}
             aBalance={formatMoney(airlipayBalance?.balance)}
             tAmount={5000}
