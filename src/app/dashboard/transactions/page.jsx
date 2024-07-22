@@ -11,9 +11,9 @@ import { readTransactions } from "@/app/GlobalRedux/Features/transactionSlice";
 import { formatMoney } from "@/utils/utils";
 
 const page = () => {
+  const dispatch = useDispatch();
   const { transactions } = useSelector((state) => state.transactions);
   const { users, loading } = useSelector((state) => state.users);
-  const dispatch = useDispatch();
   const [txnType, setTxnType] = useState("DEPOSIT");
   const [employer, setEmployer] = useState("");
   const [filteredByEmployer, setFilteredByEmployer] = useState([]);
@@ -120,6 +120,8 @@ const page = () => {
   if (loading) {
     return <Loading />;
   }
+
+  // console.log(transactions);
 
   return (
     <>

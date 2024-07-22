@@ -7,6 +7,7 @@ import { readClient } from "@/app/GlobalRedux/Features/clientSlice";
 import { listAdmin } from "@/app/GlobalRedux/Features/adminSlice";
 import { listUser } from "@/app/GlobalRedux/Features/userSlice";
 import moment from "moment";
+import Loading from "../loading";
 
 const page = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,12 @@ const page = () => {
     }
   }, [role, data, admins, user]);
 
+  if (!userData) {
+    return <Loading />;
+  }
+
+  console.log(userData);
+
   return (
     <div>
       <UserDetails
@@ -55,7 +62,9 @@ const page = () => {
         join={moment(userData?.created_at).format("DD/MM/YYYY HH:mm")}
         address={userData?.addresses?.city}
         status={userData?.accounts?.account_status}
-        activated={userData?.accounts?.activation_date}
+        activated={moment(userData?.accounts?.activation_date).format(
+          "DD/MM/YYYY HH:mm"
+        )}
       />
     </div>
   );
