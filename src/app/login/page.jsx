@@ -28,7 +28,7 @@ const Login = () => {
   return (
     <form
       onSubmit={formik.handleSubmit}
-      className="flex flex-col w-[30%] bg-white p-20 rounded-lg"
+      className="flex flex-col sm:w-[100%] lg:w-[500px] bg-white p-20 rounded-lg"
     >
       <p className="text-3xl font-bold mb-8 self-center">Log in</p>
       <div className="flex flex-col">

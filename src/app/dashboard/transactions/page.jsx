@@ -14,7 +14,7 @@ const page = () => {
   const dispatch = useDispatch();
   const { transactions } = useSelector((state) => state.transactions);
   const { users, loading } = useSelector((state) => state.users);
-  const [txnType, setTxnType] = useState("DEPOSIT");
+  const [txnType, setTxnType] = useState("");
   const [employer, setEmployer] = useState("");
   const [filteredByEmployer, setFilteredByEmployer] = useState([]);
 
