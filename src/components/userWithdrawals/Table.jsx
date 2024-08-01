@@ -261,6 +261,7 @@ const Table = ({
                 if (column.id === "status") {
                   // Handle status column
                   const status = user["account_status"];
+                  console.log(status);
                   let statusStyle = "";
                   if (status === "ACTIVE") {
                     statusStyle = "text-green-600";
@@ -276,6 +277,12 @@ const Table = ({
                     statusStyle = "text-yellow-600";
                   } else if (status === "DEACTIVATED") {
                     statusStyle = "text-purple-600";
+                  }
+                  //
+                  else if (status === "SUCCESS") {
+                    statusStyle = "text-green-600";
+                  } else if (status === "FAILED") {
+                    statusStyle = "text-red-600";
                   }
                   return (
                     <td
@@ -298,6 +305,8 @@ const Table = ({
                           <option value={"TREATED"}>TREATED</option>
                           <option value={"NOT_TREATED"}>NOT_TREATED</option>
                         </select>
+                      ) : currentUrlUser === "transactions" ? (
+                        <span className={`${statusStyle}`}>{status}</span>
                       ) : (
                         <select
                           className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}

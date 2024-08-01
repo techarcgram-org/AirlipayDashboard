@@ -404,6 +404,7 @@ const columnsDetails = [
 const transactionColumns = [
   { id: "date", header: "Date", field: "date" },
   { id: "description", header: "Description (Purpose, last four)", field: "description" },
+  { id: "status", header: "Status", field: "status" },
   { id: "amount", header: "Amount", field: "amount" },
   { id: "fee", header: "Fee", field: "fee" },
   { id: "user", header: "User", field: "user" },

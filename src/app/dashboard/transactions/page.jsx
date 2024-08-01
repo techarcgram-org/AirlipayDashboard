@@ -24,7 +24,11 @@ const page = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(readTransactions({ txnType }));
+    if (txnType === "ALL") {
+      dispatch(readTransactions());
+    } else {
+      dispatch(readTransactions({ txnType }));
+    }
     dispatch(listUsers());
   }, [txnType]);
 
@@ -48,10 +52,6 @@ const page = () => {
     return attachUserToTransaction(transaction);
   });
 
-  // const userTransactions = transactionsWithUsers.filter(
-  //   (item) => item?.user_id === parseInt(id)
-  // );
-
   useEffect(() => {
     const fetchFilteredTransactions = async () => {
       const filtered = await transactionsWithUsers?.filter(
@@ -70,7 +70,7 @@ const page = () => {
         item?.transaction_type === "WITHDRAW"
           ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`
           : `${item?.transaction_type}`,
-
+      account_status: item?.status,
       amount: formatMoney(item?.amount),
       fee: formatMoney(item?.fees),
       user: item?.user?.name,
@@ -88,7 +88,7 @@ const page = () => {
         item?.transaction_type === "WITHDRAW"
           ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`
           : `${item?.transaction_type}`,
-
+      account_status: item?.status,
       amount: formatMoney(item?.amount),
       fee: formatMoney(item?.fees),
       user: item?.user?.name,
@@ -97,14 +97,6 @@ const page = () => {
       balanceAfter: `XAF ${formatMoney(item?.new_balance)}`,
     };
   });
-
-  const transactionTypes = Array.from(
-    new Set(
-      transactionsWithUsers?.map((item) => {
-        return item?.transaction_type;
-      })
-    )
-  );
 
   const employers = Array.from(
     new Set(
@@ -121,8 +113,6 @@ const page = () => {
     return <Loading />;
   }
 
-  // console.log(transactions);
-
   return (
     <>
       <h2 className="font-bold">Transactions</h2>
@@ -135,7 +125,7 @@ const page = () => {
         }
         columns={dataStatic.transactionColumns}
         filter={true}
-        transactionTypes={transactionTypes}
+        transactionTypes={["ALL", "WITHDRAW", "DEPOSIT"]}
         employers={employers}
         setTxnType={setTxnType}
         setEmployer={setEmployer}
