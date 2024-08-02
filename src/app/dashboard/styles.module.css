@@ -8,11 +8,11 @@
 .clients,
 .invoices {
     display: flex;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
 }
 
 .users .card {
-    width: 25%;
+    width: 23%;
     margin: 1%;
     border-radius: 3px;
     padding: 20px;
@@ -20,7 +20,7 @@
 }
 
 .transactions .card {
-    width: 33%;
+    width: 31%;
     margin: 1%;
     border-radius: 3px;
     padding: 20px;
@@ -29,7 +29,7 @@
 
 .invoices .card,
 .clients .card {
-    width: 50%;
+    width: 48%;
     margin: 1%;
     border-radius: 3px;
     padding: 20px;

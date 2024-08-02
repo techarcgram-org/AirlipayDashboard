@@ -21,8 +21,6 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
     setActiveTab(pathname);
   }, [pathname]);
 
-  console.log(pathname);
-
   return (
     <div
       ref={ref}

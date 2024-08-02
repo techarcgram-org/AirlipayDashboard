@@ -14,6 +14,7 @@ import Spinner from "@/components/Spinner";
 import Loading from "@/app/loading";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
+import moment from "moment";
 
 const Page = () => {
   // const [files, setFiles] = useState(null);
@@ -29,16 +30,15 @@ const Page = () => {
 
   useEffect(() => {
     const getUser = () => {
-      // const userData = data.filter((user) => user?.id === parseInt(id))[0];
-      if (data) {
+      if (data && !Array.isArray(data)) {
         const formattedData = {
           id: data?.id,
           name: data?.name,
-          industry: data?.name,
+          industry: data?.industry,
           taxId: data?.tax_id,
           clientCommision: data?.client_commision,
           earningReportStatus: data?.earningReportStatus,
-          nextPaymentDate: data?.next_payment_date,
+          nextPaymentDate: moment(data?.next_payment_date).format("YYYY-MM-DD"),
           bank: data?.bank,
           bankAccountNumber: data?.bankAccountNumber,
           email: data?.accounts?.email,
@@ -71,10 +71,9 @@ const Page = () => {
           <h2 className="capitalize text-2xl font-bold">update client</h2>
         </div>
         <Formik
-          initialValues={user || {}}
+          initialValues={user}
           // validationSchema={createClientValidator}
           onSubmit={async (values) => {
-            console.log(values);
             const response = await dispatch(updateClientById(values));
             if (response.meta.requestStatus === "fulfilled") {
               router.push("/dashboard/clients");

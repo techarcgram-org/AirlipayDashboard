@@ -119,7 +119,7 @@ const page = () => {
         columns={dataStatic.transactionColumns}
         filter={true}
         transactionTypes={["ALL", "WITHDRAW", "DEPOSIT"]}
-        employers={data}
+        employers={data || []}
         txnStatus={true}
         setTxnType={setTxnType}
         setEmployer={setEmployer}

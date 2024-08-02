@@ -36,14 +36,14 @@ const Page = () => {
           name: user?.name,
           email: user?.accounts.email,
           baseSalary: user?.base_salary,
-          dob: new Date(user.dob).toDateString().split("T")[0],
+          dob: moment(user?.dob).format("YYYY-MM-DD"),
           sex: user?.sex,
           clientId: user?.client_id,
           city: user?.addresses.city,
           street: user?.addresses.street,
           region: user?.addresses.region,
-          primaryPhone: user?.addresses.primaryPhone,
-          secondaryPhone: user?.addresses.secondaryPhone,
+          primaryPhone: user?.addresses.primary_phone_number,
+          secondaryPhone: user?.addresses.secondery_phone_number,
         };
         setUserData(formattedData);
       }
@@ -58,17 +58,19 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    const formatted = data.map((item) => {
-      return {
-        label: item.name,
-        value: item.id,
-      };
-    });
+    if (data.length > 0) {
+      const formatted = data.map((item) => {
+        return {
+          label: item.name,
+          value: item.id,
+        };
+      });
 
-    const dummyData = { label: "Select Client", value: null };
-    const formattedWithDummy = [dummyData, ...formatted];
+      const dummyData = { label: "Select Client", value: null };
+      const formattedWithDummy = [dummyData, ...formatted];
 
-    setClients(formattedWithDummy);
+      setClients(formattedWithDummy);
+    }
   }, [data]);
 
   if (!userData) {

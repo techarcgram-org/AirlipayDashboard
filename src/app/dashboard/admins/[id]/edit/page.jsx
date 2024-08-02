@@ -37,7 +37,7 @@ const Page = () => {
           city: admins?.addresses?.city,
           region: admins?.addresses?.region,
           street: admins?.addresses?.street,
-          mobileMoneyNumber: admins?.mobile_money_number,
+          mobileMoneyNumber: admins?.addresses.primary_phone_number,
           secondaryPhone: admins?.addresses?.secondery_phone_number,
         };
         setUser(formattedData);
