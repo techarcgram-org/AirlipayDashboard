@@ -30,6 +30,12 @@ export async function deleteUser(id) {
   return await axios.delete(`/users/${id}`);
 }
 
+export async function getPayPeriods(id) {
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  return await axios.get(`/users/${id}/pay-periods?page=${1}&limit=${30}`);
+}
+
 export async function getBanks(id) {
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;

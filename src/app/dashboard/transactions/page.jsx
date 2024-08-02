@@ -8,18 +8,22 @@ import moment from "moment";
 import Loading from "../loading";
 import { listUsers } from "@/app/GlobalRedux/Features/userSlice";
 import { readTransactions } from "@/app/GlobalRedux/Features/transactionSlice";
+import { readClients } from "@/app/GlobalRedux/Features/clientSlice";
 import { formatMoney } from "@/utils/utils";
 
 const page = () => {
   const dispatch = useDispatch();
   const { transactions } = useSelector((state) => state.transactions);
   const { users, loading } = useSelector((state) => state.users);
+  const { data } = useSelector((state) => state.clients);
+
   const [txnType, setTxnType] = useState("");
   const [employer, setEmployer] = useState("");
   const [filteredByEmployer, setFilteredByEmployer] = useState([]);
 
   useEffect(() => {
     dispatch(readTransactions({ txnType }));
+    dispatch(readClients());
     dispatch(listUsers());
   }, []);
 
@@ -98,20 +102,11 @@ const page = () => {
     };
   });
 
-  const employers = Array.from(
-    new Set(
-      transactionsWithUsers
-        ?.map((item) => ({
-          id: item?.user?.id,
-          name: item?.user?.client_name,
-        }))
-        .map(({ id }) => id) // Extracting only the id for uniqueness
-    )
-  ).map((id) => ({ id }));
-
   if (loading) {
     return <Loading />;
   }
+
+  console.log(data);
 
   return (
     <>
@@ -126,7 +121,8 @@ const page = () => {
         columns={dataStatic.transactionColumns}
         filter={true}
         transactionTypes={["ALL", "WITHDRAW", "DEPOSIT"]}
-        employers={employers}
+        employers={data}
+        txnStatus={true}
         setTxnType={setTxnType}
         setEmployer={setEmployer}
       />

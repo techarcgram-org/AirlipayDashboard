@@ -11,6 +11,7 @@ import {
   listUser,
   // listBanks,
   // listMomoAccounts,
+  listPayPeriods,
   listAirlipayBalance,
 } from "@/app/GlobalRedux/Features/userSlice";
 import { useParams } from "next/navigation";
@@ -20,9 +21,8 @@ import { formatMoney } from "@/utils/utils";
 
 const userDetailsLayout = ({ children }) => {
   const { transactions } = useSelector((state) => state.transactions);
-  const { errorMessage, error, user, users, airlipayBalance } = useSelector(
-    (state) => state.users
-  );
+  const { errorMessage, error, user, users, airlipayBalance, payPeriods } =
+    useSelector((state) => state.users);
   const dispatch = useDispatch();
   const { id } = useParams();
   const [userData, setUserData] = useState(null);
@@ -30,6 +30,7 @@ const userDetailsLayout = ({ children }) => {
   useEffect(() => {
     dispatch(listUser(parseInt(id)));
     dispatch(listUsers());
+    dispatch(listPayPeriods(parseInt(id)));
     dispatch(readTransactions({ txnType: "" }));
     // dispatch(listBanks(parseInt(id)));
     // dispatch(listMomoAccounts(id));
@@ -90,9 +91,21 @@ const userDetailsLayout = ({ children }) => {
             )}
             userId={userData?.employee_id}
             aBalance={formatMoney(airlipayBalance?.balance)}
-            tAmount={5000}
+            tAmount={payPeriods[0]?.transactions
+              .filter(
+                (transaction) =>
+                  transaction.transaction_type === "WITHDRAW" &&
+                  transaction.status === "SUCCESS"
+              )
+              .reduce((sum, transaction) => sum + transaction.amount, 0)}
             nBalance={formatMoney(userData?.base_salary)}
-            fee={5000}
+            fee={payPeriods[0]?.transactions
+              .filter(
+                (transaction) =>
+                  transaction.transaction_type === "WITHDRAW" &&
+                  transaction.status === "SUCCESS"
+              )
+              .reduce((sum, transaction) => sum + transaction.fees, 0)}
           />
           <Tab
             options={[

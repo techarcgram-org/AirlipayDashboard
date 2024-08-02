@@ -437,6 +437,7 @@ const clientInvoiceColumns = [
 const userTransactionColumns = [
   { id: "date", header: "Date", field: "date" },
   { id: "description", header: "Description (Type, last four)", field: "description" },
+  { id: "status", header: "Status", field: "status" },
   { id: "amount", header: "Amount", field: "amount" },
   { id: "fee", header: "Fee", field: "fee" },
   { id: "balanceBefore", header: "Balance Before", field: "balanceBefore" },

@@ -1,11 +1,12 @@
 "use client"; //this is a client side component
 
-import { createUser, getUsers, getUser, editUser, deleteUser, getBanks, getMomoAccounts, getAirlipayBalance } from "@/app/apiServices/userService";
+import { createUser, getUsers, getUser, editUser, deleteUser, getBanks, getPayPeriods, getMomoAccounts, getAirlipayBalance } from "@/app/apiServices/userService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   users: [],
   user: null,
+  payPeriods: [],
   banks: [],
   momoAccounts: [],
   airlipayBalance: [],
@@ -80,6 +81,21 @@ export const removeUser = createAsyncThunk(
     let response;
     try {
       response = await deleteUser(id);
+      return response.data;
+    } catch (error) {
+      console.log("THUNK CLIENT ERROR", error);
+      return thunkAPI.rejectWithValue({ data: error.response.data });
+    }
+    // Replace with your API call
+  }
+);
+
+export const listPayPeriods = createAsyncThunk(
+  "users/listPayPeriods",
+  async (id, thunkAPI) => {
+    let response;
+    try {
+      response = await getPayPeriods(id);
       return response.data;
     } catch (error) {
       console.log("THUNK CLIENT ERROR", error);
@@ -215,6 +231,22 @@ const userSlice = createSlice({
         state.errorMessage = "Success deleting user";
       })
       .addCase(removeUser.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMessage = action.payload.data.message;
+        state.error = true;
+      })
+      // 
+      .addCase(listPayPeriods.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        state.errorMessage = null;
+      })
+      .addCase(listPayPeriods.fulfilled, (state, action) => {
+        state.payPeriods = action.payload;
+        state.loading = false;
+        state.errorMessage = "Success listing pay periods";
+      })
+      .addCase(listPayPeriods.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload.data.message;
         state.error = true;

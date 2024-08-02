@@ -42,6 +42,7 @@ const page = () => {
         item?.transaction_type === "WITHDRAW"
           ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`
           : `${item?.transaction_type}`,
+      account_status: item?.status,
       amount: item?.amount,
       fee: item?.fees,
       balanceBefore: item?.old_balance,
@@ -52,6 +53,7 @@ const page = () => {
   return (
     <Table
       tab="Transactions"
+      txnStatus={true}
       users={formattedData}
       columns={dataStatic.userTransactionColumns}
     />

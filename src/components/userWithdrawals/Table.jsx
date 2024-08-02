@@ -25,6 +25,7 @@ const Table = ({
   filter,
   transactionTypes,
   employers,
+  txnStatus,
   setTxnType,
   setEmployer,
 }) => {
@@ -149,6 +150,8 @@ const Table = ({
     }
   };
 
+  console.log("user", currentUrlUser);
+
   return (
     <div className="mt-4">
       <div className="mb-4 flex justify-between items-center">
@@ -261,7 +264,6 @@ const Table = ({
                 if (column.id === "status") {
                   // Handle status column
                   const status = user["account_status"];
-                  console.log(status);
                   let statusStyle = "";
                   if (status === "ACTIVE") {
                     statusStyle = "text-green-600";
@@ -305,7 +307,7 @@ const Table = ({
                           <option value={"TREATED"}>TREATED</option>
                           <option value={"NOT_TREATED"}>NOT_TREATED</option>
                         </select>
-                      ) : currentUrlUser === "transactions" ? (
+                      ) : txnStatus ? (
                         <span className={`${statusStyle}`}>{status}</span>
                       ) : (
                         <select
