@@ -106,8 +106,6 @@ const page = () => {
     return <Loading />;
   }
 
-  console.log(data);
-
   return (
     <>
       <h2 className="font-bold">Transactions</h2>

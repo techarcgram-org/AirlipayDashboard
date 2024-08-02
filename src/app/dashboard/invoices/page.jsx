@@ -52,8 +52,6 @@ const page = () => {
     }
   }, [invoices, data]);
 
-  console.log(invoices);
-
   if (loading) {
     return <Loading />;
   }
