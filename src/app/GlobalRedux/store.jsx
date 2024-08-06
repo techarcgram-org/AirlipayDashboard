@@ -7,6 +7,7 @@ import userSlice from "./Features/userSlice";
 import adminSlice from "./Features/adminSlice";
 import transactionSlice from "./Features/transactionSlice";
 import invoiceSlice from "./Features/invoiceSlice";
+import dashboardSlice from "./Features/dashboardSlice";
 
 const rootReducer = combineReducers({
   clients: clientSlice,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   admins: adminSlice,
   transactions: transactionSlice,
   invoices: invoiceSlice,
+  dashboard: dashboardSlice,
 });
 
 export const store = configureStore({

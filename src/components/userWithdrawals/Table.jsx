@@ -120,8 +120,9 @@ const Table = ({
         window.location.reload();
       }
       if (currentUrlUser === "invoices") {
-        dispatch(updateInvoice(data));
-        window.location.reload();
+        const invoiceData = { id: status.id, status: status.status };
+        dispatch(updateInvoice(invoiceData));
+        // window.location.reload();
       }
     } catch (error) {
       console.log("error", error);
@@ -145,6 +146,17 @@ const Table = ({
       if (currentUrlUser === "users") {
         dispatch(removeUser(id));
       }
+    } else {
+      console.log("cancelled");
+    }
+  };
+
+  // Handle delete entry
+  const handleMarkAsTreated = (id) => {
+    const userConfirmed = window.confirm("Do you want to proceed?");
+    if (userConfirmed) {
+      dispatch(deleteClientById(id));
+      window.location.reload();
     } else {
       console.log("cancelled");
     }
@@ -284,6 +296,12 @@ const Table = ({
                   } else if (status === "FAILED") {
                     statusStyle = "text-red-600";
                   }
+                  //
+                  else if (status === "TREATED") {
+                    statusStyle = "text-green-600";
+                  } else if (status === "NOT_TREATED") {
+                    statusStyle = "text-red-600";
+                  }
                   return (
                     <td
                       key={column.id}
@@ -293,18 +311,23 @@ const Table = ({
                       {/* <div className="text-sm text-white font-bold capitalize">
                         {status}
                       </div> */}
-                      {currentUrlUser === "payments" ||
-                      currentUrlUser === "invoices" ? (
+                      {currentUrlUser === "payments" ? (
                         <select
                           className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
                           onChange={(e) =>
                             setStatus({ id: user.id, status: e.target.value })
                           }
                         >
-                          <option>{status?.toUpperCase()}</option>
+                          <option>
+                            {status === "TREATED" ? "TREATED" : "NOT TREATED"}
+                          </option>
                           <option value={"TREATED"}>TREATED</option>
-                          <option value={"NOT_TREATED"}>NOT_TREATED</option>
+                          <option value={"NOT_TREATED"}>NOT TREATED</option>
                         </select>
+                      ) : currentUrlUser === "invoices" ? (
+                        <span className={`${statusStyle}`}>
+                          {status === "TREATED" ? "TREATED" : "NOT TREATED"}
+                        </span>
                       ) : txnStatus ? (
                         <span className={`${statusStyle}`}>{status}</span>
                       ) : (
@@ -336,6 +359,22 @@ const Table = ({
                           {`${user["street"]}, ${user["city"]}, ${user["region"]} `}
                         </Link>
                       </div>
+                    </td>
+                  );
+                }
+                if (column.id === "treated") {
+                  return (
+                    <td
+                      key={column.id}
+                      className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
+                    >
+                      <button
+                        onClick={() => handleMarkAsTreated(user.id)} // Add handleEdit function
+                        className="text-green-600 underline disabled:text-gray-400"
+                        disabled={false}
+                      >
+                        Mark as Treated
+                      </button>
                     </td>
                   );
                 }

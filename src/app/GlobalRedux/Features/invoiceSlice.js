@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { getInvoices, getInvoiceTransactions, editInvoice } from "@/app/apiServices/invoiceService";
+import { getInvoices, getInvoiceTransactions, editInvoice, markInvoiceAsComplete } from "@/app/apiServices/invoiceService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -44,6 +44,21 @@ export const updateInvoice = createAsyncThunk(
     let response;
     try {
       response = await editInvoice(data);
+      return response.data;
+    } catch (error) {
+      console.log("THUNK CLIENT ERROR", error);
+      return thunkAPI.rejectWithValue({ data: error.response.data });
+    }
+    // Replace with your API call
+  }
+);
+
+export const markAsComplete = createAsyncThunk(
+  "users/markAsComplete",
+  async (data, thunkAPI) => {
+    let response;
+    try {
+      response = await markInvoiceAsComplete(data);
       return response.data;
     } catch (error) {
       console.log("THUNK CLIENT ERROR", error);
@@ -103,6 +118,22 @@ const accountSlice = createSlice({
         state.errorMessage = "Success updating invoice";
       })
       .addCase(updateInvoice.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMessage = action.payload.data.message;
+        state.error = true;
+      })
+      // update invoice as completed
+      .addCase(markAsComplete.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+        state.errorMessage = null;
+      })
+      .addCase(markAsComplete.fulfilled, (state, action) => {
+        state.users = action.payload;
+        state.loading = false;
+        state.errorMessage = "Email sent successfully";
+      })
+      .addCase(markAsComplete.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload.data.message;
         state.error = true;

@@ -421,7 +421,19 @@ const invoiceColumns = [
   { id: "to", header: "To", field: "to" },
   { id: "taxes", header: "Taxes", field: "taxes" },
   { id: "totalFees", header: "Total Fees", field: "totalFees" },
-  { id: "totalAmount", header: "Total Amount", field: "totalAmount" }
+  { id: "totalAmount", header: "Total Amount", field: "totalAmount" },
+  { id: "treated", header: "Mark as Treated", field: "treated" }
+]
+
+const paymentColumns = [
+  { id: "invoiceNumber", header: "Invoice Number", field: "invoiceNumber" },
+  { id: "client", header: "Client", field: "client" },
+  { id: "status", header: "Status", field: "status" },
+  { id: "from", header: "From", field: "from" },
+  { id: "to", header: "To", field: "to" },
+  { id: "taxes", header: "Taxes", field: "taxes" },
+  { id: "totalFees", header: "Total Fees", field: "totalFees" },
+  { id: "totalAmount", header: "Total Amount", field: "totalAmount" },
 ]
 
 const clientInvoiceColumns = [
@@ -450,22 +462,7 @@ const banksColumns = [
   { id: "balance", header: "Balance", field: "balance" },
 ];
 
-const paymentColumns = [
-  { id: "date", header: "Payment date", field: "date" },
-  { id: "employeeName", header: "Employee Name", field: "employeeName" },
-  { id: "amount", header: "Amount", field: "amount" },
-  { id: "transactionID", header: "Transaction ID", field: "transactionID" },
-  {
-    id: "destinationAccount",
-    header: "Destination Account",
-    field: "destinationAccount",
-  },
-  {
-    id: "totalAmountTransferred",
-    header: "Total Amount Transferred",
-    filed: "totalAmountTransferred",
-  },
-];
+
 
 const regionsInCameroon = [
   { value: null, label: "Select Regon" },

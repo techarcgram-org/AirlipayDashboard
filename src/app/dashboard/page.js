@@ -7,132 +7,30 @@ import { FaUsers, FaUsersCog, FaUsersSlash } from "react-icons/fa";
 import { FaUsersBetweenLines, FaMoneyBillTransfer } from "react-icons/fa6";
 import { BiSolidErrorAlt } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { listUsers } from "../GlobalRedux/Features/userSlice";
-import { listAdmins } from "../GlobalRedux/Features/adminSlice";
-import { readClients } from "../GlobalRedux/Features/clientSlice";
-import { readTransactions } from "../GlobalRedux/Features/transactionSlice";
-import { listInvoices } from "../GlobalRedux/Features/invoiceSlice";
+import { getMetrics } from "../GlobalRedux/Features/dashboardSlice";
 
 const page = () => {
   const dispatch = useDispatch()
-  const { data } = useSelector((state) => state.clients);
-  const { admins } = useSelector((state) => state.admins);
-  const { users } = useSelector((state) => state.users);
-  const { transactions } = useSelector((state) => state.transactions);
-  const { invoices } = useSelector((state) => state.invoices);
-
-  const [txnData, setTxnData] = useState([])
-  const [successfulTxn, setSuccessfulTxn] = useState([])
-  const [failedTxn, setFailedTxn] = useState([])
-
-  const [adminData, setAdminData] = useState([])
-  const [pendingAdmins, setPendingAdmins] = useState([])
-  const [activeAdmins, setActiveAdmins] = useState([])
-  const [decAdmins, setDecAdmins] = useState([])
-  const [blockedAdmins, setBlockedAdmins] = useState([])
-
-  const [userData, setUserData] = useState([])
-  const [pendinUsers, setPendinUsers] = useState([])
-  const [activUsers, setActivUsers] = useState([])
-  const [decUsers, setDecUsers] = useState([])
-  const [blockeUsers, setBlockeUsers] = useState([])
-
-  const [clientData, setClientData] = useState([])
-  const [pendingClients, setPendingClients] = useState([])
-  const [activeClients, setActiveClients] = useState([])
-  const [decClients, setDecClients] = useState([])
-  const [blockedClients, setBlockeClients] = useState([])
-
-  const [invoiceData, setInvoiceData] = useState([])
-  const [paidInvoice, setPaidInvoice] = useState([])
-
-  const categorizeTxns = () => {
-    const success = txnData.filter(txn => txn.status === 'SUCCESS');
-    const failed = txnData.filter(txn => txn.status === 'FAILED');
-
-    setSuccessfulTxn(success);
-    setFailedTxn(failed);
-  };
-
-  const categorizeAdmins = () => {
-    const pending = adminData.filter(admin => admin.accounts.account_status === 'PENDING');
-    const active = adminData.filter(admin => admin.accounts.account_status === 'ACTIVE');
-    const declined = adminData.filter(admin => admin.accounts.account_status === 'DEACTIVATED');
-    const blocked = adminData.filter(admin => admin.accounts.account_status === 'BLOCKED');
-
-    setPendingAdmins(pending);
-    setActiveAdmins(active);
-    setDecAdmins(declined);
-    setBlockedAdmins(blocked);
-  };
-
-  const categorizeUsers = () => {
-    const pending = userData.filter(user => user.account_status === 'PENDING');
-    const active = userData.filter(user => user.account_status === 'ACTIVE');
-    const declined = userData.filter(user => user.account_status === 'DEACTIVATED');
-    const blocked = userData.filter(user => user.account_status === 'BLOCKED');
-
-    setPendinUsers(pending);
-    setActivUsers(active);
-    setDecUsers(declined);
-    setBlockeUsers(blocked);
-  };
-
-  const categorizeClients = () => {
-    const pending = clientData.filter(client => client.accounts.account_status === 'PENDING');
-    const active = clientData.filter(client => client.accounts.account_status === 'ACTIVE');
-    const declined = clientData.filter(client => client.accounts.account_status === 'DEACTIVATED');
-    const blocked = clientData.filter(client => client.accounts.account_status === 'BLOCKED');
-
-    setPendingClients(pending);
-    setActiveClients(active);
-    setDecClients(declined);
-    setBlockeClients(blocked);
-  };
-
-  const categorizeInvoices = () => {
-    const treated = invoiceData.filter(inv => inv.status === 'TREATED');
-
-    setPaidInvoice(treated);
-  };
+  const { data } = useSelector((state) => state.dashboard);
+  const [admins, setAdmins] = useState(0)
+  const [clients, setClients] = useState(0)
+  const [invoices, setInvoices] = useState(0)
+  const [transactions, setTransactions] = useState(0)
+  const [users, setUsers] = useState(0)
 
   useEffect(() => {
-    dispatch(listUsers())
-    dispatch(listAdmins())
-    dispatch(readClients())
-    dispatch(readTransactions())
-    dispatch(listInvoices());
+    dispatch(getMetrics())
   }, [])
 
   useEffect(() => {
-    setAdminData(admins)
-    setUserData(users)
-    setClientData(data)
-    setTxnData(transactions)
-    setInvoiceData(invoices)
-  }, [users, admins, data, transactions, invoices])
-
-  useEffect(() => {
-    categorizeAdmins()
-  }, [adminData])
-
-  useEffect(() => {
-    categorizeUsers()
-  }, [userData])
-
-  useEffect(() => {
-    if (clientData.length > 0) {
-      categorizeClients()
+    if (data) {
+      setAdmins(data?.admins)
+      setClients(data?.clients)
+      setInvoices(data?.invoices)
+      setTransactions(data?.transactions)
+      setUsers(data?.users)
     }
-  }, [clientData])
-
-  useEffect(() => {
-    categorizeTxns()
-  }, [txnData])
-
-  useEffect(() => {
-    categorizeInvoices()
-  }, [invoiceData])
+  }, [data])
 
   return (
     <div>
@@ -142,28 +40,28 @@ const page = () => {
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.green}`}><FaUsers /></div>
             <div className={styles.detail}>
-              <h3 className={styles.green}>{activeAdmins?.length}</h3>
+              <h3 className={styles.green}>{admins?.active}</h3>
               <p>Active</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.yellow}`}>< FaUsersBetweenLines /></div>
             <div className={styles.detail}>
-              <h3 className={styles.yellow}>{pendingAdmins?.length}</h3>
+              <h3 className={styles.yellow}>{admins?.pending}</h3>
               <p>Pending</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.purple}`}><FaUsersCog /></div>
             <div className={styles.detail}>
-              <h3 className={styles.purple}>{decAdmins?.length}</h3>
+              <h3 className={styles.purple}>{admins?.deactivated}</h3>
               <p>Deactivated</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.darkred}`}><FaUsersSlash /></div>
             <div className={styles.detail}>
-              <h3 className={styles.darkred}>{blockedAdmins?.length}</h3>
+              <h3 className={styles.darkred}>{admins?.blocked}</h3>
               <p>Blocked</p>
             </div>
           </div>
@@ -174,28 +72,28 @@ const page = () => {
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.green}`}><FaUsers /></div>
             <div className={styles.detail}>
-              <h3 className={styles.green}>{activUsers?.length}</h3>
+              <h3 className={styles.green}>{users?.active}</h3>
               <p>Active</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.yellow}`}>< FaUsersBetweenLines /></div>
             <div className={styles.detail}>
-              <h3 className={styles.yellow}>{pendinUsers?.length}</h3>
+              <h3 className={styles.yellow}>{users?.pending}</h3>
               <p>Pending</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.purple}`}><FaUsersCog /></div>
             <div className={styles.detail}>
-              <h3 className={styles.purple}>{decUsers?.length}</h3>
+              <h3 className={styles.purple}>{users?.deactivated}</h3>
               <p>Deactivated</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.darkred}`}><FaUsersSlash /></div>
             <div className={styles.detail}>
-              <h3 className={styles.darkred}>{blockeUsers?.length}</h3>
+              <h3 className={styles.darkred}>{users?.blocked}</h3>
               <p>Blocked</p>
             </div>
           </div>
@@ -206,28 +104,28 @@ const page = () => {
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.green}`}><FaUsers /></div>
             <div className={styles.detail}>
-              <h3 className={styles.green}>{activeClients?.length}</h3>
+              <h3 className={styles.green}>{clients?.active}</h3>
               <p>Active</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.yellow}`}>< FaUsersBetweenLines /></div>
             <div className={styles.detail}>
-              <h3 className={styles.yellow}>{pendingClients?.length}</h3>
+              <h3 className={styles.yellow}>{clients?.pending}</h3>
               <p>Pending</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.purple}`}><FaUsersCog /></div>
             <div className={styles.detail}>
-              <h3 className={styles.purple}>{decClients?.length}</h3>
+              <h3 className={styles.purple}>{clients?.deactivated}</h3>
               <p>Deactivated</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.darkred}`}><FaUsersSlash /></div>
             <div className={styles.detail}>
-              <h3 className={styles.darkred}>{blockedClients?.length}</h3>
+              <h3 className={styles.darkred}>{clients?.blocked}</h3>
               <p>Blocked</p>
             </div>
           </div>
@@ -238,21 +136,21 @@ const page = () => {
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.darkblue}`}><FaMoneyBillTransfer /></div>
             <div className={styles.detail}>
-              <h3 className={styles.darkblue}>{txnData?.length}</h3>
+              <h3 className={styles.darkblue}>{transactions?.all}</h3>
               <p>Total</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.green}`}><BsPatchCheckFill /></div>
             <div className={styles.detail}>
-              <h3 className={styles.green}>{successfulTxn?.length}</h3>
+              <h3 className={styles.green}>{transactions?.success}</h3>
               <p>Successful</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.darkred}`}><BiSolidErrorAlt /></div>
             <div className={styles.detail}>
-              <h3 className={styles.darkred}>{failedTxn?.length}</h3>
+              <h3 className={styles.darkred}>{transactions?.failed}</h3>
               <p>Failed</p>
             </div>
           </div>
@@ -263,14 +161,14 @@ const page = () => {
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.green}`}><BsClipboardCheckFill /></div>
             <div className={styles.detail}>
-              <h3 className={styles.green}>{paidInvoice?.length}</h3>
+              <h3 className={styles.green}>{invoices?.paid}</h3>
               <p>Paid</p>
             </div>
           </div>
           <div className={styles.card}>
             <div className={`${styles.icon} ${styles.darkred}`}><BsClipboardMinusFill /></div>
             <div className={styles.detail}>
-              <h3 className={styles.darkred}>{invoiceData?.length - paidInvoice?.length}</h3>
+              <h3 className={styles.darkred}>{invoices?.unpaid}</h3>
               <p>Unpaid</p>
             </div>
           </div>

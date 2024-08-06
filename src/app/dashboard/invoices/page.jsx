@@ -45,6 +45,7 @@ const page = () => {
             to: moment(item?.to).format("DD/MM/YYYY HH:mm"),
             taxes: formatMoney(item?.taxes),
             totalAmount: formatMoney(item.totalAmount),
+            treated: formatMoney(item.totalAmount),
           };
         })
         .reverse();

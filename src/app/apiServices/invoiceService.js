@@ -15,7 +15,21 @@ export async function getInvoiceTransactions(id) {
 export async function editInvoice(data) {
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  return await axios.patch(`/invoice/${data.id}/update-status`, data);
+  return await axios.patch(`/invoice/${data.id}/update-status`, data, {
+    headers: {
+      "Content-Type": 'application/json'
+    }
+  });
+}
+
+export async function markInvoiceAsComplete(data) {
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  return await axios.patch(`/invoice/${data.id}/update-status`, data, {
+    headers: {
+      "Content-Type": 'application/json'
+    }
+  });
 }
 
 

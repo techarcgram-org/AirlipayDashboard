@@ -61,7 +61,7 @@ const page = () => {
       <Table
         tab="Client Payment"
         users={formatted}
-        columns={dataStatic.invoiceColumns}
+        columns={dataStatic.paymentColumns}
       />
     </div>
   );
