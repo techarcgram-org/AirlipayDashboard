@@ -106,24 +106,25 @@ const Table = ({
       const data = { id: status.id, accountStatus: status.status };
       if (currentUrlUser === "clients") {
         dispatch(updateClientById(data));
-        // window.location.reload();
+        window.location.reload();
       }
       if (currentUrlUser === "admins") {
         dispatch(updateAdmin(data));
-        // window.location.reload();
+        window.location.reload();
       }
       if (currentUrlUser === "users") {
         dispatch(updateUser(data));
-        // window.location.reload();
+        window.location.reload();
       }
       if (currentUrlUser === "payments") {
-        dispatch(updateInvoice(data));
-        // window.location.reload();
+        const paymentData = { id: status.id, status: status.status };
+        dispatch(updateInvoice(paymentData));
+        window.location.reload();
       }
       if (currentUrlUser === "invoices") {
         const invoiceData = { id: status.id, status: status.status };
         dispatch(updateInvoice(invoiceData));
-        // window.location.reload();
+        window.location.reload();
       }
     } catch (error) {
       console.log("error", error);
@@ -156,7 +157,7 @@ const Table = ({
   const handleMarkAsTreated = (id) => {
     const userConfirmed = window.confirm("Do you want to proceed?");
     if (userConfirmed) {
-      const invoiceData = { id: id, status: "PENDING" };
+      const invoiceData = { id: id, status: "PENDING_CONFIRMATION" };
       dispatch(markAsComplete(invoiceData));
       // window.location.reload();
     } else {
@@ -301,6 +302,8 @@ const Table = ({
                   //
                   else if (status === "TREATED") {
                     statusStyle = "text-green-600";
+                  } else if (status === "PENDING_CONFIRMATION") {
+                    statusStyle = "text-yellow-600";
                   } else if (status === "NOT_TREATED") {
                     statusStyle = "text-red-600";
                   }
@@ -321,14 +324,22 @@ const Table = ({
                           }
                         >
                           <option>
-                            {status === "TREATED" ? "TREATED" : "NOT TREATED"}
+                            {status === "TREATED"
+                              ? "TREATED"
+                              : status === "PENDING_CONFIRMATION"
+                              ? "PENDING"
+                              : "NOT TREATED"}
                           </option>
                           <option value={"TREATED"}>TREATED</option>
                           <option value={"NOT_TREATED"}>NOT TREATED</option>
                         </select>
                       ) : currentUrlUser === "invoices" ? (
                         <span className={`${statusStyle}`}>
-                          {status === "TREATED" ? "TREATED" : "NOT TREATED"}
+                          {status === "TREATED"
+                            ? "TREATED"
+                            : status === "PENDING_CONFIRMATION"
+                            ? "PENDING"
+                            : "NOT TREATED"}
                         </span>
                       ) : txnStatus ? (
                         <span className={`${statusStyle}`}>{status}</span>
@@ -365,6 +376,7 @@ const Table = ({
                   );
                 }
                 if (column.id === "treated") {
+                  const status = user["account_status"];
                   return (
                     <td
                       key={column.id}
@@ -373,7 +385,13 @@ const Table = ({
                       <button
                         onClick={() => handleMarkAsTreated(user.id)} // Add handleEdit function
                         className="text-green-600 underline disabled:text-gray-400"
-                        disabled={false}
+                        disabled={
+                          status === "TREATED"
+                            ? true
+                            : status === "PENDING_CONFIRMATION"
+                            ? true
+                            : false
+                        }
                       >
                         Mark as Treated
                       </button>

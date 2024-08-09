@@ -3,7 +3,7 @@ import axios from "./axiosConfig";
 export async function getInvoices() {
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  return await axios.get(`/invoice`);
+  return await axios.get(`/invoice?status=${data.status || ''}&type=${data.txnType || ''}&page=${1}&pageSize=${100}`);
 }
 
 export async function getInvoiceTransactions(id) {
@@ -25,7 +25,6 @@ export async function editInvoice(data) {
 export async function markInvoiceAsComplete(data) {
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  console.log(data)
   return await axios.patch(`/client/${data.id}/update-invoice-status`, data, {
     headers: {
       "Content-Type": 'application/json'
