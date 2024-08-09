@@ -25,7 +25,8 @@ export async function editInvoice(data) {
 export async function markInvoiceAsComplete(data) {
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  return await axios.patch(`/invoice/${data.id}/update-status`, data, {
+  console.log(data)
+  return await axios.patch(`/client/${data.id}/update-invoice-status`, data, {
     headers: {
       "Content-Type": 'application/json'
     }

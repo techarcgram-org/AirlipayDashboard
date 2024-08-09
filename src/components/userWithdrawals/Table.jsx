@@ -16,6 +16,7 @@ import {
   removeAdmin,
   updateAdmin,
 } from "@/app/GlobalRedux/Features/adminSlice";
+import { markAsComplete } from "@/app/GlobalRedux/Features/invoiceSlice";
 import { removeUser, updateUser } from "@/app/GlobalRedux/Features/userSlice";
 import { updateInvoice } from "@/app/GlobalRedux/Features/invoiceSlice";
 
@@ -155,8 +156,9 @@ const Table = ({
   const handleMarkAsTreated = (id) => {
     const userConfirmed = window.confirm("Do you want to proceed?");
     if (userConfirmed) {
-      dispatch(deleteClientById(id));
-      window.location.reload();
+      const invoiceData = { id: id, status: "PENDING" };
+      dispatch(markAsComplete(invoiceData));
+      // window.location.reload();
     } else {
       console.log("cancelled");
     }
