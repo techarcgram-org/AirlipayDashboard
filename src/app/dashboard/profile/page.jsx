@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import UserDetails from "@/components/user/profile";
+import UserDetails from "../../../components/user/profile";
 import { useDispatch, useSelector } from "react-redux";
-import { readClient } from "@/app/GlobalRedux/Features/clientSlice";
-import { listAdmin } from "@/app/GlobalRedux/Features/adminSlice";
-import { listUser } from "@/app/GlobalRedux/Features/userSlice";
+import { readClient } from "../../GlobalRedux/Features/clientSlice";
+import { listAdmin } from "../../GlobalRedux/Features/adminSlice";
+import { listUser } from "../../GlobalRedux/Features/userSlice";
 import moment from "moment";
 import Loading from "../loading";
 

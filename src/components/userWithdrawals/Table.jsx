@@ -11,14 +11,17 @@ import { useDispatch } from "react-redux";
 import {
   deleteClientById,
   updateClientById,
-} from "@/app/GlobalRedux/Features/clientSlice";
+} from "../../app/GlobalRedux/Features/clientSlice";
 import {
   removeAdmin,
   updateAdmin,
-} from "@/app/GlobalRedux/Features/adminSlice";
-import { markAsComplete } from "@/app/GlobalRedux/Features/invoiceSlice";
-import { removeUser, updateUser } from "@/app/GlobalRedux/Features/userSlice";
-import { updateInvoice } from "@/app/GlobalRedux/Features/invoiceSlice";
+} from "../../app/GlobalRedux/Features/adminSlice";
+import { markAsComplete } from "../../app/GlobalRedux/Features/invoiceSlice";
+import {
+  removeUser,
+  updateUser,
+} from "../../app/GlobalRedux/Features/userSlice";
+import { updateInvoice } from "../../app/GlobalRedux/Features/invoiceSlice";
 
 const Table = ({
   users,

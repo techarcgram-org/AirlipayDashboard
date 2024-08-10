@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "../GlobalRedux/Features/accountSlice";
-import Spinner from "@/components/Spinner";
+import Spinner from "../../components/Spinner";
 
 const Login = () => {
   const dispatch = useDispatch();

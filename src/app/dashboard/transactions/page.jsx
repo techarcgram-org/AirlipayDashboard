@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { Table } from "../../../components";
-import dataStatic from "@/constant/data";
+import dataStatic from "../../../constant/data";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import Loading from "../loading";
-import { listUsers } from "@/app/GlobalRedux/Features/userSlice";
-import { readTransactions } from "@/app/GlobalRedux/Features/transactionSlice";
-import { readClients } from "@/app/GlobalRedux/Features/clientSlice";
-import { formatMoney } from "@/utils/utils";
+import { listUsers } from "../../../app/GlobalRedux/Features/userSlice";
+import { readTransactions } from "../../../app/GlobalRedux/Features/transactionSlice";
+import { readClients } from "../../../app/GlobalRedux/Features/clientSlice";
+import { formatMoney } from "../../../utils/utils";
 
 const page = () => {
   const dispatch = useDispatch();

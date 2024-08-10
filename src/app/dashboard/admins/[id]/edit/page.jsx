@@ -1,13 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { SelectInput, TextInput } from "@/components/";
+import { SelectInput, TextInput } from "../../../../../components";
 import { Formik } from "formik";
-import data from "@/constant/data";
+import data from "../../../../../constant/data";
 import { useDispatch, useSelector } from "react-redux";
-import Spinner from "@/components/Spinner";
-import { updateAdmin, listAdmin } from "@/app/GlobalRedux/Features/adminSlice";
-import Loading from "@/app/loading";
+import Spinner from "../../../../../components/Spinner";
+import {
+  updateAdmin,
+  listAdmin,
+} from "../../../../GlobalRedux/Features/adminSlice";
+import Loading from "../../../../../app/loading";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 

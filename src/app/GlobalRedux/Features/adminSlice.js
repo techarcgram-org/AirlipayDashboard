@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { createAdmin, getAdmins, getAdmin, editAdmin, deleteAdmin } from "@/app/apiServices/adminService";
+import { createAdmin, getAdmins, getAdmin, editAdmin, deleteAdmin } from "../../apiServices/adminService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

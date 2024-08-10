@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { UserDetails } from "@/components";
-import Info from "@/components/Info";
-import Tab from "@/components/common/Tab";
+import { UserDetails } from "../../../../components";
+import Info from "../../../../components/Info";
+import Tab from "../../../../components/common/Tab";
 import { useDispatch, useSelector } from "react-redux";
-import { readTransactions } from "@/app/GlobalRedux/Features/transactionSlice";
+import { readTransactions } from "../../../../app/GlobalRedux/Features/transactionSlice";
 import {
   listUsers,
   listUser,
@@ -13,11 +13,11 @@ import {
   // listMomoAccounts,
   listPayPeriods,
   listAirlipayBalance,
-} from "@/app/GlobalRedux/Features/userSlice";
+} from "../../../../app/GlobalRedux/Features/userSlice";
 import { useParams } from "next/navigation";
 import Loading from "../loading";
 import moment from "moment";
-import { formatMoney } from "@/utils/utils";
+import { formatMoney } from "../../../../utils/utils";
 
 const userDetailsLayout = ({ children }) => {
   const { transactions } = useSelector((state) => state.transactions);

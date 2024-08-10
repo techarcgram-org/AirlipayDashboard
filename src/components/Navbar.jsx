@@ -15,7 +15,7 @@ import { AiFillMail, AiFillSetting, AiOutlineMenu } from "react-icons/ai";
 import { IoLogOut } from "react-icons/io5";
 import images from "../constant/images";
 import { useDispatch } from "react-redux";
-import { deleteAccount } from "@/app/GlobalRedux/Features/accountSlice";
+import { deleteAccount } from "../app/GlobalRedux/Features/accountSlice";
 import { useRouter } from "next/navigation";
 
 const Navbar = ({ showNav, setShowNav }) => {

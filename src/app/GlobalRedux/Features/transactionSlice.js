@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { getTransactions } from "@/app/apiServices/transactionService";
+import { getTransactions } from "../../apiServices/transactionService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

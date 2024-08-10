@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Table } from "../../../components";
 import dataStatic from "../../../constant/data";
 import { useDispatch, useSelector } from "react-redux";
-import { readClients } from "@/app/GlobalRedux/Features/clientSlice";
+import { readClients } from "../../GlobalRedux/Features/clientSlice";
 import Loading from "../loading";
 
 const Page = () => {

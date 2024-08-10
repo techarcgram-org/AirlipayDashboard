@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Table } from "@/components";
-import data from "@/constant/data";
+import { Table } from "../../../components";
+import data from "../../../constant/data";
 import { useDispatch, useSelector } from "react-redux";
-import { listAdmins } from "@/app/GlobalRedux/Features/adminSlice";
+import { listAdmins } from "../../GlobalRedux/Features/adminSlice";
 import Loading from "../loading";
 
 const Page = () => {

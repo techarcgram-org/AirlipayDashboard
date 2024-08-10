@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Table } from "@/components";
-import dataStatic from "@/constant/data";
+import { Table } from "../../../components";
+import dataStatic from "../../../constant/data";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { listInvoices } from "@/app/GlobalRedux/Features/invoiceSlice";
-import { readClients } from "@/app/GlobalRedux/Features/clientSlice";
+import { listInvoices } from "../../../app/GlobalRedux/Features/invoiceSlice";
+import { readClients } from "../../../app/GlobalRedux/Features/clientSlice";
 import Loading from "../loading";
-import { formatMoney } from "@/utils/utils";
+import { formatMoney } from "../../../utils/utils";
 import moment from "moment";
 
 const page = () => {

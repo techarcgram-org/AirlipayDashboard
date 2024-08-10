@@ -1,12 +1,12 @@
 "use client";
 
-import { Table } from "@/components";
-import dataStatic from "@/constant/data";
+import { Table } from "../../../../../components";
+import dataStatic from "../../../../../constant/data";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
-import { readTransactions } from "@/app/GlobalRedux/Features/transactionSlice";
+import { readTransactions } from "../../../../GlobalRedux/Features/transactionSlice";
 
 const page = () => {
   const { transactions } = useSelector((state) => state.transactions);

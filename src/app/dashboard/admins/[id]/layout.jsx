@@ -2,11 +2,11 @@
 
 // import { UserDetails } from "@/components";
 import { useState, useEffect } from "react";
-import AdminDetails from "@/components/admin/adminDetails";
-import Info from "@/components/Info";
+import AdminDetails from "../../../../components/admin/adminDetails";
+import Info from "../../../../components/Info";
 // import Tab from "@/components/common/Tab";
 import { useDispatch, useSelector } from "react-redux";
-import { listAdmin } from "@/app/GlobalRedux/Features/adminSlice";
+import { listAdmin } from "../../../GlobalRedux/Features/adminSlice";
 import { useParams } from "next/navigation";
 import Loading from "../loading";
 import moment from "moment";

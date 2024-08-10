@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { login } from "@/app/apiServices/authService";
+import { login } from "../../apiServices/authService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

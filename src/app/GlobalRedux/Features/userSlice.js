@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { createUser, getUsers, getUser, editUser, deleteUser, getBanks, getPayPeriods, getMomoAccounts, getAirlipayBalance } from "@/app/apiServices/userService";
+import { createUser, getUsers, getUser, editUser, deleteUser, getBanks, getPayPeriods, getMomoAccounts, getAirlipayBalance } from "../../apiServices/userService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

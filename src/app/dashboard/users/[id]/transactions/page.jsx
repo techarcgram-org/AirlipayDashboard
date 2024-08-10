@@ -1,7 +1,7 @@
 "use client";
 
-import { Table } from "@/components";
-import dataStatic from "@/constant/data";
+import { Table } from "../../../../../components";
+import dataStatic from "../../../../../constant/data";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { useParams } from "next/navigation";

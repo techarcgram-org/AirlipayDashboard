@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "@/components/Modal/Modal";
+import Modal from "../../../../../components/Modal/Modal";
 import styles from "./styles.module.css";
 import moment from "moment";
 
@@ -46,33 +46,37 @@ const Transactions = ({ isModalOpen, setIsModalOpen, transactions }) => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {user?.early_transactions?.map((transaction, index) => (
-                      <tr key={index}>
-                        <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
-                          {transaction?.transaction_type}
-                        </td>
-                        <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
-                          {moment(transaction?.created_at).format(
-                            "DD/MM/YYYY HH:mm"
-                          )}
-                        </td>
-                        <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
-                          {transaction?.status}
-                        </td>
-                        <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
-                          {transaction?.amount}
-                        </td>
-                        <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
-                          {transaction?.fees}
-                        </td>
-                        <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
-                          {transaction?.phone_number}
-                        </td>
-                        <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
-                          {transaction?.operator}
-                        </td>
-                      </tr>
-                    ))}
+                    {user?.early_transactions?.map((transaction, index) => {
+                      if (transaction.transaction_type === "WITHDRAW") {
+                        return (
+                          <tr key={index}>
+                            <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
+                              {transaction?.transaction_type}
+                            </td>
+                            <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
+                              {moment(transaction?.created_at).format(
+                                "DD/MM/YYYY HH:mm"
+                              )}
+                            </td>
+                            <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
+                              {transaction?.status}
+                            </td>
+                            <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
+                              {transaction?.amount} XAF
+                            </td>
+                            <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
+                              {transaction?.fees} XAF
+                            </td>
+                            <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
+                              {transaction?.phone_number}
+                            </td>
+                            <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
+                              {transaction?.operator}
+                            </td>
+                          </tr>
+                        );
+                      }
+                    })}
                   </tbody>
                 </table>
               </div>

@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useState, createRef } from "react";
 import { Navbar, Sidebar } from "../../components";
 import { Transition } from "@headlessui/react";
-import { isLoggedIn } from "@/utils/utils";
+import { isLoggedIn } from "../../utils/utils";
 import { useRouter } from "next/navigation";
 import { useDispatch, } from "react-redux";
 

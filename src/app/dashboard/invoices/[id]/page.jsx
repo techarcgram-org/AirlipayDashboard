@@ -4,9 +4,9 @@ import styles from "./styles/invoice.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "next/navigation";
 import moment from "moment";
-import { listInvoiceTransactions } from "@/app/GlobalRedux/Features/invoiceSlice";
-import Loading from "@/app/loading";
-import { formatMoney } from "@/utils/utils";
+import { listInvoiceTransactions } from "../../../../app/GlobalRedux/Features/invoiceSlice";
+import Loading from "../../../../app/loading";
+import { formatMoney } from "../../../../utils/utils";
 import Transactions from "./transactions/Transactions";
 
 const page = () => {
@@ -47,6 +47,32 @@ const page = () => {
   if (loading) {
     return <Loading />;
   }
+
+  const totalWithdrawals = transactions.reduce((sum, transaction) => {
+    const withdrawalSum = transaction.early_transactions
+      .filter(
+        (earlyTransaction) => earlyTransaction.transaction_type === "WITHDRAW"
+      )
+      .reduce(
+        (earlySum, earlyTransaction) => earlySum + earlyTransaction.amount,
+        0
+      );
+
+    return sum + withdrawalSum;
+  }, 0);
+
+  const totalWithdrawalAmount = transactions.reduce((sum, transaction) => {
+    const earlyTransactionsTotal = transaction.early_transactions
+      .filter(
+        (earlyTransaction) => earlyTransaction.transaction_type === "WITHDRAW"
+      )
+      .reduce(
+        (earlySum, earlyTransaction) => earlySum + earlyTransaction.amount,
+        0
+      );
+
+    return sum + earlyTransactionsTotal;
+  }, 0);
 
   return (
     <>
@@ -93,15 +119,7 @@ const page = () => {
               <tr>
                 <td>Total Earned Wage Access Requests</td>
                 <td>
-                  <h3>
-                    {formatMoney(
-                      transactions.reduce(
-                        (sum, transaction) =>
-                          sum + transaction.early_transactions.length,
-                        0
-                      )
-                    )}
-                  </h3>
+                  <h3>{formatMoney(totalWithdrawals)}</h3>
                 </td>
                 <td>-</td>
               </tr>
@@ -110,20 +128,7 @@ const page = () => {
                 <td>
                   <h3>-</h3>
                 </td>
-                <td>
-                  {formatMoney(
-                    transactions.reduce((sum, transaction) => {
-                      const earlyTransactionsTotal =
-                        transaction.early_transactions.reduce(
-                          (earlySum, earlyTransaction) =>
-                            earlySum + earlyTransaction.amount,
-                          0
-                        );
-                      return sum + earlyTransactionsTotal;
-                    }, 0)
-                  )}{" "}
-                  XAF
-                </td>
+                <td>{formatMoney(totalWithdrawalAmount)} XAF</td>
               </tr>
             </tbody>
             <tfoot>
@@ -132,18 +137,7 @@ const page = () => {
                 <td>-</td>
                 <td>
                   {/* {formatMoney(invoiceData?.totalAmount)} */}
-                  {formatMoney(
-                    transactions.reduce((sum, transaction) => {
-                      const earlyTransactionsTotal =
-                        transaction.early_transactions.reduce(
-                          (earlySum, earlyTransaction) =>
-                            earlySum + earlyTransaction.amount,
-                          0
-                        );
-                      return sum + earlyTransactionsTotal;
-                    }, 0)
-                  )}{" "}
-                  XAF
+                  {formatMoney(totalWithdrawalAmount)} XAF
                 </td>
               </tr>
             </tfoot>

@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { getInvoices, getInvoiceTransactions, editInvoice, markInvoiceAsComplete } from "@/app/apiServices/invoiceService";
+import { getInvoices, getInvoiceTransactions, editInvoice, markInvoiceAsComplete } from "../../apiServices/invoiceService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

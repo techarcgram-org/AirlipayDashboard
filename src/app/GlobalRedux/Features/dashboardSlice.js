@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { getData } from "@/app/apiServices/dashboradService";
+import { getData } from "../../apiServices/dashboradService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

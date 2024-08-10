@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Info from "@/components/Info";
+import Info from "../../../components/Info";
 import { Tab } from "../../../components";
 import { useDispatch, useSelector } from "react-redux";
-import { readClients } from "@/app/GlobalRedux/Features/clientSlice";
+import { readClients } from "../../GlobalRedux/Features/clientSlice";
 
 const ClientLayout = ({ children }) => {
   const { errorMessage, error } = useSelector((state) => state.clients);

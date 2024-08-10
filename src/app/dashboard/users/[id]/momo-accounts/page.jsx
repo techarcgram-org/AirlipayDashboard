@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Table } from "@/components";
-import dataStatic from "@/constant/data";
-import bankAccounts from "@/utils/data/banks";
+import { Table } from "../../../../../components";
+import dataStatic from "../../../../../constant/data";
+import bankAccounts from "../../../../../utils/data/banks";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 

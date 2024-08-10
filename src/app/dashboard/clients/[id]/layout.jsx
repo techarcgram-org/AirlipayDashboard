@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ClientDetails from "@/components/client/clientDetails";
-import Info from "@/components/Info";
-import Tab from "@/components/common/Tab";
+import ClientDetails from "../../../../components/client/clientDetails";
+import Info from "../../../../components/Info";
+import Tab from "../../../../components/common/Tab";
 import { useDispatch, useSelector } from "react-redux";
-import { readClient } from "@/app/GlobalRedux/Features/clientSlice";
-import { readTransactions } from "@/app/GlobalRedux/Features/transactionSlice";
-import { listUsers } from "@/app/GlobalRedux/Features/userSlice";
+import { readClient } from "../../../GlobalRedux/Features/clientSlice";
+import { readTransactions } from "../../../GlobalRedux/Features/transactionSlice";
+import { listUsers } from "../../../GlobalRedux/Features/userSlice";
 import { useParams } from "next/navigation";
 import Loading from "../loading";
 import moment from "moment";
