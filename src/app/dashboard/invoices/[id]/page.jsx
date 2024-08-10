@@ -48,11 +48,11 @@ const page = () => {
     return <Loading />;
   }
 
-  console.log(transactions);
-
   return (
     <>
-      <div>View Transactions</div>
+      <div className={styles.transactionsBtn}>
+        <button onClick={openModal}>View Transactions</button>
+      </div>
       <div className={styles.invoice}>
         <h2 className={styles.title}>
           Earned Wage Access Reimbursement Invoice
@@ -93,7 +93,15 @@ const page = () => {
               <tr>
                 <td>Total Earned Wage Access Requests</td>
                 <td>
-                  <h3>100</h3>
+                  <h3>
+                    {formatMoney(
+                      transactions.reduce(
+                        (sum, transaction) =>
+                          sum + transaction.early_transactions.length,
+                        0
+                      )
+                    )}
+                  </h3>
                 </td>
                 <td>-</td>
               </tr>
@@ -102,14 +110,41 @@ const page = () => {
                 <td>
                   <h3>-</h3>
                 </td>
-                <td>500,000 XAF</td>
+                <td>
+                  {formatMoney(
+                    transactions.reduce((sum, transaction) => {
+                      const earlyTransactionsTotal =
+                        transaction.early_transactions.reduce(
+                          (earlySum, earlyTransaction) =>
+                            earlySum + earlyTransaction.amount,
+                          0
+                        );
+                      return sum + earlyTransactionsTotal;
+                    }, 0)
+                  )}{" "}
+                  XAF
+                </td>
               </tr>
             </tbody>
             <tfoot>
               <tr>
                 <td>Total Amount Due</td>
                 <td>-</td>
-                <td>{formatMoney(invoiceData?.totalAmount)} XAF</td>
+                <td>
+                  {/* {formatMoney(invoiceData?.totalAmount)} */}
+                  {formatMoney(
+                    transactions.reduce((sum, transaction) => {
+                      const earlyTransactionsTotal =
+                        transaction.early_transactions.reduce(
+                          (earlySum, earlyTransaction) =>
+                            earlySum + earlyTransaction.amount,
+                          0
+                        );
+                      return sum + earlyTransactionsTotal;
+                    }, 0)
+                  )}{" "}
+                  XAF
+                </td>
               </tr>
             </tfoot>
           </table>
@@ -166,7 +201,11 @@ const page = () => {
           </div>
         </div>
       </div>
-      <Transactions isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <Transactions
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        transactions={transactions}
+      />
     </>
   );
 };

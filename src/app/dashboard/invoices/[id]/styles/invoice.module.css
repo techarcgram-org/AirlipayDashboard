@@ -1,3 +1,17 @@
+.transactionsBtn {
+    margin: 10px 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.transactionsBtn button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #3498DB;
+    color: white;
+    cursor: pointer;
+}
+
 .invoice {
     width: 100%;
     background-color: #F0F4F8;

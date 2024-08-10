@@ -118,6 +118,7 @@ const Table = ({
       }
       if (currentUrlUser === "payments") {
         const paymentData = { id: status.id, status: status.status };
+        console.log(paymentData);
         dispatch(updateInvoice(paymentData));
         window.location.reload();
       }
@@ -159,7 +160,7 @@ const Table = ({
     if (userConfirmed) {
       const invoiceData = { id: id, status: "PENDING_CONFIRMATION" };
       dispatch(markAsComplete(invoiceData));
-      // window.location.reload();
+      window.location.reload();
     } else {
       console.log("cancelled");
     }
