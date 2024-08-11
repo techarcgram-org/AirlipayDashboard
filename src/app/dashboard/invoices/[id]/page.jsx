@@ -48,32 +48,6 @@ const page = () => {
     return <Loading />;
   }
 
-  const totalWithdrawals = transactions.reduce((sum, transaction) => {
-    const withdrawalSum = transaction.early_transactions
-      .filter(
-        (earlyTransaction) => earlyTransaction.transaction_type === "WITHDRAW"
-      )
-      .reduce(
-        (earlySum, earlyTransaction) => earlySum + earlyTransaction.amount,
-        0
-      );
-
-    return sum + withdrawalSum;
-  }, 0);
-
-  const totalWithdrawalAmount = transactions.reduce((sum, transaction) => {
-    const earlyTransactionsTotal = transaction.early_transactions
-      .filter(
-        (earlyTransaction) => earlyTransaction.transaction_type === "WITHDRAW"
-      )
-      .reduce(
-        (earlySum, earlyTransaction) => earlySum + earlyTransaction.amount,
-        0
-      );
-
-    return sum + earlyTransactionsTotal;
-  }, 0);
-
   return (
     <>
       <div className={styles.transactionsBtn}>
@@ -119,7 +93,7 @@ const page = () => {
               <tr>
                 <td>Total Earned Wage Access Requests</td>
                 <td>
-                  <h3>{formatMoney(totalWithdrawals)}</h3>
+                  <h3>{formatMoney(transactions?.length)}</h3>
                 </td>
                 <td>-</td>
               </tr>
@@ -128,7 +102,14 @@ const page = () => {
                 <td>
                   <h3>-</h3>
                 </td>
-                <td>{formatMoney(totalWithdrawalAmount)} XAF</td>
+                <td>
+                  {formatMoney(
+                    transactions
+                      .filter((transaction) => transaction.status === "SUCCESS") // Filter transactions with "SUCCESS" status
+                      .reduce((sum, transaction) => sum + transaction.amount, 0) // Sum the amounts of the filtered transactions
+                  )}
+                  XAF
+                </td>
               </tr>
             </tbody>
             <tfoot>
@@ -136,8 +117,12 @@ const page = () => {
                 <td>Total Amount Due</td>
                 <td>-</td>
                 <td>
-                  {/* {formatMoney(invoiceData?.totalAmount)} */}
-                  {formatMoney(totalWithdrawalAmount)} XAF
+                  {formatMoney(
+                    transactions
+                      .filter((transaction) => transaction.status === "SUCCESS") // Filter transactions with "SUCCESS" status
+                      .reduce((sum, transaction) => sum + transaction.amount, 0) // Sum the amounts of the filtered transactions
+                  )}
+                  XAF
                 </td>
               </tr>
             </tfoot>
