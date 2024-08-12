@@ -114,7 +114,7 @@ const page = () => {
                     transactions
                       .filter(
                         (transaction) =>
-                          transaction.status === "SUCCESS" &&
+                          // transaction.status === "SUCCESS" &&
                           transaction.transaction_type === "WITHDRAW"
                       ) // Filter transactions with "SUCCESS" status and "WITHDRAW" type
                       .reduce((sum, transaction) => sum + transaction.amount, 0) // Sum the amounts of the filtered transactions

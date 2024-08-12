@@ -33,22 +33,20 @@ const page = () => {
         return { ...invoice, client };
       });
 
-      const formattedData = invoicesWithClients
-        ?.map((item) => {
-          return {
-            id: item?.id,
-            invoiceNumber: item?.invoice_number,
-            client: item?.client?.name,
-            account_status: item?.status,
-            totalFees: formatMoney(item?.totalFees),
-            from: moment(item?.from).format("DD/MM/YYYY HH:mm"),
-            to: moment(item?.to).format("DD/MM/YYYY HH:mm"),
-            taxes: formatMoney(item?.taxes),
-            totalAmount: formatMoney(item.totalAmount),
-            treated: formatMoney(item.totalAmount),
-          };
-        })
-        .reverse();
+      const formattedData = invoicesWithClients?.map((item) => {
+        return {
+          id: item?.id,
+          invoiceNumber: item?.invoice_number,
+          client: item?.client?.name,
+          account_status: item?.status,
+          totalFees: formatMoney(item?.totalFees),
+          from: moment(item?.from).format("DD/MM/YYYY HH:mm"),
+          to: moment(item?.to).format("DD/MM/YYYY HH:mm"),
+          taxes: formatMoney(item?.taxes),
+          totalAmount: formatMoney(item.totalAmount),
+          treated: formatMoney(item.totalAmount),
+        };
+      });
       setformatted(formattedData);
     }
   }, [invoices, data]);

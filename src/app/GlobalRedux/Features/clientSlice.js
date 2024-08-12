@@ -138,6 +138,7 @@ const clientSlice = createSlice({
       })
       .addCase(updateClientById.rejected, (state, action) => {
         state.loading = false;
+        console.log(action.payload)
         state.errorMessage = action.payload.data.message;
         state.error = true;
       })

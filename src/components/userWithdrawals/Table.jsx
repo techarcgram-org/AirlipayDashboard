@@ -109,26 +109,25 @@ const Table = ({
       const data = { id: status.id, accountStatus: status.status };
       if (currentUrlUser === "clients") {
         dispatch(updateClientById(data));
-        window.location.reload();
+        // window.location.reload();
       }
       if (currentUrlUser === "admins") {
         dispatch(updateAdmin(data));
-        window.location.reload();
+        // window.location.reload();
       }
       if (currentUrlUser === "users") {
         dispatch(updateUser(data));
-        window.location.reload();
+        // window.location.reload();
       }
       if (currentUrlUser === "payments") {
         const paymentData = { id: status.id, status: status.status };
-        console.log(paymentData);
         dispatch(updateInvoice(paymentData));
         window.location.reload();
       }
       if (currentUrlUser === "invoices") {
         const invoiceData = { id: status.id, status: status.status };
         dispatch(updateInvoice(invoiceData));
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (error) {
       console.log("error", error);

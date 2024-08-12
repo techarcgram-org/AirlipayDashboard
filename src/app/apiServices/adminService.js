@@ -3,7 +3,11 @@ import axios from "./axiosConfig";
 export async function createAdmin(data) {
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  return await axios.post(`/admin`, data);
+  return await axios.post(`/admin`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 }
 
 export async function getAdmins() {
@@ -21,7 +25,11 @@ export async function getAdmin(id) {
 export async function editAdmin(data) {
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  return await axios.patch(`/admin/${data.id}`, data);
+  return await axios.patch(`/admin/${data.id}`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 }
 
 export async function deleteAdmin(id) {

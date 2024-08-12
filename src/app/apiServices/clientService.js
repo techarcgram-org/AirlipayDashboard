@@ -4,7 +4,11 @@ export async function createClient(data) {
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   axios.defaults.headers["Content-Type"] = "multipart/form-data";
-  return await axios.post(`/client`, data);
+  return await axios.post(`/client`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 }
 
 export async function getClients() {
@@ -22,7 +26,16 @@ export async function getClient(id) {
 export async function updateClient(data) {
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  return await axios.patch(`/client/${data.id}`, data);
+  console.log(data);
+  return await axios.patch(`/client/${data.id}`,
+    {
+      data
+    },
+    {
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
 }
 
 export async function deleteClient(id) {
