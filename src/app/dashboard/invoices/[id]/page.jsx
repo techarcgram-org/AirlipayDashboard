@@ -93,7 +93,14 @@ const page = () => {
               <tr>
                 <td>Total Earned Wage Access Requests</td>
                 <td>
-                  <h3>{formatMoney(transactions?.length)}</h3>
+                  <h3>
+                    {
+                      transactions?.filter(
+                        (transaction) =>
+                          transaction.transaction_type === "WITHDRAW"
+                      ).length
+                    }
+                  </h3>
                 </td>
                 <td>-</td>
               </tr>
@@ -105,7 +112,11 @@ const page = () => {
                 <td>
                   {formatMoney(
                     transactions
-                      .filter((transaction) => transaction.status === "SUCCESS") // Filter transactions with "SUCCESS" status
+                      .filter(
+                        (transaction) =>
+                          transaction.status === "SUCCESS" &&
+                          transaction.transaction_type === "WITHDRAW"
+                      ) // Filter transactions with "SUCCESS" status and "WITHDRAW" type
                       .reduce((sum, transaction) => sum + transaction.amount, 0) // Sum the amounts of the filtered transactions
                   )}
                   XAF
@@ -119,7 +130,11 @@ const page = () => {
                 <td>
                   {formatMoney(
                     transactions
-                      .filter((transaction) => transaction.status === "SUCCESS") // Filter transactions with "SUCCESS" status
+                      .filter(
+                        (transaction) =>
+                          transaction.status === "SUCCESS" &&
+                          transaction.transaction_type === "WITHDRAW"
+                      ) // Filter transactions with "SUCCESS" status and "WITHDRAW" type
                       .reduce((sum, transaction) => sum + transaction.amount, 0) // Sum the amounts of the filtered transactions
                   )}
                   XAF
@@ -183,7 +198,9 @@ const page = () => {
       <Transactions
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        transactions={transactions}
+        transactions={transactions?.filter(
+          (transaction) => transaction.transaction_type === "WITHDRAW"
+        )}
       />
     </>
   );
