@@ -26,9 +26,11 @@ export async function getClient(id) {
 export async function updateClient(data) {
   const token = localStorage.getItem('token');
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  const returnData = await axios.put(`/client/${data.id}`, data);
-
-  console.log(returnData.data);
+  const returnData = await axios.put(`/client/${data.id}`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
   return returnData;
 }
 
