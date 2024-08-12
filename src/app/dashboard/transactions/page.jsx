@@ -21,6 +21,18 @@ const page = () => {
   const [employer, setEmployer] = useState("");
   const [filteredByEmployer, setFilteredByEmployer] = useState([]);
 
+  const [role, setRole] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const role = localStorage.getItem("airlypayUserRole");
+      const userId = localStorage.getItem("airlipayUserId");
+      setRole(role);
+      setUserId(parseInt(userId));
+    })();
+  }, []);
+
   useEffect(() => {
     dispatch(readTransactions({ txnType }));
     dispatch(readClients());
@@ -58,7 +70,17 @@ const page = () => {
 
   useEffect(() => {
     const fetchFilteredTransactions = async () => {
-      const filtered = await transactionsWithUsers?.filter(
+      const filteredTransactions = transactionsWithUsers?.filter(
+        (transaction) => {
+          if (role === "CLIENT") {
+            return transaction.user.client_id === userId;
+          } else {
+            return true;
+          }
+        }
+      );
+
+      const filtered = await filteredTransactions?.filter(
         (item) => item.user.client_id === parseInt(employer)
       );
       setFilteredByEmployer(filtered);
@@ -67,7 +89,15 @@ const page = () => {
     fetchFilteredTransactions();
   }, [employer]);
 
-  const formattedData = transactionsWithUsers?.map((item) => {
+  const filteredTransactions = transactionsWithUsers?.filter((transaction) => {
+    if (role === "CLIENT") {
+      return transaction?.user?.client_id === userId;
+    } else {
+      return true;
+    }
+  });
+
+  const formattedData = filteredTransactions?.map((item) => {
     return {
       date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
       description:
@@ -87,7 +117,6 @@ const page = () => {
   const formattedFilteredData = filteredByEmployer?.map((item) => {
     return {
       date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
-
       description:
         item?.transaction_type === "WITHDRAW"
           ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`

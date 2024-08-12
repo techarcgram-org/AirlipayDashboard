@@ -21,6 +21,15 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
     setActiveTab(pathname);
   }, [pathname]);
 
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const role = localStorage.getItem("airlypayUserRole");
+      setRole(role);
+    })();
+  }, []);
+
   return (
     <div
       ref={ref}
@@ -65,53 +74,61 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
           </Link>
         </div>
 
-        <div className="">
-          <Link href="/dashboard/clients">
-            <div
-              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
-                activeTab === "/dashboard/clients"
-                  ? "bg-orange-100 text-orange-500"
-                  : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
-              }`}
-            >
-              <div className="flex flex-row items-center justify-around mr-2">
-                <div className="mr-2">
-                  <HiUsers className="h-5 w-5" />
+        {role === "ADMIN" && (
+          <div className="">
+            <Link href="/dashboard/clients">
+              <div
+                className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
+                  activeTab === "/dashboard/clients"
+                    ? "bg-orange-100 text-orange-500"
+                    : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
+                }`}
+              >
+                <div className="flex flex-row items-center justify-around mr-2">
+                  <div className="mr-2">
+                    <HiUsers className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-inter text-steelblue text-left">
+                      Clients
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-inter text-steelblue text-left">Clients</p>
+                <div className="absolute right-3 -ml-4">
+                  <Image width={10} height={10} src={images.right} />
                 </div>
               </div>
-              <div className="absolute right-3 -ml-4">
-                <Image width={10} height={10} src={images.right} />
-              </div>
-            </div>
-          </Link>
-        </div>
+            </Link>
+          </div>
+        )}
 
-        <div className="">
-          <Link href="/dashboard/admins">
-            <div
-              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
-                activeTab === "/dashboard/admins"
-                  ? "bg-orange-100 text-orange-500"
-                  : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
-              }`}
-            >
-              <div className="flex flex-row items-center justify-around mr-2">
-                <div className="mr-2">
-                  <FaUserEdit className="h-5 w-5" />
+        {role === "ADMIN" && (
+          <div className="">
+            <Link href="/dashboard/admins">
+              <div
+                className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
+                  activeTab === "/dashboard/admins"
+                    ? "bg-orange-100 text-orange-500"
+                    : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
+                }`}
+              >
+                <div className="flex flex-row items-center justify-around mr-2">
+                  <div className="mr-2">
+                    <FaUserEdit className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-inter text-steelblue text-left">
+                      Admins
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-inter text-steelblue text-left">Admins</p>
+                <div className="absolute right-3 -ml-4">
+                  <Image width={10} height={10} src={images.right} />
                 </div>
               </div>
-              <div className="absolute right-3 -ml-4">
-                <Image width={10} height={10} src={images.right} />
-              </div>
-            </div>
-          </Link>
-        </div>
+            </Link>
+          </div>
+        )}
 
         <div className="">
           <Link href="/dashboard/users">
@@ -187,31 +204,33 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
           </Link>
         </div>
 
-        <div className="">
-          <Link href="/dashboard/payments">
-            <div
-              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
-                activeTab === "/dashboard/payments"
-                  ? "bg-orange-100 text-orange-500"
-                  : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
-              }`}
-            >
-              <div className="flex flex-row items-center justify-around mr-2">
-                <div className="mr-2">
-                  <GiPayMoney className="h-5 w-5" />
+        {role === "ADMIN" && (
+          <div className="">
+            <Link href="/dashboard/payments">
+              <div
+                className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
+                  activeTab === "/dashboard/payments"
+                    ? "bg-orange-100 text-orange-500"
+                    : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
+                }`}
+              >
+                <div className="flex flex-row items-center justify-around mr-2">
+                  <div className="mr-2">
+                    <GiPayMoney className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-inter text-steelblue text-left">
+                      Payments
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-inter text-steelblue text-left">
-                    Payments
-                  </p>
+                <div className="absolute right-3 -ml-4">
+                  <Image width={10} height={10} src={images.right} />
                 </div>
               </div>
-              <div className="absolute right-3 -ml-4">
-                <Image width={10} height={10} src={images.right} />
-              </div>
-            </div>
-          </Link>
-        </div>
+            </Link>
+          </div>
+        )}
 
         <div className="">
           <Link href="/dashboard/invoices">

@@ -17,6 +17,18 @@ const page = () => {
   const dispatch = useDispatch();
   const [formatted, setformatted] = useState([]);
 
+  const [role, setRole] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const role = localStorage.getItem("airlypayUserRole");
+      const userId = localStorage.getItem("airlipayUserId");
+      setRole(role);
+      setUserId(parseInt(userId));
+    })();
+  }, []);
+
   useEffect(() => {
     dispatch(listInvoices());
     dispatch(readClients());
@@ -28,7 +40,15 @@ const page = () => {
         return data.find((client) => client.id === clientId);
       };
 
-      const invoicesWithClients = invoices.map((invoice) => {
+      const filteredInvoices = invoices?.filter((invoice) => {
+        if (role === "CLIENT") {
+          return invoice.client_id === userId;
+        } else {
+          return true;
+        }
+      });
+
+      const invoicesWithClients = filteredInvoices.map((invoice) => {
         const client = findClientById(invoice.client_id);
         return { ...invoice, client };
       });

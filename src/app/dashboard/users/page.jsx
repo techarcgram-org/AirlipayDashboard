@@ -11,6 +11,17 @@ const Page = () => {
   const { loading, users } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const [usersList, setUsersList] = useState([]);
+  const [role, setRole] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const role = localStorage.getItem("airlypayUserRole");
+      const userId = localStorage.getItem("airlipayUserId");
+      setRole(role);
+      setUserId(parseInt(userId));
+    })();
+  }, []);
 
   useEffect(() => {
     dispatch(listUsers());
@@ -18,8 +29,15 @@ const Page = () => {
 
   const reverseData = () => {
     if (Array.isArray(users)) {
-      const newList = [...users].reverse();
-      setUsersList(newList);
+      console.log(users, userId);
+      if (role === "CLIENT") {
+        const newList = [...users].filter((user) => user.client_id === userId);
+        const reversedList = newList.reverse();
+        setUsersList(reversedList);
+      } else {
+        const newList = [...users].reverse();
+        setUsersList(newList);
+      }
     }
   };
 
