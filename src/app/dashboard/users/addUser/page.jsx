@@ -21,6 +21,18 @@ const Page = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const [role, setRole] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const role = localStorage.getItem("airlypayUserRole");
+      const userId = localStorage.getItem("airlipayUserId");
+      setRole(role);
+      setUserId(parseInt(userId));
+    })();
+  }, []);
+
   useEffect(() => {
     dispatch(readClients());
   }, []);
@@ -81,7 +93,7 @@ const Page = () => {
               baseSalary: values.baseSalary.toString(),
               dob: moment(values.dob, "YYYY-MM-DD").format("DD/MM/YYYY"),
               sex: values.sex,
-              clientId: parseInt(values.clientId),
+              clientId: role === "CLIENT" ? userId : parseInt(values.clientId),
               city: values.city,
               street: values.street,
               region: values.region,
@@ -244,15 +256,17 @@ const Page = () => {
                       type="number"
                       placeholder="673000000"
                     />
-                    <SelectInput
-                      label="Client"
-                      name="clientId"
-                      // value={values.region}
-                      options={clients}
-                      onChange={handleChange}
-                      type="select"
-                      required
-                    />
+                    {role != "CLIENT" && (
+                      <SelectInput
+                        label="Client"
+                        name="clientId"
+                        // value={values.region}
+                        options={clients}
+                        onChange={handleChange}
+                        type="select"
+                        required
+                      />
+                    )}
                   </div>
                 </div>
               )}

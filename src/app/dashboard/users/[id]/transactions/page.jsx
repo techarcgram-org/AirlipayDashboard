@@ -5,6 +5,7 @@ import dataStatic from "../../../../../constant/data";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { useParams } from "next/navigation";
+import { formatMoney } from "../../../../../utils/utils";
 
 const page = () => {
   const { transactions } = useSelector((state) => state.transactions);
@@ -43,7 +44,7 @@ const page = () => {
           ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`
           : `${item?.transaction_type}`,
       account_status: item?.status,
-      amount: item?.amount,
+      amount: `XAF ${formatMoney(item?.amount)}`,
       fee: item?.fees,
       balanceBefore: item?.old_balance,
       balanceAfter: item?.new_balance,
