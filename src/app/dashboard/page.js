@@ -18,6 +18,15 @@ const page = () => {
   const [transactions, setTransactions] = useState(0)
   const [users, setUsers] = useState(0)
 
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const role = localStorage.getItem("airlypayUserRole");
+      setRole(role);
+    })();
+  }, []);
+
   useEffect(() => {
     dispatch(getMetrics())
   }, [])
@@ -35,37 +44,38 @@ const page = () => {
   return (
     <div>
       <div className={styles.rows}>
-        <h3>Admins</h3>
-        <div className={styles.users}>
-          <div className={styles.card}>
-            <div className={`${styles.icon} ${styles.green}`}><FaUsers /></div>
-            <div className={styles.detail}>
-              <h3 className={styles.green}>{admins?.active}</h3>
-              <p>Active</p>
+        {role === "ADMIN" && <>
+          <h3>Admins</h3>
+          <div className={styles.users}>
+            <div className={styles.card}>
+              <div className={`${styles.icon} ${styles.green}`}><FaUsers /></div>
+              <div className={styles.detail}>
+                <h3 className={styles.green}>{admins?.active}</h3>
+                <p>Active</p>
+              </div>
             </div>
-          </div>
-          <div className={styles.card}>
-            <div className={`${styles.icon} ${styles.yellow}`}>< FaUsersBetweenLines /></div>
-            <div className={styles.detail}>
-              <h3 className={styles.yellow}>{admins?.pending}</h3>
-              <p>Pending</p>
+            <div className={styles.card}>
+              <div className={`${styles.icon} ${styles.yellow}`}>< FaUsersBetweenLines /></div>
+              <div className={styles.detail}>
+                <h3 className={styles.yellow}>{admins?.pending}</h3>
+                <p>Pending</p>
+              </div>
             </div>
-          </div>
-          <div className={styles.card}>
-            <div className={`${styles.icon} ${styles.purple}`}><FaUsersCog /></div>
-            <div className={styles.detail}>
-              <h3 className={styles.purple}>{admins?.deactivated}</h3>
-              <p>Deactivated</p>
+            <div className={styles.card}>
+              <div className={`${styles.icon} ${styles.purple}`}><FaUsersCog /></div>
+              <div className={styles.detail}>
+                <h3 className={styles.purple}>{admins?.deactivated}</h3>
+                <p>Deactivated</p>
+              </div>
             </div>
-          </div>
-          <div className={styles.card}>
-            <div className={`${styles.icon} ${styles.darkred}`}><FaUsersSlash /></div>
-            <div className={styles.detail}>
-              <h3 className={styles.darkred}>{admins?.blocked}</h3>
-              <p>Blocked</p>
+            <div className={styles.card}>
+              <div className={`${styles.icon} ${styles.darkred}`}><FaUsersSlash /></div>
+              <div className={styles.detail}>
+                <h3 className={styles.darkred}>{admins?.blocked}</h3>
+                <p>Blocked</p>
+              </div>
             </div>
-          </div>
-        </div>
+          </div></>}
 
         <h3>Users</h3>
         <div className={styles.users}>
@@ -99,37 +109,38 @@ const page = () => {
           </div>
         </div>
 
-        <h3>Clients</h3>
-        <div className={styles.users}>
-          <div className={styles.card}>
-            <div className={`${styles.icon} ${styles.green}`}><FaUsers /></div>
-            <div className={styles.detail}>
-              <h3 className={styles.green}>{clients?.active}</h3>
-              <p>Active</p>
+        {role === "ADMIN" && <>
+          <h3>Clients</h3>
+          <div className={styles.users}>
+            <div className={styles.card}>
+              <div className={`${styles.icon} ${styles.green}`}><FaUsers /></div>
+              <div className={styles.detail}>
+                <h3 className={styles.green}>{clients?.active}</h3>
+                <p>Active</p>
+              </div>
             </div>
-          </div>
-          <div className={styles.card}>
-            <div className={`${styles.icon} ${styles.yellow}`}>< FaUsersBetweenLines /></div>
-            <div className={styles.detail}>
-              <h3 className={styles.yellow}>{clients?.pending}</h3>
-              <p>Pending</p>
+            <div className={styles.card}>
+              <div className={`${styles.icon} ${styles.yellow}`}>< FaUsersBetweenLines /></div>
+              <div className={styles.detail}>
+                <h3 className={styles.yellow}>{clients?.pending}</h3>
+                <p>Pending</p>
+              </div>
             </div>
-          </div>
-          <div className={styles.card}>
-            <div className={`${styles.icon} ${styles.purple}`}><FaUsersCog /></div>
-            <div className={styles.detail}>
-              <h3 className={styles.purple}>{clients?.deactivated}</h3>
-              <p>Deactivated</p>
+            <div className={styles.card}>
+              <div className={`${styles.icon} ${styles.purple}`}><FaUsersCog /></div>
+              <div className={styles.detail}>
+                <h3 className={styles.purple}>{clients?.deactivated}</h3>
+                <p>Deactivated</p>
+              </div>
             </div>
-          </div>
-          <div className={styles.card}>
-            <div className={`${styles.icon} ${styles.darkred}`}><FaUsersSlash /></div>
-            <div className={styles.detail}>
-              <h3 className={styles.darkred}>{clients?.blocked}</h3>
-              <p>Blocked</p>
+            <div className={styles.card}>
+              <div className={`${styles.icon} ${styles.darkred}`}><FaUsersSlash /></div>
+              <div className={styles.detail}>
+                <h3 className={styles.darkred}>{clients?.blocked}</h3>
+                <p>Blocked</p>
+              </div>
             </div>
-          </div>
-        </div>
+          </div></>}
 
         <h3>Transactions</h3>
         <div className={styles.transactions}>
