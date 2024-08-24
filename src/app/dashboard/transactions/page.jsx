@@ -43,7 +43,7 @@ const page = () => {
     if (txnType === "ALL") {
       dispatch(readTransactions());
     } else {
-      dispatch(readTransactions({ txnType }));
+      dispatch(readTransactions({ txnType: txnType }));
     }
     dispatch(listUsers());
   }, [txnType]);
@@ -67,6 +67,18 @@ const page = () => {
   const transactionsWithUsers = transactions?.map((transaction) => {
     return attachUserToTransaction(transaction);
   });
+  // const transactionsWithUsers = transactions
+  //   ?.filter((transaction) => {
+  //     // If the role is CLIENT, filter transactions by user ID
+  //     if (role === "CLIENT") {
+  //       return transaction.user.client_id === userId;
+  //     }
+  //     // If the role is not CLIENT, return all transactions
+  //     return true;
+  //   })
+  //   .map((transaction) => {
+  //     return attachUserToTransaction(transaction);
+  //   });
 
   useEffect(() => {
     const fetchFilteredTransactions = async () => {
@@ -79,6 +91,8 @@ const page = () => {
           }
         }
       );
+
+      console.log("Transaction", filteredTransactions);
 
       const filtered = await filteredTransactions?.filter(
         (item) => item.user.client_id === parseInt(employer)
@@ -140,6 +154,7 @@ const page = () => {
       <h2 className="font-bold">Transactions</h2>
       <Table
         tab="Transactions"
+        role={role}
         users={
           formattedFilteredData.length > 0
             ? formattedFilteredData

@@ -35,7 +35,7 @@ const page = () => {
             totalFees: formatMoney(item?.totalFees),
             from: moment(item?.from).format("DD/MM/YYYY HH:mm"),
             to: moment(item?.to).format("DD/MM/YYYY HH:mm"),
-            taxes: formatMoney(item?.taxes),
+            // taxes: formatMoney(item?.taxes),
             totalAmount: formatMoney(item.totalAmount),
           };
         })

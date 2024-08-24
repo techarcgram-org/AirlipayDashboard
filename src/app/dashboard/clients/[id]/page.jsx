@@ -38,6 +38,10 @@ const page = () => {
   const formattedData = clientTransactions.map((item) => {
     return {
       date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
+      description:
+        item?.transaction_type === "WITHDRAW"
+          ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`
+          : `${item?.transaction_type}`,
       employeeName: item?.user?.name,
       amount: item?.amount,
       transactionId: item?.id,

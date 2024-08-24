@@ -419,7 +419,7 @@ const invoiceColumns = [
   { id: "status", header: "Status", field: "status" },
   { id: "from", header: "From", field: "from" },
   { id: "to", header: "To", field: "to" },
-  { id: "taxes", header: "Taxes", field: "taxes" },
+  // { id: "taxes", header: "Taxes", field: "taxes" },
   { id: "totalFees", header: "Total Fees", field: "totalFees" },
   { id: "totalAmount", header: "Total Amount", field: "totalAmount" },
   { id: "treated", header: "Mark as Treated", field: "treated" }
@@ -431,7 +431,7 @@ const paymentColumns = [
   { id: "status", header: "Status", field: "status" },
   { id: "from", header: "From", field: "from" },
   { id: "to", header: "To", field: "to" },
-  { id: "taxes", header: "Taxes", field: "taxes" },
+  // { id: "taxes", header: "Taxes", field: "taxes" },
   { id: "totalFees", header: "Total Fees", field: "totalFees" },
   { id: "totalAmount", header: "Total Amount", field: "totalAmount" },
 ]
@@ -441,7 +441,7 @@ const clientInvoiceColumns = [
   { id: "status", header: "Status", field: "status" },
   { id: "from", header: "From", field: "from" },
   { id: "to", header: "To", field: "to" },
-  { id: "taxes", header: "Taxes", field: "taxes" },
+  // { id: "taxes", header: "Taxes", field: "taxes" },
   { id: "totalFees", header: "Total Fees", field: "totalFees" },
   { id: "totalAmount", header: "Total Amount", field: "totalAmount" }
 ]

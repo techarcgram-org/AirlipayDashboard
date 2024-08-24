@@ -1,29 +1,30 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { BsFillTrashFill } from 'react-icons/bs';
-import { FiEdit2 } from 'react-icons/fi';
-import { useRouter } from 'next/navigation';
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { BsFillTrashFill } from "react-icons/bs";
+import { FiEdit2 } from "react-icons/fi";
+import { useRouter } from "next/navigation";
 // import Modal from "../common/modal";
 // import { AddUser } from "..";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import {
   deleteClientById,
   updateClientById,
-} from '../../app/GlobalRedux/Features/clientSlice';
+} from "../../app/GlobalRedux/Features/clientSlice";
 import {
   removeAdmin,
   updateAdmin,
-} from '../../app/GlobalRedux/Features/adminSlice';
-import { markAsComplete } from '../../app/GlobalRedux/Features/invoiceSlice';
+} from "../../app/GlobalRedux/Features/adminSlice";
+import { markAsComplete } from "../../app/GlobalRedux/Features/invoiceSlice";
 import {
   removeUser,
   updateUser,
-} from '../../app/GlobalRedux/Features/userSlice';
-import { updateInvoice } from '../../app/GlobalRedux/Features/invoiceSlice';
+} from "../../app/GlobalRedux/Features/userSlice";
+import { updateInvoice } from "../../app/GlobalRedux/Features/invoiceSlice";
 
 const Table = ({
+  role,
   users,
   columns,
   filter,
@@ -37,10 +38,10 @@ const Table = ({
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   // const [currentUrl, setCurrentUrl] = useState("");
-  const [currentUrlUser, setCurrentUrlUser] = useState('');
+  const [currentUrlUser, setCurrentUrlUser] = useState("");
   const [status, setStatus] = useState({});
 
   // Pagination
@@ -65,8 +66,8 @@ const Table = ({
     // const urlFromDashboard = currentURL.substring(dashboardIndex);
     // setCurrentUrl(urlFromDashboard);
 
-    const parts = currentURL.split('/');
-    const index = parts.indexOf('dashboard');
+    const parts = currentURL.split("/");
+    const index = parts.indexOf("dashboard");
     const desiredValue = parts[index + 1];
     setCurrentUrlUser(desiredValue);
   }, []);
@@ -107,30 +108,30 @@ const Table = ({
   const handleUpdateStatus = () => {
     try {
       const data = { id: status.id, accountStatus: status.status };
-      if (currentUrlUser === 'clients') {
+      if (currentUrlUser === "clients") {
         dispatch(updateClientById(data));
         window.location.reload();
       }
-      if (currentUrlUser === 'admins') {
+      if (currentUrlUser === "admins") {
         dispatch(updateAdmin(data));
         window.location.reload();
       }
-      if (currentUrlUser === 'users') {
+      if (currentUrlUser === "users") {
         dispatch(updateUser(data));
         window.location.reload();
       }
-      if (currentUrlUser === 'payments') {
+      if (currentUrlUser === "payments") {
         const paymentData = { id: status.id, status: status.status };
         dispatch(updateInvoice(paymentData));
         window.location.reload();
       }
-      if (currentUrlUser === 'invoices') {
+      if (currentUrlUser === "invoices") {
         const invoiceData = { id: status.id, status: status.status };
         dispatch(updateInvoice(invoiceData));
         window.location.reload();
       }
     } catch (error) {
-      console.log('error', error);
+      console.log("error", error);
     }
   };
 
@@ -140,31 +141,31 @@ const Table = ({
 
   // Handle delete entry
   const handleDelete = (id) => {
-    const userConfirmed = window.confirm('Do you want to proceed?');
+    const userConfirmed = window.confirm("Do you want to proceed?");
     if (userConfirmed) {
-      if (currentUrlUser === 'clients') {
+      if (currentUrlUser === "clients") {
         dispatch(deleteClientById(id));
       }
-      if (currentUrlUser === 'admins') {
+      if (currentUrlUser === "admins") {
         dispatch(removeAdmin(id));
       }
-      if (currentUrlUser === 'users') {
+      if (currentUrlUser === "users") {
         dispatch(removeUser(id));
       }
     } else {
-      console.log('cancelled');
+      console.log("cancelled");
     }
   };
 
   // Handle delete entry
   const handleMarkAsTreated = (id) => {
-    const userConfirmed = window.confirm('Do you want to proceed?');
+    const userConfirmed = window.confirm("Do you want to proceed?");
     if (userConfirmed) {
-      const invoiceData = { id: id, status: 'PENDING_CONFIRMATION' };
+      const invoiceData = { id: id, status: "PENDING_CONFIRMATION" };
       dispatch(markAsComplete(invoiceData));
       window.location.reload();
     } else {
-      console.log('cancelled');
+      console.log("cancelled");
     }
   };
 
@@ -176,7 +177,8 @@ const Table = ({
           <select
             value={itemsPerPage}
             onChange={handleItemsPerPageChange}
-            className="px-2 py-1 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400">
+            className="px-2 py-1 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
             <option value={5}>5</option>
             <option value={10}>10</option>
             <option value={15}>15</option>
@@ -186,7 +188,8 @@ const Table = ({
             <>
               <select
                 className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2"
-                onChange={(e) => setTxnType(e.target.value)}>
+                onChange={(e) => setTxnType(e.target.value)}
+              >
                 <option>TRANSACTION TYPE</option>
                 {transactionTypes?.map((item, index) => {
                   return (
@@ -196,18 +199,21 @@ const Table = ({
                   );
                 })}
               </select>
-              <select
-                className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2 ml-2"
-                onChange={(e) => setEmployer(e.target.value)}>
-                <option>EMPLOYER</option>
-                {employers?.map((item, index) => {
-                  return (
-                    <option value={item.id} key={index}>
-                      {item?.name}
-                    </option>
-                  );
-                })}
-              </select>
+              {role !== "CLIENT" && (
+                <select
+                  className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2 ml-2"
+                  onChange={(e) => setEmployer(e.target.value)}
+                >
+                  <option>EMPLOYER</option>
+                  {employers?.map((item, index) => {
+                    return (
+                      <option value={item.id} key={index}>
+                        {item?.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              )}
             </>
           )}
         </div>
@@ -227,7 +233,8 @@ const Table = ({
               <th
                 key={column.id}
                 scope="col"
-                className="p-2 md:px-6 md:py-3 text-left text-xs font-medium text-[#000000] capitalize tracking-wider">
+                className="p-2 md:px-6 md:py-3 text-left text-xs font-medium text-[#000000] capitalize tracking-wider"
+              >
                 {column.header}
               </th>
             ))}
@@ -238,11 +245,12 @@ const Table = ({
           {currentUsers.map((user) => (
             <tr key={user.id}>
               {columns.map((column) => {
-                if (column.id === 'edit') {
+                if (column.id === "edit") {
                   return (
                     <td
                       key={column.id}
-                      className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
+                      className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
+                    >
                       <button
                         // onClick={() => openModal()} // Add handleEdit function
                         onClick={() => {
@@ -250,89 +258,94 @@ const Table = ({
                             `/dashboard/${currentUrlUser}/${user.id}/edit`
                           );
                         }}
-                        className="text-green-600 underline">
+                        className="text-green-600 underline"
+                      >
                         <FiEdit2 />
                       </button>
                     </td>
                   );
                 }
-                if (column.id === 'delete') {
+                if (column.id === "delete") {
                   return (
                     <td
                       key={column.id}
-                      className="p-2 md:px-6 justify-around items-center whitespace-nowrap">
+                      className="p-2 md:px-6 justify-around items-center whitespace-nowrap"
+                    >
                       <button
                         onClick={() => handleDelete(user.id)} // Add handleDelete function
-                        className="text-red-500 underline">
+                        className="text-red-500 underline"
+                      >
                         <BsFillTrashFill />
                       </button>
                     </td>
                   );
                 }
-                if (column.id === 'status') {
+                if (column.id === "status") {
                   // Handle status column
-                  const status = user['account_status'];
-                  let statusStyle = '';
-                  if (status === 'ACTIVE') {
-                    statusStyle = 'text-green-600';
-                  } else if (status === 'CANCELLED') {
-                    statusStyle = 'text-red-600';
-                  } else if (status === 'BANNED') {
-                    statusStyle = 'text-red-600';
-                  } else if (status === 'BLOCKED') {
-                    statusStyle = 'text-red-900';
-                  } else if (status === 'REVIEWED') {
-                    statusStyle = 'text-yellow-600';
-                  } else if (status === 'PENDING') {
-                    statusStyle = 'text-yellow-600';
-                  } else if (status === 'DEACTIVATED') {
-                    statusStyle = 'text-purple-600';
+                  const status = user["account_status"];
+                  let statusStyle = "";
+                  if (status === "ACTIVE") {
+                    statusStyle = "text-green-600";
+                  } else if (status === "CANCELLED") {
+                    statusStyle = "text-red-600";
+                  } else if (status === "BANNED") {
+                    statusStyle = "text-red-600";
+                  } else if (status === "BLOCKED") {
+                    statusStyle = "text-red-900";
+                  } else if (status === "REVIEWED") {
+                    statusStyle = "text-yellow-600";
+                  } else if (status === "PENDING") {
+                    statusStyle = "text-yellow-600";
+                  } else if (status === "DEACTIVATED") {
+                    statusStyle = "text-purple-600";
                   }
                   //
-                  else if (status === 'SUCCESS') {
-                    statusStyle = 'text-green-600';
-                  } else if (status === 'FAILED') {
-                    statusStyle = 'text-red-600';
+                  else if (status === "SUCCESS") {
+                    statusStyle = "text-green-600";
+                  } else if (status === "FAILED") {
+                    statusStyle = "text-red-600";
                   }
                   //
-                  else if (status === 'TREATED') {
-                    statusStyle = 'text-green-600';
-                  } else if (status === 'PENDING_CONFIRMATION') {
-                    statusStyle = 'text-yellow-600';
-                  } else if (status === 'NOT_TREATED') {
-                    statusStyle = 'text-red-600';
+                  else if (status === "TREATED") {
+                    statusStyle = "text-green-600";
+                  } else if (status === "PENDING_CONFIRMATION") {
+                    statusStyle = "text-yellow-600";
+                  } else if (status === "NOT_TREATED") {
+                    statusStyle = "text-red-600";
                   }
                   return (
                     <td
                       key={column.id}
                       // className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center mx-2 ${statusStyle}`}
-                      className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center mx-2`}>
+                      className={` lg:p-2 mt-2 whitespace-nowrap flex items-center justify-center mx-2`}
+                    >
                       {/* <div className="text-sm text-white font-bold capitalize">
                         {status}
                       </div> */}
-                      {currentUrlUser === 'payments' ? (
+                      {currentUrlUser === "payments" ? (
                         <select
                           className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
                           onChange={(e) =>
                             setStatus({ id: user.id, status: e.target.value })
-                          }>
+                          }
+                        >
                           <option>
-                            {status === 'TREATED'
-                              ? 'TREATED'
-                              : status === 'PENDING_CONFIRMATION'
-                              ? 'PENDING'
-                              : 'NOT TREATED'}
+                            {status === "TREATED"
+                              ? "TREATED"
+                              : status === "PENDING_CONFIRMATION"
+                              ? "PENDING"
+                              : "NOT TREATED"}
                           </option>
-                          <option value={'TREATED'}>TREATED</option>
-                          <option value={'NOT_TREATED'}>NOT TREATED</option>
+                          <option value={"TREATED"}>TREATED</option>
+                          <option value={"NOT_TREATED"}>NOT TREATED</option>
                         </select>
-                      ) : currentUrlUser === 'invoices' ? (
+                      ) : currentUrlUser === "invoices" ? (
                         <span className={`${statusStyle}`}>
-                          {status === 'TREATED'
-                            ? 'TREATED'
-                            : status === 'PENDING_CONFIRMATION'
-                            ? 'PENDING'
-                            : 'NOT TREATED'}
+                          {status === "TREATED"
+                            ? "TREATED"
+                            : status === "PENDING_CONFIRMATION"
+                            ? "PENDING"
+                            : "NOT TREATED"}
                         </span>
                       ) : txnStatus ? (
                         <span className={`${statusStyle}`}>{status}</span>
@@ -341,47 +354,51 @@ const Table = ({
                           className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
                           onChange={(e) =>
                             setStatus({ id: user.id, status: e.target.value })
-                          }>
+                          }
+                        >
                           <option>{status?.toUpperCase()}</option>
-                          <option value={'PENDING'}>PENDING</option>
-                          <option value={'ACTIVE'}>ACTIVE</option>
-                          <option value={'BLOCKED'}>BLOCKED</option>
-                          <option value={'BANNED'}>BANNED</option>
-                          <option value={'DEACTIVATED'}>DEACTIVATED</option>
+                          <option value={"PENDING"}>PENDING</option>
+                          <option value={"ACTIVE"}>ACTIVE</option>
+                          <option value={"BLOCKED"}>BLOCKED</option>
+                          <option value={"BANNED"}>BANNED</option>
+                          <option value={"DEACTIVATED"}>DEACTIVATED</option>
                         </select>
                       )}
                     </td>
                   );
                 }
-                if (column.id === 'address') {
+                if (column.id === "address") {
                   return (
                     <td
                       key={column.id}
-                      className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
+                      className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
+                    >
                       <div className="text-sm text-gray-900">
                         <Link href="/dashboard/users/2">
-                          {`${user['street']}, ${user['city']}, ${user['region']} `}
+                          {`${user["street"]}, ${user["city"]}, ${user["region"]} `}
                         </Link>
                       </div>
                     </td>
                   );
                 }
-                if (column.id === 'treated') {
-                  const status = user['account_status'];
+                if (column.id === "treated") {
+                  const status = user["account_status"];
                   return (
                     <td
                       key={column.id}
-                      className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
+                      className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
+                    >
                       <button
                         onClick={() => handleMarkAsTreated(user.id)} // Add handleEdit function
                         className="text-green-600 underline disabled:text-gray-400"
                         disabled={
-                          status === 'TREATED'
+                          status === "TREATED"
                             ? true
-                            : status === 'PENDING_CONFIRMATION'
+                            : status === "PENDING_CONFIRMATION"
                             ? true
                             : false
-                        }>
+                        }
+                      >
                         Mark as Treated
                       </button>
                     </td>
@@ -390,16 +407,18 @@ const Table = ({
                 return (
                   <td
                     key={column.id}
-                    className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
+                    className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
+                  >
                     <div className="text-sm text-gray-900">
                       <Link
                         href={
-                          user.id && currentUrlUser != 'payments'
+                          user.id && currentUrlUser != "payments"
                             ? `/dashboard/${currentUrlUser}/${user.id}`
-                            : user.id && currentUrlUser === 'payments'
-                            ? ''
-                            : ''
-                        }>
+                            : user.id && currentUrlUser === "payments"
+                            ? ""
+                            : ""
+                        }
+                      >
                         {user[column.field]}
                       </Link>
                     </div>
@@ -416,7 +435,8 @@ const Table = ({
           <button
             onClick={prevPage}
             disabled={currentPage === 1}
-            className="px-3 py-1 border border-gray-300 rounded-md disabled:bg-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-700">
+            className="px-3 py-1 border border-gray-300 rounded-md disabled:bg-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 bg-blue-700"
+          >
             Previous
           </button>
           <div className="ml-2">
@@ -425,7 +445,8 @@ const Table = ({
           <button
             onClick={nextPage}
             disabled={currentPage === totalPages}
-            className="ml-2 px-3 py-1 border border-gray-300 rounded-md text-white focus:outline-none focus:ring-2 disabled:bg-gray-500 focus:ring-blue-400 bg-blue-700">
+            className="ml-2 px-3 py-1 border border-gray-300 rounded-md text-white focus:outline-none focus:ring-2 disabled:bg-gray-500 focus:ring-blue-400 bg-blue-700"
+          >
             Next
           </button>
         </div>
