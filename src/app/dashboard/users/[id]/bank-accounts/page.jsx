@@ -1,8 +1,8 @@
 "use client";
 
-import { Tab, Table, UserDetails } from "@/components";
-import data from "@/constant/data";
-import bankAccounts from "@/utils/data/banks";
+import { Table } from "../../../../../components";
+import data from "../../../../../constant/data";
+import bankAccounts from "../../../../../utils/data/banks";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { useParams } from "next/navigation";
