@@ -5,14 +5,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "next/navigation";
 import moment from "moment";
 import { listInvoiceTransactions } from "../../../../app/GlobalRedux/Features/invoiceSlice";
+import { listUsers } from "../../../GlobalRedux/Features/userSlice";
 import Loading from "../../../../app/loading";
 import { formatMoney } from "../../../../utils/utils";
 import Transactions from "./transactions/Transactions";
+import UserSummary from "./summary/UsersSummary";
 
 const page = () => {
   // MODAL
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
+  //
+  const [isSummaryOpen, setIsSummaryOpen] = useState(false);
+  const openSummary = () => setIsSummaryOpen(true);
   // MODAL END
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -20,6 +25,7 @@ const page = () => {
     (state) => state.invoices
   );
   const { data } = useSelector((state) => state.clients);
+  const { users } = useSelector((state) => state.users);
   const [invoiceData, setInvoiceData] = useState({});
 
   useEffect(() => {
@@ -42,7 +48,30 @@ const page = () => {
 
   useEffect(() => {
     dispatch(listInvoiceTransactions(parseInt(id)));
+    dispatch(listUsers());
   }, [id]);
+
+  const userMap = {};
+  users?.forEach((user) => {
+    userMap[user.id] = user;
+  });
+
+  const attachUserToTransaction = (transaction) => {
+    const userId = transaction.user_id;
+    if (userMap[userId]) {
+      const clonedTransaction = { ...transaction };
+      clonedTransaction.user = userMap[userId];
+      return clonedTransaction;
+    } else {
+      return transaction;
+    }
+  };
+
+  const transactionsWithUsers = transactions
+    ?.filter((transaction) => transaction.transaction_type === "WITHDRAW")
+    ?.map((transaction) => {
+      return attachUserToTransaction(transaction);
+    });
 
   if (loading) {
     return <Loading />;
@@ -51,6 +80,7 @@ const page = () => {
   return (
     <>
       <div className={styles.transactionsBtn}>
+        <button onClick={openSummary}>Users Summary</button>
         <button onClick={openModal}>View Transactions</button>
       </div>
       <div className={styles.invoice}>
@@ -201,6 +231,11 @@ const page = () => {
         transactions={transactions?.filter(
           (transaction) => transaction.transaction_type === "WITHDRAW"
         )}
+      />
+      <UserSummary
+        isModalOpen={isSummaryOpen}
+        setIsModalOpen={setIsSummaryOpen}
+        transactions={transactionsWithUsers}
       />
     </>
   );

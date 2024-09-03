@@ -92,8 +92,6 @@ const page = () => {
         }
       );
 
-      console.log("Transaction", filteredTransactions);
-
       const filtered = await filteredTransactions?.filter(
         (item) => item.user.client_id === parseInt(employer)
       );
