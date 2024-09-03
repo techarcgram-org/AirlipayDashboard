@@ -10,18 +10,18 @@ const UsersSummary = ({ isModalOpen, setIsModalOpen, transactions }) => {
   const userSummaries = transactions.reduce((acc, transaction) => {
     const { user, amount, fees } = transaction;
 
-    if (!acc[user.id]) {
-      acc[user.id] = {
-        name: user.name,
+    if (!acc[user?.id]) {
+      acc[user?.id] = {
+        name: user?.name,
         totalAmount: 0,
         totalFees: 0,
         totalSum: 0,
       };
     }
 
-    acc[user.id].totalAmount += amount;
-    acc[user.id].totalFees += fees;
-    acc[user.id].totalSum += amount + fees;
+    acc[user?.id].totalAmount += amount;
+    acc[user?.id].totalFees += fees;
+    acc[user?.id].totalSum += amount + fees;
 
     return acc;
   }, {});
