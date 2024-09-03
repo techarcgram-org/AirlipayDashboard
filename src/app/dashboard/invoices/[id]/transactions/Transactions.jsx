@@ -54,7 +54,13 @@ const Transactions = ({ isModalOpen, setIsModalOpen, transactions }) => {
                           "DD/MM/YYYY HH:mm"
                         )}
                       </td>
-                      <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
+                      <td
+                        className={`p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap ${
+                          transaction?.status === "SUCCESS"
+                            ? "text-green-400"
+                            : "text-red-400"
+                        }`}
+                      >
                         {transaction?.status}
                       </td>
                       <td className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap">
