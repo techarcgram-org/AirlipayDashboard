@@ -10,6 +10,7 @@ import { listUsers } from "../../../app/GlobalRedux/Features/userSlice";
 import { readTransactions } from "../../../app/GlobalRedux/Features/transactionSlice";
 import { readClients } from "../../../app/GlobalRedux/Features/clientSlice";
 import { formatMoney } from "../../../utils/utils";
+import DownloadCSV from "../../../components/transactions/DownloadToCSV";
 
 const page = () => {
   const dispatch = useDispatch();
@@ -150,6 +151,7 @@ const page = () => {
   return (
     <>
       <h2 className="font-bold">Transactions</h2>
+
       <Table
         tab="Transactions"
         role={role}
@@ -165,6 +167,14 @@ const page = () => {
         txnStatus={true}
         setTxnType={setTxnType}
         setEmployer={setEmployer}
+      />
+      <DownloadCSV
+        data={
+          formattedFilteredData.length > 0
+            ? formattedFilteredData
+            : formattedData
+        }
+        fileName="Transactions"
       />
     </>
   );

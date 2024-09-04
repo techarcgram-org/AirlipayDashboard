@@ -2,6 +2,7 @@ import React from "react";
 import Modal from "../../../../../components/Modal/Modal";
 import styles from "./styles.module.css";
 import moment from "moment";
+import DownloadCSV from "../../../../../components/transactions/DownloadToCSV";
 
 const Transactions = ({ isModalOpen, setIsModalOpen, transactions }) => {
   // MODAL
@@ -13,6 +14,9 @@ const Transactions = ({ isModalOpen, setIsModalOpen, transactions }) => {
       onClose={closeModal}
       title="Invoice Transactions"
     >
+      <div className="m-2">
+        <DownloadCSV data={transactions} fileName="Invoice Transactions" />
+      </div>
       <div className={styles.transactions}>
         <div>
           <div>

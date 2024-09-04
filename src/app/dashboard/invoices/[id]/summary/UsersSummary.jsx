@@ -1,6 +1,7 @@
 import React from "react";
 import Modal from "../../../../../components/Modal/Modal";
 import styles from "./styles.module.css";
+import DownloadCSV from "../../../../../components/transactions/DownloadToCSV";
 
 const UsersSummary = ({ isModalOpen, setIsModalOpen, transactions }) => {
   // MODAL
@@ -31,6 +32,9 @@ const UsersSummary = ({ isModalOpen, setIsModalOpen, transactions }) => {
 
   return (
     <Modal isOpen={isModalOpen} onClose={closeModal} title="Users Summary">
+      <div className="m-2">
+        <DownloadCSV data={userSummariesArray} fileName="Users Summary" />
+      </div>
       <div className={styles.transactions}>
         <div>
           <div>
