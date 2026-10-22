@@ -9,7 +9,7 @@ import { BiSolidErrorAlt } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { getMetrics } from "../GlobalRedux/Features/dashboardSlice";
 
-const page = () => {
+const Page = () => {
   const dispatch = useDispatch()
   const { data } = useSelector((state) => state.dashboard);
   const [admins, setAdmins] = useState(0)
@@ -189,4 +189,4 @@ const page = () => {
   )
 };
 
-export default page;
+export default Page;

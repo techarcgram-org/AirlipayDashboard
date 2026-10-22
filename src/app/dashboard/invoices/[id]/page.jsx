@@ -11,7 +11,7 @@ import { formatMoney } from "../../../../utils/utils";
 import Transactions from "./transactions/Transactions";
 import UserSummary from "./summary/UsersSummary";
 
-const page = () => {
+const Page = () => {
   // MODAL
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -241,4 +241,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

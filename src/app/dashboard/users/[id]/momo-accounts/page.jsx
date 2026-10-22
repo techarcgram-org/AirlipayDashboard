@@ -7,7 +7,7 @@ import bankAccounts from "../../../../../utils/data/banks";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const { users } = useSelector((state) => state.users);
   const [momoAccount, setMomoAccounts] = useState([]);
   const { id } = useParams();
@@ -38,4 +38,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

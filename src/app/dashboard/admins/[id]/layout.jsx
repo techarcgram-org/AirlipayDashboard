@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import Loading from "../loading";
 import moment from "moment";
 
-const userDetailsLayout = ({ children }) => {
+const UserDetailsLayout = ({ children }) => {
   const { errorMessage, error, admins } = useSelector((state) => state.admins);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -76,4 +76,4 @@ const userDetailsLayout = ({ children }) => {
   );
 };
 
-export default userDetailsLayout;
+export default UserDetailsLayout;

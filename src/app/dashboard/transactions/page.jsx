@@ -12,7 +12,7 @@ import { readClients } from "../../../app/GlobalRedux/Features/clientSlice";
 import { formatMoney } from "../../../utils/utils";
 import DownloadCSV from "../../../components/transactions/DownloadToCSV";
 
-const page = () => {
+const Page = () => {
   const dispatch = useDispatch();
   const { transactions } = useSelector((state) => state.transactions);
   const { users, loading } = useSelector((state) => state.users);
@@ -180,4 +180,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

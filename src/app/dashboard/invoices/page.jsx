@@ -11,7 +11,7 @@ import Loading from "../loading";
 import { formatMoney } from "../../../utils/utils";
 import moment from "moment";
 
-const page = () => {
+const Page = () => {
   const { invoices } = useSelector((state) => state.invoices);
   const { data, loading } = useSelector((state) => state.clients);
   const dispatch = useDispatch();
@@ -87,4 +87,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

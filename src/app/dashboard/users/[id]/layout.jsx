@@ -19,7 +19,7 @@ import Loading from "../loading";
 import moment from "moment";
 import { formatMoney } from "../../../../utils/utils";
 
-const userDetailsLayout = ({ children }) => {
+const UserDetailsLayout = ({ children }) => {
   const { transactions } = useSelector((state) => state.transactions);
   const { errorMessage, error, user, users, airlipayBalance, payPeriods } =
     useSelector((state) => state.users);
@@ -139,4 +139,4 @@ const userDetailsLayout = ({ children }) => {
   );
 };
 
-export default userDetailsLayout;
+export default UserDetailsLayout;

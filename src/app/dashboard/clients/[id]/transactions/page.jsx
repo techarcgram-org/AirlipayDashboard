@@ -8,7 +8,7 @@ import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { readTransactions } from "../../../../GlobalRedux/Features/transactionSlice";
 
-const page = () => {
+const Page = () => {
   const { transactions } = useSelector((state) => state.transactions);
   const { users } = useSelector((state) => state.users);
   const dispatch = useDispatch();
@@ -65,4 +65,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

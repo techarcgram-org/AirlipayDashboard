@@ -5,10 +5,10 @@ import data from "../../../../../constant/data";
 import bankAccounts from "../../../../../utils/data/banks";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   return (
     <Table tab="Debit Cards" users={bankAccounts} columns={data.banksColumns} />
   );
 };
 
-export default page;
+export default Page;

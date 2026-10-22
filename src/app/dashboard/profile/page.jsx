@@ -9,7 +9,7 @@ import { listUser } from "../../GlobalRedux/Features/userSlice";
 import moment from "moment";
 import Loading from "../loading";
 
-const page = () => {
+const Page = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.clients);
   const { admins } = useSelector((state) => state.admins);
@@ -70,4 +70,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
