@@ -8,11 +8,32 @@ import { useRouter } from "next/navigation";
 // import Modal from "../common/modal";
 // import { AddUser } from "..";
 import { useDispatch } from "react-redux";
-import { deleteClientById } from "@/app/GlobalRedux/Features/clientSlice";
-import { removeAdmin } from "@/app/GlobalRedux/Features/adminSlice";
-import { removeUser } from "@/app/GlobalRedux/Features/userSlice";
+import {
+  deleteClientById,
+  updateClientById,
+} from "../../app/GlobalRedux/Features/clientSlice";
+import {
+  removeAdmin,
+  updateAdmin,
+} from "../../app/GlobalRedux/Features/adminSlice";
+import { markAsComplete } from "../../app/GlobalRedux/Features/invoiceSlice";
+import {
+  removeUser,
+  updateUser,
+} from "../../app/GlobalRedux/Features/userSlice";
+import { updateInvoice } from "../../app/GlobalRedux/Features/invoiceSlice";
 
-const Table = ({ users, columns, filter }) => {
+const Table = ({
+  role,
+  users,
+  columns,
+  filter,
+  transactionTypes,
+  employers,
+  txnStatus,
+  setTxnType,
+  setEmployer,
+}) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +42,7 @@ const Table = ({ users, columns, filter }) => {
   const [modalOpen, setModalOpen] = useState(false);
   // const [currentUrl, setCurrentUrl] = useState("");
   const [currentUrlUser, setCurrentUrlUser] = useState("");
+  const [status, setStatus] = useState({});
 
   // Pagination
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -29,7 +51,7 @@ const Table = ({ users, columns, filter }) => {
   const filteredUsers = users.filter((user) =>
     columns.some((column) =>
       user[column.field]
-        .toString()
+        ?.toString()
         .toLowerCase()
         .includes(searchQuery.toLowerCase())
     )
@@ -82,11 +104,40 @@ const Table = ({ users, columns, filter }) => {
     setItemsPerPage(parseInt(e.target.value));
   };
 
-  // Handle edit entry
-  const handleEdit = (userId) => {
-    // Perform edit action for the given userId
-    console.log("Edit user:", userId);
+  // Handle update status
+  const handleUpdateStatus = () => {
+    try {
+      const data = { id: status.id, accountStatus: status.status };
+      if (currentUrlUser === "clients") {
+        dispatch(updateClientById(data));
+        window.location.reload();
+      }
+      if (currentUrlUser === "admins") {
+        dispatch(updateAdmin(data));
+        window.location.reload();
+      }
+      if (currentUrlUser === "users") {
+        dispatch(updateUser(data));
+        window.location.reload();
+      }
+      if (currentUrlUser === "payments") {
+        const paymentData = { id: status.id, status: status.status };
+        dispatch(updateInvoice(paymentData));
+        window.location.reload();
+      }
+      if (currentUrlUser === "invoices") {
+        const invoiceData = { id: status.id, status: status.status };
+        dispatch(updateInvoice(invoiceData));
+        window.location.reload();
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   };
+
+  useEffect(() => {
+    handleUpdateStatus();
+  }, [status]);
 
   // Handle delete entry
   const handleDelete = (id) => {
@@ -101,6 +152,18 @@ const Table = ({ users, columns, filter }) => {
       if (currentUrlUser === "users") {
         dispatch(removeUser(id));
       }
+    } else {
+      console.log("cancelled");
+    }
+  };
+
+  // Handle delete entry
+  const handleMarkAsTreated = (id) => {
+    const userConfirmed = window.confirm("Do you want to proceed?");
+    if (userConfirmed) {
+      const invoiceData = { id: id, status: "PENDING_CONFIRMATION" };
+      dispatch(markAsComplete(invoiceData));
+      window.location.reload();
     } else {
       console.log("cancelled");
     }
@@ -123,18 +186,34 @@ const Table = ({ users, columns, filter }) => {
           <span className="mx-2">entries</span>
           {filter && (
             <>
-              <select className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2">
+              <select
+                className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2"
+                onChange={(e) => setTxnType(e.target.value)}
+              >
                 <option>TRANSACTION TYPE</option>
-                <option>Type one</option>
-                <option>Type two</option>
-                <option>Type three</option>
+                {transactionTypes?.map((item, index) => {
+                  return (
+                    <option value={item} key={index}>
+                      {item}
+                    </option>
+                  );
+                })}
               </select>
-              <select className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2 ml-2">
-                <option>EMPLOYMENT</option>
-                <option>Employer one</option>
-                <option>Employer two</option>
-                <option>Employer three</option>
-              </select>
+              {role !== "CLIENT" && (
+                <select
+                  className="px-4 py-2 border border-gray-300 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-400 mt-2 ml-2"
+                  onChange={(e) => setEmployer(e.target.value)}
+                >
+                  <option>EMPLOYER</option>
+                  {employers?.map((item, index) => {
+                    return (
+                      <option value={item.id} key={index}>
+                        {item?.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              )}
             </>
           )}
         </div>
@@ -220,6 +299,20 @@ const Table = ({ users, columns, filter }) => {
                   } else if (status === "DEACTIVATED") {
                     statusStyle = "text-purple-600";
                   }
+                  //
+                  else if (status === "SUCCESS") {
+                    statusStyle = "text-green-600";
+                  } else if (status === "FAILED") {
+                    statusStyle = "text-red-600";
+                  }
+                  //
+                  else if (status === "TREATED") {
+                    statusStyle = "text-green-600";
+                  } else if (status === "PENDING_CONFIRMATION") {
+                    statusStyle = "text-yellow-600";
+                  } else if (status === "NOT_TREATED") {
+                    statusStyle = "text-red-600";
+                  }
                   return (
                     <td
                       key={column.id}
@@ -229,11 +322,48 @@ const Table = ({ users, columns, filter }) => {
                       {/* <div className="text-sm text-white font-bold capitalize">
                         {status}
                       </div> */}
-                      <select
-                        className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
-                      >
-                        <option>{status?.toUpperCase()}</option>
-                      </select>
+                      {currentUrlUser === "payments" ? (
+                        <select
+                          className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
+                          onChange={(e) =>
+                            setStatus({ id: user.id, status: e.target.value })
+                          }
+                        >
+                          <option>
+                            {status === "TREATED"
+                              ? "TREATED"
+                              : status === "PENDING_CONFIRMATION"
+                              ? "PENDING"
+                              : "NOT TREATED"}
+                          </option>
+                          <option value={"TREATED"}>TREATED</option>
+                          <option value={"NOT_TREATED"}>NOT TREATED</option>
+                        </select>
+                      ) : currentUrlUser === "invoices" ? (
+                        <span className={`${statusStyle}`}>
+                          {status === "TREATED"
+                            ? "TREATED"
+                            : status === "PENDING_CONFIRMATION"
+                            ? "PENDING"
+                            : "NOT TREATED"}
+                        </span>
+                      ) : txnStatus ? (
+                        <span className={`${statusStyle}`}>{status}</span>
+                      ) : (
+                        <select
+                          className={`w-32 px-2 py-1 border border-gray-300 rounded-md text-black text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${statusStyle}`}
+                          onChange={(e) =>
+                            setStatus({ id: user.id, status: e.target.value })
+                          }
+                        >
+                          <option>{status?.toUpperCase()}</option>
+                          <option value={"PENDING"}>PENDING</option>
+                          <option value={"ACTIVE"}>ACTIVE</option>
+                          <option value={"BLOCKED"}>BLOCKED</option>
+                          <option value={"BANNED"}>BANNED</option>
+                          <option value={"DEACTIVATED"}>DEACTIVATED</option>
+                        </select>
+                      )}
                     </td>
                   );
                 }
@@ -251,13 +381,44 @@ const Table = ({ users, columns, filter }) => {
                     </td>
                   );
                 }
+                if (column.id === "treated") {
+                  const status = user["account_status"];
+                  return (
+                    <td
+                      key={column.id}
+                      className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
+                    >
+                      <button
+                        onClick={() => handleMarkAsTreated(user.id)} // Add handleEdit function
+                        className="text-green-600 underline disabled:text-gray-400"
+                        disabled={
+                          status === "TREATED"
+                            ? true
+                            : status === "PENDING_CONFIRMATION"
+                            ? true
+                            : false
+                        }
+                      >
+                        Mark as Treated
+                      </button>
+                    </td>
+                  );
+                }
                 return (
                   <td
                     key={column.id}
                     className="p-2 md:p-4 lg:px-6 lg:py-4 whitespace-nowrap"
                   >
                     <div className="text-sm text-gray-900">
-                      <Link href={`/dashboard/${currentUrlUser}/${user.id}`}>
+                      <Link
+                        href={
+                          user.id && currentUrlUser != "payments"
+                            ? `/dashboard/${currentUrlUser}/${user.id}`
+                            : user.id && currentUrlUser === "payments"
+                            ? ""
+                            : ""
+                        }
+                      >
                         {user[column.field]}
                       </Link>
                     </div>

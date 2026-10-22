@@ -1,13 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { SelectInput, TextInput } from "@/components/";
+import { SelectInput, TextInput } from "../../../../../components";
 import { Formik } from "formik";
-import data from "@/constant/data";
+import data from "../../../../../constant/data";
 import { useDispatch, useSelector } from "react-redux";
-import Spinner from "@/components/Spinner";
-import { updateAdmin, listAdmin } from "@/app/GlobalRedux/Features/adminSlice";
-import Loading from "@/app/loading";
+import Spinner from "../../../../../components/Spinner";
+import {
+  updateAdmin,
+  listAdmin,
+} from "../../../../GlobalRedux/Features/adminSlice";
+import Loading from "../../../../../app/loading";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 
@@ -37,7 +40,7 @@ const Page = () => {
           city: admins?.addresses?.city,
           region: admins?.addresses?.region,
           street: admins?.addresses?.street,
-          mobileMoneyNumber: admins?.mobile_money_number,
+          mobileMoneyNumber: admins?.addresses.primary_phone_number,
           secondaryPhone: admins?.addresses?.secondery_phone_number,
         };
         setUser(formattedData);
@@ -137,7 +140,7 @@ const Page = () => {
                   <SelectInput
                     label="Region"
                     name="region"
-                    // value={values.region}
+                    value={values.region}
                     options={data.regionsInCameroon}
                     onChange={handleChange}
                     type="select"

@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { SelectInput, TextInput } from "@/components/";
+import { SelectInput, TextInput } from "../../../../components/";
 import { Formik } from "formik";
-import dataStatic from "@/constant/data";
+import dataStatic from "../../../../constant/data";
 import { useDispatch, useSelector } from "react-redux";
-import { addUser } from "@/app/GlobalRedux/Features/userSlice";
-import { readClients } from "@/app/GlobalRedux/Features/clientSlice";
+import { addUser } from "../../../GlobalRedux/Features/userSlice";
+import { readClients } from "../../../GlobalRedux/Features/clientSlice";
 // import { createClientValidator } from "@/app/validatorSchemas/createClientValidator";
-import Spinner from "@/components/Spinner";
+import Spinner from "../../../../components/Spinner";
 import { useRouter } from "next/navigation";
 import moment from "moment";
 
@@ -21,6 +21,18 @@ const Page = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const [role, setRole] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const role = localStorage.getItem("airlypayUserRole");
+      const userId = localStorage.getItem("airlipayUserId");
+      setRole(role);
+      setUserId(parseInt(userId));
+    })();
+  }, []);
+
   useEffect(() => {
     dispatch(readClients());
   }, []);
@@ -32,7 +44,11 @@ const Page = () => {
         value: item.id,
       };
     });
-    setClients(formatted);
+
+    const dummyData = { label: "Select Client", value: null };
+    const formattedWithDummy = [dummyData, ...formatted];
+
+    setClients(formattedWithDummy);
   }, [data]);
 
   // useEffect(() => {
@@ -77,7 +93,7 @@ const Page = () => {
               baseSalary: values.baseSalary.toString(),
               dob: moment(values.dob, "YYYY-MM-DD").format("DD/MM/YYYY"),
               sex: values.sex,
-              clientId: parseInt(values.clientId),
+              clientId: role === "CLIENT" ? userId : parseInt(values.clientId),
               city: values.city,
               street: values.street,
               region: values.region,
@@ -240,15 +256,17 @@ const Page = () => {
                       type="number"
                       placeholder="673000000"
                     />
-                    <SelectInput
-                      label="Client"
-                      name="clientId"
-                      // value={values.region}
-                      options={clients}
-                      onChange={handleChange}
-                      type="select"
-                      required
-                    />
+                    {role != "CLIENT" && (
+                      <SelectInput
+                        label="Client"
+                        name="clientId"
+                        // value={values.region}
+                        options={clients}
+                        onChange={handleChange}
+                        type="select"
+                        required
+                      />
+                    )}
                   </div>
                 </div>
               )}

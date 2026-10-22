@@ -1,6 +1,9 @@
-import axios from "./axiosConfig";
+import axios from './axiosConfig';
 
 export async function login(data) {
-  console.log("jkldsf", axios.defaults);
-  return await axios.post(`auth/login`, data);
+  return await axios.post(`auth/login`, data, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 }

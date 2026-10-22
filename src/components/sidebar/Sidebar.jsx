@@ -1,24 +1,34 @@
 "use client";
 
-import images from "@/constant/images";
+import images from "../../constant/images";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { forwardRef } from "react";
+import { usePathname } from "next/navigation";
+import { forwardRef, useState, useEffect } from "react";
 import { AiOutlineHome, AiOutlineMenu } from "react-icons/ai";
 import { BsBank, BsPinMapFill } from "react-icons/bs";
 import { FaUserEdit } from "react-icons/fa";
 import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { HiUser, HiUsers } from "react-icons/hi";
 import { BiMoney } from "react-icons/bi";
-import { useState } from "react";
 
 const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
-  const router = useRouter();
-  const [activeTab, setActiveTab] = useState("Dashboard");
-  // const isTabActive =(tabPath)=>{
-  //   return tabPath ===activeTab;
-  // }
+  const pathname = usePathname();
+
+  const [activeTab, setActiveTab] = useState("");
+
+  useEffect(() => {
+    setActiveTab(pathname);
+  }, [pathname]);
+
+  const [role, setRole] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      const role = localStorage.getItem("airlypayUserRole");
+      setRole(role);
+    })();
+  }, []);
 
   return (
     <div
@@ -33,7 +43,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
           {showNav && (
             <AiOutlineMenu
               className="h-8 w-8 text-gray-700 cursor-pointer text-white"
-              onClick={() => setActiveTab("/Dasboard")}
+              onClick={() => setShowNav(!showNav)}
             />
           )}
         </div>
@@ -42,7 +52,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
           <Link href="/dashboard">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
-                router.pathname == "/billing"
+                activeTab === "/dashboard"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
               }`}
@@ -64,59 +74,67 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
           </Link>
         </div>
 
-        <div className="">
-          <Link href="/dashboard/clients">
-            <div
-              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
-                router.pathname == "/billing"
-                  ? "bg-orange-100 text-orange-500"
-                  : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
-              }`}
-            >
-              <div className="flex flex-row items-center justify-around mr-2">
-                <div className="mr-2">
-                  <HiUsers className="h-5 w-5" />
+        {role === "ADMIN" && (
+          <div className="">
+            <Link href="/dashboard/clients">
+              <div
+                className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
+                  activeTab === "/dashboard/clients"
+                    ? "bg-orange-100 text-orange-500"
+                    : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
+                }`}
+              >
+                <div className="flex flex-row items-center justify-around mr-2">
+                  <div className="mr-2">
+                    <HiUsers className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-inter text-steelblue text-left">
+                      Clients
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-inter text-steelblue text-left">Clients</p>
+                <div className="absolute right-3 -ml-4">
+                  <Image width={10} height={10} src={images.right} />
                 </div>
               </div>
-              <div className="absolute right-3 -ml-4">
-                <Image width={10} height={10} src={images.right} />
-              </div>
-            </div>
-          </Link>
-        </div>
+            </Link>
+          </div>
+        )}
 
-        <div className="">
-          <Link href="/dashboard/admins">
-            <div
-              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
-                router.pathname == "/billing"
-                  ? "bg-orange-100 text-orange-500"
-                  : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
-              }`}
-            >
-              <div className="flex flex-row items-center justify-around mr-2">
-                <div className="mr-2">
-                  <FaUserEdit className="h-5 w-5" />
+        {role === "ADMIN" && (
+          <div className="">
+            <Link href="/dashboard/admins">
+              <div
+                className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
+                  activeTab === "/dashboard/admins"
+                    ? "bg-orange-100 text-orange-500"
+                    : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
+                }`}
+              >
+                <div className="flex flex-row items-center justify-around mr-2">
+                  <div className="mr-2">
+                    <FaUserEdit className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-inter text-steelblue text-left">
+                      Admins
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-inter text-steelblue text-left">Admins</p>
+                <div className="absolute right-3 -ml-4">
+                  <Image width={10} height={10} src={images.right} />
                 </div>
               </div>
-              <div className="absolute right-3 -ml-4">
-                <Image width={10} height={10} src={images.right} />
-              </div>
-            </div>
-          </Link>
-        </div>
+            </Link>
+          </div>
+        )}
 
         <div className="">
           <Link href="/dashboard/users">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-full transition-colors ${
-                router.pathname == "/billing"
+                activeTab === "/dashboard/users"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
               }`}
@@ -164,7 +182,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
           <Link href="/dashboard/transactions">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
-                router.pathname == "/billing"
+                activeTab === "/dashboard/transactions"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
               }`}
@@ -186,37 +204,39 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
           </Link>
         </div>
 
-        <div className="">
-          <Link href="/dashboard/payments">
-            <div
-              className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
-                router.pathname == "/billing"
-                  ? "bg-orange-100 text-orange-500"
-                  : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
-              }`}
-            >
-              <div className="flex flex-row items-center justify-around mr-2">
-                <div className="mr-2">
-                  <GiPayMoney className="h-5 w-5" />
+        {role === "ADMIN" && (
+          <div className="">
+            <Link href="/dashboard/payments">
+              <div
+                className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
+                  activeTab === "/dashboard/payments"
+                    ? "bg-orange-100 text-orange-500"
+                    : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
+                }`}
+              >
+                <div className="flex flex-row items-center justify-around mr-2">
+                  <div className="mr-2">
+                    <GiPayMoney className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-inter text-steelblue text-left">
+                      Payments
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-inter text-steelblue text-left">
-                    Payments
-                  </p>
+                <div className="absolute right-3 -ml-4">
+                  <Image width={10} height={10} src={images.right} />
                 </div>
               </div>
-              <div className="absolute right-3 -ml-4">
-                <Image width={10} height={10} src={images.right} />
-              </div>
-            </div>
-          </Link>
-        </div>
+            </Link>
+          </div>
+        )}
 
         <div className="">
           <Link href="/dashboard/invoices">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
-                router.pathname == "/billing"
+                activeTab === "/dashboard/invoices"
                   ? "bg-orange-100 text-orange-500"
                   : "text-gray-400 hover:bg-orange-100 hover:text-orange-500"
               }`}
@@ -237,7 +257,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
             </div>
           </Link>
         </div>
-        <div className="">
+        {/* <div className="">
           <Link href="/dashboard/login">
             <div
               className={`py-2 pl-2 relative rounded text-center cursor-pointer mb-3 flex items-center justify-between w-[100%] transition-colors ${
@@ -259,7 +279,7 @@ const SideBar = forwardRef(({ showNav, setShowNav }, ref) => {
               </div>
             </div>
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

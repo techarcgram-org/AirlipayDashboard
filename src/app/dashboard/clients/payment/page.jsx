@@ -1,6 +1,6 @@
 "use client";
-import { Table } from "@/components";
-import data from "@/constant/data";
+import { Table } from "../../../../components";
+import data from "../../../../constant/data";
 import React from "react";
 
 const page = () => {

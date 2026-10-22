@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { login } from "@/app/apiServices/authService";
+import { login } from "../../apiServices/authService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -14,8 +14,13 @@ const initialState = {
 export const loginThunk = createAsyncThunk(
   "account/login",
   async (data, thunkAPI) => {
-    const response = await login(data); // Replace with your API call
-    return response.data;
+    try {
+      const response = await login(data);
+      return response.data;
+    } catch (error) {
+      console.log("THUNK CLIENT ERROR", error);
+      return thunkAPI.rejectWithValue({ data: error.response.data });
+    }
   }
 );
 
@@ -31,6 +36,8 @@ const accountSlice = createSlice({
       state.data = {};
       state.isLoggedIn = false;
       localStorage.removeItem("token");
+      localStorage.removeItem("airlypayUserRole");
+      localStorage.removeItem("airlipayUserId");
     },
   },
   extraReducers: (builder) => {
@@ -45,7 +52,18 @@ const accountSlice = createSlice({
         state.isLoggedIn = true;
         state.data = action.payload.data;
         state.errorMessage = "Login successfull";
+        localStorage.setItem("airlypayUserRole", action.payload.data.roles[0]);
         localStorage.setItem("token", action.payload.access_token);
+        if (Array.isArray(action.payload.data.users) && action.payload.data.users.length > 0) {
+          localStorage.setItem("airlipayUserId", action.payload.data.users[0].id);
+        }
+        if (Array.isArray(action.payload.data.clients) && action.payload.data.clients.length > 0) {
+          localStorage.setItem("airlipayUserId", action.payload.data.clients[0].id);
+        }
+        if (Array.isArray(action.payload.data.admins) && action.payload.data.admins.length > 0) {
+          localStorage.setItem("airlipayUserId", action.payload.data.admins[0].id);
+        }
+
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.loading = false;

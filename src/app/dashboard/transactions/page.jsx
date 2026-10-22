@@ -1,24 +1,53 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Table } from "../../../components";
-import dataStatic from "@/constant/data";
+import dataStatic from "../../../constant/data";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import Loading from "../loading";
-import { listUsers } from "@/app/GlobalRedux/Features/userSlice";
-import { readTransactions } from "@/app/GlobalRedux/Features/transactionSlice";
-import { formatMoney } from "@/utils/utils";
+import { listUsers } from "../../../app/GlobalRedux/Features/userSlice";
+import { readTransactions } from "../../../app/GlobalRedux/Features/transactionSlice";
+import { readClients } from "../../../app/GlobalRedux/Features/clientSlice";
+import { formatMoney } from "../../../utils/utils";
+import DownloadCSV from "../../../components/transactions/DownloadToCSV";
 
 const page = () => {
+  const dispatch = useDispatch();
   const { transactions } = useSelector((state) => state.transactions);
   const { users, loading } = useSelector((state) => state.users);
-  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.clients);
+
+  const [txnType, setTxnType] = useState("");
+  const [employer, setEmployer] = useState("");
+  const [filteredByEmployer, setFilteredByEmployer] = useState([]);
+
+  const [role, setRole] = useState("");
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    dispatch(readTransactions());
+    (async () => {
+      const role = localStorage.getItem("airlypayUserRole");
+      const userId = localStorage.getItem("airlipayUserId");
+      setRole(role);
+      setUserId(parseInt(userId));
+    })();
+  }, []);
+
+  useEffect(() => {
+    dispatch(readTransactions({ txnType }));
+    dispatch(readClients());
     dispatch(listUsers());
   }, []);
+
+  useEffect(() => {
+    if (txnType === "ALL") {
+      dispatch(readTransactions());
+    } else {
+      dispatch(readTransactions({ txnType: txnType }));
+    }
+    dispatch(listUsers());
+  }, [txnType]);
 
   const userMap = {};
   users?.forEach((user) => {
@@ -39,19 +68,79 @@ const page = () => {
   const transactionsWithUsers = transactions?.map((transaction) => {
     return attachUserToTransaction(transaction);
   });
+  // const transactionsWithUsers = transactions
+  //   ?.filter((transaction) => {
+  //     // If the role is CLIENT, filter transactions by user ID
+  //     if (role === "CLIENT") {
+  //       return transaction.user.client_id === userId;
+  //     }
+  //     // If the role is not CLIENT, return all transactions
+  //     return true;
+  //   })
+  //   .map((transaction) => {
+  //     return attachUserToTransaction(transaction);
+  //   });
 
-  // const userTransactions = transactionsWithUsers.filter(
-  //   (item) => item?.user_id === parseInt(id)
-  // );
+  useEffect(() => {
+    const fetchFilteredTransactions = async () => {
+      const filteredTransactions = transactionsWithUsers?.filter(
+        (transaction) => {
+          if (role === "CLIENT") {
+            return transaction.user.client_id === userId;
+          } else {
+            return true;
+          }
+        }
+      );
 
-  const formattedData = transactionsWithUsers.map((item) => {
+      const filtered = await filteredTransactions?.filter(
+        (item) => item.user.client_id === parseInt(employer)
+      );
+      setFilteredByEmployer(filtered);
+    };
+
+    fetchFilteredTransactions();
+  }, [employer]);
+
+  const filteredTransactions = transactionsWithUsers?.filter((transaction) => {
+    if (role === "CLIENT") {
+      return transaction?.user?.client_id === userId;
+    } else {
+      return true;
+    }
+  });
+
+  const formattedData = filteredTransactions?.map((item) => {
     return {
       date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
-      description: item?.description,
-      amount: item?.amount,
-      fee: item?.fees,
-      beforeBalance: `XAF ${formatMoney(item?.old_balance)}`,
-      afterBalance: `XAF ${formatMoney(item?.new_balance)}`,
+      description:
+        item?.transaction_type === "WITHDRAW"
+          ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`
+          : `${item?.transaction_type}`,
+      account_status: item?.status,
+      amount: formatMoney(item?.amount),
+      fee: formatMoney(item?.fees),
+      user: item?.user?.name,
+      employer: item?.user?.client_name,
+      balanceBefore: `XAF ${formatMoney(item?.old_balance)}`,
+      balanceAfter: `XAF ${formatMoney(item?.new_balance)}`,
+    };
+  });
+
+  const formattedFilteredData = filteredByEmployer?.map((item) => {
+    return {
+      date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
+      description:
+        item?.transaction_type === "WITHDRAW"
+          ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`
+          : `${item?.transaction_type}`,
+      account_status: item?.status,
+      amount: formatMoney(item?.amount),
+      fee: formatMoney(item?.fees),
+      user: item?.user?.name,
+      employer: item?.user?.client_name,
+      balanceBefore: `XAF ${formatMoney(item?.old_balance)}`,
+      balanceAfter: `XAF ${formatMoney(item?.new_balance)}`,
     };
   });
 
@@ -62,11 +151,30 @@ const page = () => {
   return (
     <>
       <h2 className="font-bold">Transactions</h2>
+
       <Table
         tab="Transactions"
-        users={formattedData}
-        columns={dataStatic.userTransactionColumns}
+        role={role}
+        users={
+          formattedFilteredData.length > 0
+            ? formattedFilteredData
+            : formattedData
+        }
+        columns={dataStatic.transactionColumns}
         filter={true}
+        transactionTypes={["ALL", "WITHDRAW", "DEPOSIT"]}
+        employers={data || []}
+        txnStatus={true}
+        setTxnType={setTxnType}
+        setEmployer={setEmployer}
+      />
+      <DownloadCSV
+        data={
+          formattedFilteredData.length > 0
+            ? formattedFilteredData
+            : formattedData
+        }
+        fileName="Transactions"
       />
     </>
   );

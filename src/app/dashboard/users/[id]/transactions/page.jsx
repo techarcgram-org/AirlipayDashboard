@@ -1,10 +1,11 @@
 "use client";
 
-import { Table } from "@/components";
-import dataStatic from "@/constant/data";
+import { Table } from "../../../../../components";
+import dataStatic from "../../../../../constant/data";
 import { useSelector } from "react-redux";
 import moment from "moment";
 import { useParams } from "next/navigation";
+import { formatMoney } from "../../../../../utils/utils";
 
 const page = () => {
   const { transactions } = useSelector((state) => state.transactions);
@@ -38,17 +39,22 @@ const page = () => {
   const formattedData = userTransactions.map((item) => {
     return {
       date: moment(item?.execution_date).format("DD/MM/YYYY HH:mm"),
-      description: item?.description,
-      amount: item?.amount,
+      description:
+        item?.transaction_type === "WITHDRAW"
+          ? `${item?.transaction_type} Last 4: ${item?.phone_number?.slice(-4)}`
+          : `${item?.transaction_type}`,
+      account_status: item?.status,
+      amount: `XAF ${formatMoney(item?.amount)}`,
       fee: item?.fees,
-      beforeBalance: item?.old_balance,
-      afterBalance: item?.new_balance,
+      balanceBefore: item?.old_balance,
+      balanceAfter: item?.new_balance,
     };
   });
 
   return (
     <Table
       tab="Transactions"
+      txnStatus={true}
       users={formattedData}
       columns={dataStatic.userTransactionColumns}
     />

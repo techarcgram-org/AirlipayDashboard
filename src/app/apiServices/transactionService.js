@@ -1,11 +1,8 @@
 import axios from "./axiosConfig";
 
-export async function getTransactions() {
-  return await axios.get(`/airlipay-balance/transactions`, {
-    "status": "SUCCESS",
-    "type": "DEPOSIT",
-    "page": 1,
-    "pageSize": 50
-  });
+export async function getTransactions(data) {
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  return await axios.get(`/airlipay-balance/transactions?status=${data.status || ''}&type=${data.txnType || ''}&page=${1}&pageSize=${100}`);
 }
 

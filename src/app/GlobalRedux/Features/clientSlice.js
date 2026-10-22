@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { createClient, getClients, getClient, updateClient, deleteClient } from "@/app/apiServices/clientService";
+import { createClient, getClients, getClient, updateClient, deleteClient } from "../../apiServices/clientService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -138,6 +138,7 @@ const clientSlice = createSlice({
       })
       .addCase(updateClientById.rejected, (state, action) => {
         state.loading = false;
+        console.log(action.payload)
         state.errorMessage = action.payload.data.message;
         state.error = true;
       })

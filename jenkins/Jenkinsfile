@@ -7,18 +7,14 @@ pipeline {
         stage('Build') {
             steps {
                 // sh 'docker compose build'
-                sh 'docker build -t airlipay-dashboard .'
+                sh 'docker compose -f docker/production/docker-compose.yml build'
             }
         }
-        // stage('Test') {
-        //     steps {
-        //         sh './jenkins/scripts/test.sh'
-        //     }
-        // }
+
         stage('Run') {
             steps {
                 // sh 'docker compose up'
-                sh 'docker run -p 3001:3001 airlipay-dashboard'
+                sh 'docker compose -f docker/production/docker-compose.yml up -d'
             }
         }
     }

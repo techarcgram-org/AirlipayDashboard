@@ -1,14 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { SelectInput, TextInput } from "@/components/";
+import { SelectInput, TextInput } from "../../../../../components/";
 import { Formik } from "formik";
-import dataStatic from "@/constant/data";
-import { updateUser, listUser } from "@/app/GlobalRedux/Features/userSlice";
-import { readClients } from "@/app/GlobalRedux/Features/clientSlice";
+import dataStatic from "../../../../../constant/data";
+import {
+  updateUser,
+  listUser,
+} from "../../../../../app/GlobalRedux/Features/userSlice";
+import { readClients } from "../../../../../app/GlobalRedux/Features/clientSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Spinner from "@/components/Spinner";
-import Loading from "@/app/loading";
+import Spinner from "../../../../../components/Spinner";
+import Loading from "../../../../../app/loading";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import moment from "moment";
@@ -36,14 +39,14 @@ const Page = () => {
           name: user?.name,
           email: user?.accounts.email,
           baseSalary: user?.base_salary,
-          dob: user?.dob,
+          dob: moment(user?.dob).format("YYYY-MM-DD"),
           sex: user?.sex,
           clientId: user?.client_id,
           city: user?.addresses.city,
           street: user?.addresses.street,
           region: user?.addresses.region,
-          primaryPhone: user?.addresses.primaryPhone,
-          secondaryPhone: user?.addresses.secondaryPhone,
+          primaryPhone: user?.addresses.primary_phone_number,
+          secondaryPhone: user?.addresses.secondery_phone_number,
         };
         setUserData(formattedData);
       }
@@ -51,18 +54,26 @@ const Page = () => {
     getUser();
   }, [user]);
 
+  // console.log(userData.dob);
+
   useEffect(() => {
     dispatch(readClients());
   }, []);
 
   useEffect(() => {
-    const formatted = data.map((item) => {
-      return {
-        label: item.name,
-        value: item.id,
-      };
-    });
-    setClients(formatted);
+    if (data.length > 0) {
+      const formatted = data.map((item) => {
+        return {
+          label: item.name,
+          value: item.id,
+        };
+      });
+
+      const dummyData = { label: "Select Client", value: null };
+      const formattedWithDummy = [dummyData, ...formatted];
+
+      setClients(formattedWithDummy);
+    }
   }, [data]);
 
   if (!userData) {
@@ -83,17 +94,20 @@ const Page = () => {
               id: parseInt(id),
               name: values.name,
               email: values.email,
-              baseSalary: values.baseSalary.toString(),
+              baseSalary: parseInt(values.baseSalary),
               dob: moment(values.dob, "YYYY-MM-DD").format("DD/MM/YYYY"),
               sex: values.sex,
               clientId: parseInt(values.clientId),
               city: values.city,
               street: values.street,
               region: values.region,
-              primaryPhone: values.primaryPhone.toString(),
-              secondaryPhone: values.secondaryPhone.toString(),
+              primaryPhone: values.primaryPhone
+                ? values.primaryPhone?.toString()
+                : undefined,
+              secondaryPhone: values.secondaryPhone
+                ? values.secondaryPhone?.toString()
+                : undefined,
             };
-            console.log(data);
             const response = await dispatch(updateUser(data));
             if (response.meta.requestStatus === "fulfilled") {
               router.push("/dashboard/users");
@@ -228,7 +242,7 @@ const Page = () => {
                     <SelectInput
                       label="Region"
                       name="region"
-                      // value={values.region}
+                      value={values.region}
                       options={dataStatic.regionsInCameroon}
                       onChange={handleChange}
                       type="select"
@@ -254,7 +268,7 @@ const Page = () => {
                     <SelectInput
                       label="Client"
                       name="clientId"
-                      // value={values.region}
+                      value={values.clientId}
                       options={clients}
                       onChange={handleChange}
                       type="select"

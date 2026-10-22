@@ -2,11 +2,11 @@
 
 // import { UserDetails } from "@/components";
 import { useState, useEffect } from "react";
-import AdminDetails from "@/components/admin/adminDetails";
-import Info from "@/components/Info";
+import AdminDetails from "../../../../components/admin/adminDetails";
+import Info from "../../../../components/Info";
 // import Tab from "@/components/common/Tab";
 import { useDispatch, useSelector } from "react-redux";
-import { listAdmin } from "@/app/GlobalRedux/Features/adminSlice";
+import { listAdmin } from "../../../GlobalRedux/Features/adminSlice";
 import { useParams } from "next/navigation";
 import Loading from "../loading";
 import moment from "moment";
@@ -46,11 +46,9 @@ const userDetailsLayout = ({ children }) => {
             join={moment(user?.created_at).format("DD/MM/YYYY HH:mm")}
             address={user?.addresses?.city}
             status={user?.accounts?.account_status}
-            activated="08/12/2023"
-            aBalance={5000}
-            tAmount={5000}
-            nBalance={5000}
-            fee={5000}
+            activated={moment(user?.accounts?.activation_date).format(
+              "DD/MM/YYYY HH:mm"
+            )}
           />
           {/* <Tab
             options={[

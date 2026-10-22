@@ -1,6 +1,6 @@
 "use client"; //this is a client side component
 
-import { getTransactions } from "@/app/apiServices/transactionService";
+import { getTransactions } from "../../apiServices/transactionService";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -10,9 +10,9 @@ const initialState = {
     errorMessage: null,
 };
 
-export const readTransactions = createAsyncThunk("transactions/readTransactions", async (thunkAPI) => {
+export const readTransactions = createAsyncThunk("transactions/readTransactions", async (data, thunkAPI) => {
     try {
-        const response = await getTransactions()
+        const response = await getTransactions(data)
         return response.data
     } catch (error) {
         console.log("THUNK CLIENT ERROR", error);
@@ -37,7 +37,8 @@ const clientSlice = createSlice({
                 state.errorMessage = "Success reading transactions";
             })
             .addCase(readTransactions.rejected, (state, action) => {
-                state.loading = false;
+                console.log(action)
+                state.loading = false
                 state.errorMessage = action.payload.data.message;
                 state.error = true;
             })

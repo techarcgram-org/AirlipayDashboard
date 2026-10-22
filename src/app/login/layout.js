@@ -1,6 +1,6 @@
 "use client";
 
-import Info from "@/components/Info";
+import Info from "../../components/Info";
 import { useSelector } from "react-redux";
 
 // export const metadata = {

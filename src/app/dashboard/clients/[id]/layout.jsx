@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ClientDetails from "@/components/client/clientDetails";
-import Info from "@/components/Info";
-import Tab from "@/components/common/Tab";
+import ClientDetails from "../../../../components/client/clientDetails";
+import Info from "../../../../components/Info";
+import Tab from "../../../../components/common/Tab";
 import { useDispatch, useSelector } from "react-redux";
-import { readClient } from "@/app/GlobalRedux/Features/clientSlice";
-import { readTransactions } from "@/app/GlobalRedux/Features/transactionSlice";
-import { listUsers } from "@/app/GlobalRedux/Features/userSlice";
+import { readClient } from "../../../GlobalRedux/Features/clientSlice";
+import { readTransactions } from "../../../GlobalRedux/Features/transactionSlice";
+import { listUsers } from "../../../GlobalRedux/Features/userSlice";
 import { useParams } from "next/navigation";
 import Loading from "../loading";
 import moment from "moment";
@@ -21,7 +21,7 @@ const userDetailsLayout = ({ children }) => {
   useEffect(() => {
     dispatch(readClient(id));
     dispatch(listUsers());
-    dispatch(readTransactions());
+    dispatch(readTransactions({ txnType: "" }));
   }, [id]);
 
   useEffect(() => {
@@ -45,10 +45,15 @@ const userDetailsLayout = ({ children }) => {
             username={user?.name}
             email={user?.accounts?.email}
             phoneNumber={user?.addresses?.primary_phone_number}
+            nextPaymentDate={moment(user?.next_payment_date).format(
+              "DD/MM/YYYY"
+            )}
             join={moment(user?.created_at).format("DD/MM/YYYY HH:mm")}
             address={user?.addresses?.city}
             status={user?.accounts?.account_status}
-            activated="08/12/2023"
+            activated={moment(user?.accounts?.activation_date).format(
+              "DD/MM/YYYY HH:mm"
+            )}
           />
           <Tab
             options={[

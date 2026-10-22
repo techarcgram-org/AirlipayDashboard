@@ -133,13 +133,14 @@ const clientColumns = [
   { id: "name", header: "Name", field: "name" },
   { id: "email", header: "Email Address", field: "email" },
   { id: "contact", header: "Phone Number", field: "contact" },
-  { id: "clientId", header: "Client ID", field: "clientId" },
+  { id: "status", header: "Status", field: "status" },
   { id: "edit", header: "Edit", field: "" },
   { id: "delete", header: "Delete", field: "" },
 ];
 
 const clientTransactionsColumns = [
   { id: "date", header: "Date", field: "date" },
+  { id: "description", header: "Description (Purpose, last four)", field: "description" },
   { id: "employeeName", header: "Employee Name", field: "employeeName" },
   { id: "amount", header: "Amount", field: "amount" },
   { id: "transactionId", header: "Transaction ID", field: "transactionId" },
@@ -207,7 +208,7 @@ const adminsColumns = [
   { id: "name", header: "Admin Name", field: "name" },
   { id: "email", header: "Email Address", field: "email" },
   { id: "phoneNumber", header: "Phone Number", field: "phoneNumber" },
-  { id: "adminId", header: "Admin ID", field: "adminId" },
+  { id: "status", header: "Status", field: "status" },
   { id: "edit", header: "Edit", field: "" },
   { id: "delete", header: "Delete", field: "" }
 ]
@@ -265,10 +266,15 @@ const userColumns = [
   { id: "email", header: "Email", field: "email" },
   { id: "address", header: "Address", field: "address" },
   { id: "employee_id", header: "Employee ID", field: "employee_id" },
-  { id: "employer", header: "Employer", field: "employer" },
+  { id: "client_name", header: "Employer", field: "client_name" },
   { id: "status", header: "Status", field: "account_status" },
   { id: "edit", header: "Edit", field: "" },
   { id: "delete", header: "Delete", field: "" },
+];
+
+const userMomoAcoountsColumns = [
+  { id: "operator", header: "Operator", field: "operator" },
+  { id: "phone_number", header: "Phone Number", field: "phone_number" },
 ];
 
 const usersDetails = [
@@ -398,19 +404,56 @@ const columnsDetails = [
 const transactionColumns = [
   { id: "date", header: "Date", field: "date" },
   { id: "description", header: "Description (Purpose, last four)", field: "description" },
+  { id: "status", header: "Status", field: "status" },
   { id: "amount", header: "Amount", field: "amount" },
   { id: "fee", header: "Fee", field: "fee" },
+  { id: "user", header: "User", field: "user" },
+  { id: "employer", header: "Employer", field: "employer" },
   { id: "balanceBefore", header: "Balance Before", field: "balanceBefore" },
   { id: "balanceAfter", header: "Balance After", field: "balanceAfter" },
 ];
 
+const invoiceColumns = [
+  { id: "invoiceNumber", header: "Invoice Number", field: "invoiceNumber" },
+  { id: "client", header: "Client", field: "client" },
+  { id: "status", header: "Status", field: "status" },
+  { id: "from", header: "From", field: "from" },
+  { id: "to", header: "To", field: "to" },
+  // { id: "taxes", header: "Taxes", field: "taxes" },
+  { id: "totalFees", header: "Total Fees", field: "totalFees" },
+  { id: "totalAmount", header: "Total Amount", field: "totalAmount" },
+  { id: "treated", header: "Mark as Treated", field: "treated" }
+]
+
+const paymentColumns = [
+  { id: "invoiceNumber", header: "Invoice Number", field: "invoiceNumber" },
+  { id: "client", header: "Client", field: "client" },
+  { id: "status", header: "Status", field: "status" },
+  { id: "from", header: "From", field: "from" },
+  { id: "to", header: "To", field: "to" },
+  // { id: "taxes", header: "Taxes", field: "taxes" },
+  { id: "totalFees", header: "Total Fees", field: "totalFees" },
+  { id: "totalAmount", header: "Total Amount", field: "totalAmount" },
+]
+
+const clientInvoiceColumns = [
+  { id: "invoiceNumber", header: "Invoice Number", field: "invoiceNumber" },
+  { id: "status", header: "Status", field: "status" },
+  { id: "from", header: "From", field: "from" },
+  { id: "to", header: "To", field: "to" },
+  // { id: "taxes", header: "Taxes", field: "taxes" },
+  { id: "totalFees", header: "Total Fees", field: "totalFees" },
+  { id: "totalAmount", header: "Total Amount", field: "totalAmount" }
+]
+
 const userTransactionColumns = [
   { id: "date", header: "Date", field: "date" },
   { id: "description", header: "Description (Type, last four)", field: "description" },
+  { id: "status", header: "Status", field: "status" },
   { id: "amount", header: "Amount", field: "amount" },
   { id: "fee", header: "Fee", field: "fee" },
-  { id: "beforeBalance", header: "Balance Before", field: "beforeBalance" },
-  { id: "afterBalance", header: "Balance After", field: "afterBalance" },
+  { id: "balanceBefore", header: "Balance Before", field: "balanceBefore" },
+  { id: "balanceAfter", header: "Balance After", field: "balanceAfter" },
 ];
 
 const banksColumns = [
@@ -419,24 +462,10 @@ const banksColumns = [
   { id: "balance", header: "Balance", field: "balance" },
 ];
 
-const paymentColumns = [
-  { id: "date", header: "Payment date", field: "date" },
-  { id: "employeeName", header: "Employee Name", field: "employeeName" },
-  { id: "amount", header: "Amount", field: "amount" },
-  { id: "transactionID", header: "Transaction ID", field: "transactionID" },
-  {
-    id: "destinationAccount",
-    header: "Destination Account",
-    field: "destinationAccount",
-  },
-  {
-    id: "totalAmountTransferred",
-    header: "Total Amount Transferred",
-    filed: "totalAmountTransferred",
-  },
-];
+
 
 const regionsInCameroon = [
+  { value: null, label: "Select Regon" },
   { value: "adamaoua", label: "Adamaoua" },
   { value: "centre", label: "Centre" },
   { value: "east", label: "East" },
@@ -450,6 +479,7 @@ const regionsInCameroon = [
 ];
 
 const cameroonBanks = [
+  { value: null, label: "Select Bank Account" },
   { value: "afriland_first_bank", label: "Afriland First Bank" },
   { value: "banque_atlantique", label: "Banque Atlantique" },
   {
@@ -474,6 +504,7 @@ const cameroonBanks = [
 ];
 
 const sex = [
+  { value: null, label: "Select Sex" },
   { value: "M", label: "Male" },
   { value: "F", label: "Female" },
 ];
@@ -500,6 +531,9 @@ const dataStatic = {
   regionsInCameroon,
   sex,
   userColumns,
+  userMomoAcoountsColumns,
+  invoiceColumns,
+  clientInvoiceColumns
 };
 
 export default dataStatic;

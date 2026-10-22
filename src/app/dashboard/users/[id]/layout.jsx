@@ -1,39 +1,71 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { UserDetails } from "@/components";
-import Info from "@/components/Info";
-import Tab from "@/components/common/Tab";
+import { UserDetails } from "../../../../components";
+import Info from "../../../../components/Info";
+import Tab from "../../../../components/common/Tab";
 import { useDispatch, useSelector } from "react-redux";
-import { readTransactions } from "@/app/GlobalRedux/Features/transactionSlice";
+import { readTransactions } from "../../../../app/GlobalRedux/Features/transactionSlice";
 import {
   listUsers,
   listUser,
-  listBanks,
-} from "@/app/GlobalRedux/Features/userSlice";
+  // listBanks,
+  // listMomoAccounts,
+  listPayPeriods,
+  listAirlipayBalance,
+} from "../../../../app/GlobalRedux/Features/userSlice";
 import { useParams } from "next/navigation";
 import Loading from "../loading";
 import moment from "moment";
+import { formatMoney } from "../../../../utils/utils";
 
 const userDetailsLayout = ({ children }) => {
-  const { errorMessage, error, user, users } = useSelector(
-    (state) => state.users
-  );
+  const { transactions } = useSelector((state) => state.transactions);
+  const { errorMessage, error, user, users, airlipayBalance, payPeriods } =
+    useSelector((state) => state.users);
   const dispatch = useDispatch();
   const { id } = useParams();
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    dispatch(listUser(id));
+    dispatch(listUser(parseInt(id)));
     dispatch(listUsers());
-    dispatch(readTransactions());
-    dispatch(listBanks());
+    dispatch(listPayPeriods(parseInt(id)));
+    dispatch(readTransactions({ txnType: "" }));
+    // dispatch(listBanks(parseInt(id)));
+    // dispatch(listMomoAccounts(id));
+    dispatch(listAirlipayBalance(parseInt(id)));
   }, [id]);
 
   useEffect(() => {
     setUserData(user);
   }, [user]);
 
+  const userMap = {};
+  users?.forEach((user) => {
+    userMap[user.id] = user;
+  });
+
+  const attachUserToTransaction = (transaction) => {
+    const userId = transaction.user_id;
+    if (userMap[userId]) {
+      const clonedTransaction = { ...transaction };
+      clonedTransaction.user = userMap[userId];
+      return clonedTransaction;
+    } else {
+      return transaction;
+    }
+  };
+
+  const transactionsWithUsers = transactions?.map((transaction) => {
+    return attachUserToTransaction(transaction);
+  });
+
+  const userTransactions = transactionsWithUsers.filter(
+    (item) => item?.user_id === parseInt(id)
+  );
+
+  // const currentUrl = typeof window !== "undefined" && window.location.href;
   const currentUrl = window.location.href;
   const regex = /\/(\d+)\/edit/;
   const match = currentUrl.match(regex);
@@ -54,11 +86,26 @@ const userDetailsLayout = ({ children }) => {
             join={moment(userData?.created_at).format("DD/MM/YYYY HH:mm")}
             address={userData?.addresses?.city}
             status={userData?.accounts?.account_status}
-            activated="08/12/2023"
-            aBalance={5000}
-            tAmount={5000}
-            nBalance={5000}
-            fee={5000}
+            activated={moment(userData?.accounts?.activation_date).format(
+              "DD/MM/YYYY HH:mm"
+            )}
+            userId={userData?.employee_id}
+            aBalance={formatMoney(airlipayBalance?.balance)}
+            tAmount={payPeriods[0]?.transactions
+              .filter(
+                (transaction) =>
+                  transaction.transaction_type === "WITHDRAW" &&
+                  transaction.status === "SUCCESS"
+              )
+              .reduce((sum, transaction) => sum + transaction.amount, 0)}
+            nBalance={formatMoney(userData?.base_salary)}
+            fee={payPeriods[0]?.transactions
+              .filter(
+                (transaction) =>
+                  transaction.transaction_type === "WITHDRAW" &&
+                  transaction.status === "SUCCESS"
+              )
+              .reduce((sum, transaction) => sum + transaction.fees, 0)}
           />
           <Tab
             options={[
@@ -70,18 +117,18 @@ const userDetailsLayout = ({ children }) => {
               //   title: "Activity Feed",
               //   url: `/dashboard/users/${id}/activity-feed`,
               // },
-              {
-                title: "Bank Accounts",
-                url: `/dashboard/users/${id}/bank-accounts`,
-              },
+              // {
+              //   title: "Bank Accounts",
+              //   url: `/dashboard/users/${id}/bank-accounts`,
+              // },
               {
                 title: "Momo Accounts",
                 url: `/dashboard/users/${id}/momo-accounts`,
               },
-              {
-                title: "Debit Cards",
-                url: `/dashboard/users/${id}/debit-cards`,
-              },
+              // {
+              //   title: "Debit Cards",
+              //   url: `/dashboard/users/${id}/debit-cards`,
+              // },
             ]}
             defaultTab="Transactions"
           />

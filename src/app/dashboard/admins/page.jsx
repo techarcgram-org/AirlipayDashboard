@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Table } from "@/components";
-import data from "@/constant/data";
+import { Table } from "../../../components";
+import data from "../../../constant/data";
 import { useDispatch, useSelector } from "react-redux";
-import { listAdmins } from "@/app/GlobalRedux/Features/adminSlice";
+import { listAdmins } from "../../GlobalRedux/Features/adminSlice";
 import Loading from "../loading";
 
 const Page = () => {
@@ -25,7 +25,7 @@ const Page = () => {
             name: item?.name,
             email: item?.accounts.email,
             phoneNumber: item?.addresses.primary_phone_number,
-            adminId: item?.id,
+            account_status: item?.accounts?.account_status,
           };
         })
         .reverse();

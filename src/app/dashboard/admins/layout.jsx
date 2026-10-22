@@ -1,10 +1,10 @@
 "use client";
 
-import Info from "@/components/Info";
+import Info from "../../../components/Info";
 import { Tab } from "../../../components";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { listAdmins } from "@/app/GlobalRedux/Features/adminSlice";
+import { listAdmins } from "../../GlobalRedux/Features/adminSlice";
 
 const UserLayout = ({ children }) => {
   const { errorMessage, error } = useSelector((state) => state.admins);

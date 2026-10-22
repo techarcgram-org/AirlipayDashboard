@@ -1,19 +1,20 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { SelectInput, TextInput } from "@/components/";
+import { SelectInput, TextInput } from "../../../../../components";
 import { Formik } from "formik";
-import dataStatic from "@/constant/data";
+import dataStatic from "../../../../../constant/data";
 import { useDispatch, useSelector } from "react-redux";
 import {
   readClient,
   updateClientById,
-} from "@/app/GlobalRedux/Features/clientSlice";
+} from "../../../../GlobalRedux/Features/clientSlice";
 // import { createClientValidator } from "@/app/validatorSchemas/createClientValidator";
-import Spinner from "@/components/Spinner";
-import Loading from "@/app/loading";
+import Spinner from "../../../../../components/Spinner";
+import Loading from "../../../../loading";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
+import moment from "moment";
 
 const Page = () => {
   // const [files, setFiles] = useState(null);
@@ -29,16 +30,15 @@ const Page = () => {
 
   useEffect(() => {
     const getUser = () => {
-      // const userData = data.filter((user) => user?.id === parseInt(id))[0];
-      if (data) {
+      if (data && !Array.isArray(data)) {
         const formattedData = {
           id: data?.id,
           name: data?.name,
-          industry: data?.name,
+          industry: data?.industry,
           taxId: data?.tax_id,
           clientCommision: data?.client_commision,
           earningReportStatus: data?.earningReportStatus,
-          nextPaymentDate: data?.next_payment_date,
+          nextPaymentDate: moment(data?.next_payment_date).format("YYYY-MM-DD"),
           bank: data?.bank,
           bankAccountNumber: data?.bankAccountNumber,
           email: data?.accounts?.email,
@@ -49,6 +49,7 @@ const Page = () => {
           mobileMoneyNumber: data?.mobile_money_number,
           secondaryPhone: data?.addresses?.secondery_phone_number,
         };
+
         setUser(formattedData);
       }
     };
@@ -70,7 +71,7 @@ const Page = () => {
           <h2 className="capitalize text-2xl font-bold">update client</h2>
         </div>
         <Formik
-          initialValues={user || {}}
+          initialValues={user}
           // validationSchema={createClientValidator}
           onSubmit={async (values) => {
             const response = await dispatch(updateClientById(values));
@@ -146,7 +147,7 @@ const Page = () => {
                   <SelectInput
                     label="Region"
                     name="region"
-                    // value={values.region}
+                    value={values.region}
                     options={dataStatic.regionsInCameroon}
                     onChange={handleChange}
                     type="select"
@@ -168,7 +169,7 @@ const Page = () => {
                   <SelectInput
                     label="Bank Name"
                     name="bank"
-                    // value={values.bank}
+                    value={values.bank}
                     onChange={handleChange}
                     options={dataStatic.cameroonBanks}
                     required

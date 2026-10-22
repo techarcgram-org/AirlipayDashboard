@@ -1,7 +1,7 @@
 "use client";
 
-import { Table } from "@/components";
-import dataStatic from "@/constant/data";
+import { Table } from "../../../../../components";
+import dataStatic from "../../../../../constant/data";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
@@ -10,7 +10,7 @@ const page = () => {
   const { users } = useSelector((state) => state.users);
   const { id } = useParams();
 
-  const roater = users?.filter((item) => item.client_id === id);
+  const roater = users?.filter((item) => item.client_id === parseInt(id));
   const formattedData = roater?.map((item) => {
     return {
       name: item.name,

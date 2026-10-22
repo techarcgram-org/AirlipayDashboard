@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const Tab = ({ options, defaultTab }) => {
+const Tab = ({ options, defaultTab, id }) => {
   const [activeTab, setActiveTab] = useState(defaultTab);
   const router = useRouter();
 
