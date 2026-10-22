@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
 import Loading from "../loading";
 import moment from "moment";
 
-const userDetailsLayout = ({ children }) => {
+const UserDetailsLayout = ({ children }) => {
   const { errorMessage, error, data } = useSelector((state) => state.clients);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -83,4 +83,4 @@ const userDetailsLayout = ({ children }) => {
   );
 };
 
-export default userDetailsLayout;
+export default UserDetailsLayout;

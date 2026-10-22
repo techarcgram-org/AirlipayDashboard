@@ -7,7 +7,7 @@ import moment from "moment";
 import { useParams } from "next/navigation";
 import { formatMoney } from "../../../../utils/utils";
 
-const page = () => {
+const Page = () => {
   const { transactions } = useSelector((state) => state.transactions);
   const { users } = useSelector((state) => state.users);
   const { id } = useParams();
@@ -61,4 +61,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

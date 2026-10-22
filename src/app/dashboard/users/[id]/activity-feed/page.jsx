@@ -5,7 +5,7 @@ import data from "../../../../../constant/data";
 import transactions from "../../../../../utils/data/transactions";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   return (
     <Table
       tab="Activity Feed"
@@ -15,4 +15,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

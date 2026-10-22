@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import { useParams } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const { banks } = useSelector((state) => state.users);
   const { id } = useParams();
 
@@ -22,4 +22,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

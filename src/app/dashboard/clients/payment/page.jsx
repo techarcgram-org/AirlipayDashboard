@@ -3,7 +3,7 @@ import { Table } from "../../../../components";
 import data from "../../../../constant/data";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   return (
     <div>
       <Table
@@ -15,4 +15,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

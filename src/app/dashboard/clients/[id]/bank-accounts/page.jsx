@@ -5,7 +5,7 @@ import data from "../../../../../constant/data";
 import bankAccounts from "../../../../../utils/data/banks";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   return (
     <Table
       tab="Bank Accounts"
@@ -15,4 +15,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

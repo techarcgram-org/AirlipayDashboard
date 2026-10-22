@@ -10,7 +10,7 @@ import moment from "moment";
 import { formatMoney } from "../../../../../utils/utils";
 import { useParams } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const { invoices, loading } = useSelector((state) => state.invoices);
   const [formatted, setformatted] = useState([]);
   const dispatch = useDispatch();
@@ -57,4 +57,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -6,7 +6,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const { users } = useSelector((state) => state.users);
   const { id } = useParams();
 
@@ -30,4 +30,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
