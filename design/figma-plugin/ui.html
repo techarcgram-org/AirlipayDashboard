@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AirliPay Back Office Generator</title>
+    <style>
+      :root {
+        --navy: #0a2540;
+        --navy-deep: #061a2f;
+        --cobalt: #245bff;
+        --mint: #6fe7c8;
+        --canvas: #f5f7fa;
+        --surface: #ffffff;
+        --ink: #0b1220;
+        --muted: #5b6b7f;
+        --faint: #8a98a8;
+        --line: #d7e0ea;
+        --warning: #9a5b00;
+        --warning-soft: #fff4db;
+        --danger: #b42318;
+        --success: #0e7a5f;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      header {
+        background: var(--navy);
+        color: white;
+        padding: 19px 20px 17px;
+        position: relative;
+        overflow: hidden;
+      }
+      header::after {
+        content: "";
+        position: absolute;
+        width: 260px;
+        height: 260px;
+        right: -112px;
+        top: -130px;
+        border-radius: 50%;
+        border: 1px solid rgba(111, 231, 200, 0.3);
+        box-shadow: 0 0 0 24px rgba(111, 231, 200, 0.05), 0 0 0 52px rgba(36, 91, 255, 0.05);
+        pointer-events: none;
+      }
+      .mark {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: -0.2px;
+        position: relative;
+        z-index: 1;
+      }
+      .mark-dot {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: var(--mint);
+        position: relative;
+        overflow: hidden;
+        flex: 0 0 auto;
+      }
+      .mark-dot::before {
+        content: "";
+        position: absolute;
+        width: 28px;
+        height: 12px;
+        border: 2px solid var(--navy);
+        border-radius: 50%;
+        transform: rotate(-35deg);
+        left: -4px;
+        top: 8px;
+      }
+      .mark span { opacity: 0.55; font-size: 9px; letter-spacing: 1.1px; margin-left: 2px; }
+      h1 {
+        margin: 17px 0 4px;
+        font-size: 20px;
+        line-height: 1.2;
+        letter-spacing: -0.5px;
+        position: relative;
+        z-index: 1;
+      }
+      header p {
+        margin: 0;
+        color: #c9d8e8;
+        font-size: 11px;
+        line-height: 1.55;
+        max-width: 330px;
+        position: relative;
+        z-index: 1;
+      }
+      main { padding: 14px 16px 18px; }
+      .section-label {
+        font-size: 9px;
+        letter-spacing: 0.7px;
+        font-weight: 700;
+        color: var(--faint);
+        margin: 0 0 6px 2px;
+      }
+      .scopes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+        margin-bottom: 10px;
+      }
+      .scope {
+        display: block;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 9px 10px;
+        background: var(--surface);
+        cursor: pointer;
+        position: relative;
+        transition: border-color 120ms ease, background 120ms ease;
+      }
+      .scope:first-child { grid-column: 1 / span 2; }
+      .scope input { position: absolute; opacity: 0; pointer-events: none; }
+      .scope strong { display: block; font-size: 11px; line-height: 1.3; margin-bottom: 1px; }
+      .scope em { display: block; font-style: normal; font-size: 9.5px; color: var(--muted); line-height: 1.35; }
+      .scope:has(input:checked) {
+        border-color: var(--cobalt);
+        background: #eef2ff;
+        box-shadow: inset 0 0 0 1px var(--cobalt);
+      }
+      .scope:has(input:checked) strong { color: var(--cobalt); }
+      .replace {
+        display: flex;
+        gap: 9px;
+        align-items: flex-start;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 10px;
+        line-height: 1.45;
+      }
+      .replace input { accent-color: var(--cobalt); margin: 1px 0 0; }
+      .replace strong { display: block; font-size: 10.5px; margin-bottom: 1px; }
+      .replace span { color: var(--muted); }
+      .notice {
+        background: var(--warning-soft);
+        border: 1px solid #efd9a8;
+        color: #6d4100;
+        border-radius: 9px;
+        padding: 8px 10px;
+        font-size: 9.5px;
+        line-height: 1.45;
+        margin-bottom: 10px;
+        display: flex;
+        gap: 7px;
+        align-items: flex-start;
+      }
+      .notice b { color: var(--warning); }
+      button {
+        border: 0;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: 700;
+      }
+      #generate {
+        width: 100%;
+        height: 43px;
+        border-radius: 9px;
+        background: var(--mint);
+        color: var(--navy);
+        font-size: 12px;
+        letter-spacing: -0.1px;
+        transition: transform 100ms ease, opacity 100ms ease;
+      }
+      #generate:hover { transform: translateY(-1px); }
+      #generate:disabled { opacity: 0.48; cursor: wait; transform: none; }
+      #cancel {
+        width: 100%;
+        height: 32px;
+        border-radius: 9px;
+        background: transparent;
+        color: var(--muted);
+        font-size: 10.5px;
+        margin-top: 3px;
+        border: 1px solid transparent;
+      }
+      #cancel:hover:not(:disabled) { border-color: var(--line); background: #fff; }
+      #cancel:disabled { opacity: 0.35; cursor: default; }
+      .progress-shell {
+        height: 5px;
+        background: #e6edf4;
+        border-radius: 999px;
+        overflow: hidden;
+        margin: 11px 0 7px;
+      }
+      #progress-bar {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--cobalt), var(--mint));
+        border-radius: inherit;
+        transition: width 160ms ease;
+      }
+      #status { font-size: 10px; color: var(--muted); min-height: 15px; }
+      #log {
+        margin-top: 8px;
+        max-height: 84px;
+        overflow: auto;
+        background: var(--navy-deep);
+        color: #b7c8dc;
+        border-radius: 9px;
+        padding: 8px 9px;
+        font: 9.5px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+        white-space: pre-wrap;
+      }
+      #log:empty { display: none; }
+      .footnote {
+        margin-top: 9px;
+        color: var(--faint);
+        font-size: 9px;
+        line-height: 1.5;
+      }
+      .done { color: var(--success) !important; }
+      .error { color: var(--danger) !important; }
+      .muted { color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="mark"><span class="mark-dot"></span> AirliPay <span>OPERATIONS</span></div>
+      <h1>Back-office redesign<br />generator</h1>
+      <p>Builds an Expo-EAS-inspired operations workspace with the mobile app's light and dark themes, foundations and full route coverage.</p>
+    </header>
+    <main>
+      <p class="section-label">THEME COVERAGE</p>
+      <div class="scopes" role="radiogroup" aria-label="Theme coverage">
+        <label class="scope">
+          <input type="radio" name="scope" value="both" checked />
+          <strong>Both themes</strong>
+          <em>5 sections · 54 screens · 2 foundation plates</em>
+        </label>
+        <label class="scope">
+          <input type="radio" name="scope" value="light" />
+          <strong>Light only</strong>
+          <em>27 screens · 4 sections</em>
+        </label>
+        <label class="scope">
+          <input type="radio" name="scope" value="dark" />
+          <strong>Dark only</strong>
+          <em>27 screens · 4 sections</em>
+        </label>
+      </div>
+
+      <label class="replace">
+        <input type="checkbox" id="replace" checked />
+        <div>
+          <strong>Replace previous generated board</strong>
+          <span>Only nodes marked by this plugin are replaced. Other pages are untouched.</span>
+        </div>
+      </label>
+
+      <div class="notice">
+        <span>ⓘ</span>
+        <span><b>Static review artifact.</b> No prototype links, no dashboard changes. Fixture and concept surfaces are visibly labelled.</span>
+      </div>
+
+      <button id="generate">Generate back-office board</button>
+      <button id="cancel" disabled>Cancel generation</button>
+      <div class="progress-shell"><div id="progress-bar"></div></div>
+      <div id="status">Ready. Inter and the existing board are checked before anything is created.</div>
+      <div id="log"></div>
+      <p class="footnote">Creates or reuses <strong>AirliPay · Back Office Redesign (v1)</strong>. Coverage: 29 live routes + 1 excluded redirect. Captions and the 30-row matrix include fixture, UI-gap and proposed labels.</p>
+    </main>
+    <script>
+      const generate = document.getElementById('generate');
+      const cancel = document.getElementById('cancel');
+      const replace = document.getElementById('replace');
+      const bar = document.getElementById('progress-bar');
+      const status = document.getElementById('status');
+      const log = document.getElementById('log');
+      let busy = false;
+
+      function post(message) {
+        parent.postMessage({ pluginMessage: message }, '*');
+      }
+
+      function append(line) {
+        log.textContent += (log.textContent ? '\n' : '') + line;
+        log.scrollTop = log.scrollHeight;
+      }
+
+      function scopeValue() {
+        const checked = document.querySelector('input[name="scope"]:checked');
+        return checked ? checked.value : 'both';
+      }
+
+      generate.addEventListener('click', () => {
+        if (busy) return;
+        busy = true;
+        generate.disabled = true;
+        cancel.disabled = false;
+        bar.style.width = '0%';
+        status.className = '';
+        status.textContent = 'Preparing…';
+        log.textContent = '';
+        post({ type: 'generate', scope: scopeValue(), replace: replace.checked });
+      });
+
+      cancel.addEventListener('click', () => {
+        if (!busy) return;
+        cancel.disabled = true;
+        status.textContent = 'Cancelling after the current screen…';
+        post({ type: 'cancel' });
+      });
+
+      window.onmessage = (event) => {
+        const message = event.data && event.data.pluginMessage;
+        if (!message || !message.type) return;
+        if (message.type === 'progress') {
+          const pct = typeof message.pct === 'number' ? message.pct : 0;
+          bar.style.width = `${pct}%`;
+          status.className = '';
+          status.textContent = message.message || 'Working…';
+          if (message.log) append(message.message);
+          return;
+        }
+        if (message.type === 'done') {
+          busy = false;
+          generate.disabled = false;
+          cancel.disabled = true;
+          bar.style.width = '100%';
+          status.className = 'done';
+          status.textContent = message.message || 'Board generated.';
+          if (message.summary) append(message.summary);
+          return;
+        }
+        if (message.type === 'cancelled') {
+          busy = false;
+          generate.disabled = false;
+          cancel.disabled = true;
+          status.className = 'muted';
+          status.textContent = message.message || 'Generation cancelled.';
+          append('No partial board was kept.');
+          return;
+        }
+        if (message.type === 'error') {
+          busy = false;
+          generate.disabled = false;
+          cancel.disabled = true;
+          status.className = 'error';
+          status.textContent = message.message || 'Generation failed.';
+          if (message.detail) append(message.detail);
+          return;
+        }
+      };
+    </script>
+  </body>
+</html>

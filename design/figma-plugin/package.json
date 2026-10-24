@@ -1,0 +1,21 @@
+{
+  "name": "airlipay-backoffice-figma",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Generates the AirliPay back-office redesign review board inside Figma",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "node build.mjs",
+    "validate": "node validate.mjs",
+    "smoke": "node smoke-test.mjs",
+    "check": "npm run typecheck && npm run build && npm run validate && npm run smoke && node --check plugin.js"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.142.0",
+    "@rollup/plugin-typescript": "^12.3.1",
+    "@types/node": "^26.6.5",
+    "rollup": "^4.64.12",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.3"
+  }
+}

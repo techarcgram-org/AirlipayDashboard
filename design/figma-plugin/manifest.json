@@ -1,0 +1,12 @@
+{
+  "name": "AirliPay Back Office Generator",
+  "id": "airlipay-backoffice-dev",
+  "api": "1.0.0",
+  "main": "plugin.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
+}
