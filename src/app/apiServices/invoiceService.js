@@ -1,19 +1,20 @@
 import axios from './axiosConfig';
+import { getToken } from '../../lib/auth/session';
 
 export async function getInvoices() {
-  const token = localStorage.getItem('token');
+  const token = getToken();
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   return await axios.get(`/invoice`);
 }
 
 export async function getInvoiceTransactions(id) {
-  const token = localStorage.getItem('token');
+  const token = getToken();
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   return await axios.get(`/invoice/${id}/transactions`);
 }
 
 export async function editInvoice(data) {
-  const token = localStorage.getItem('token');
+  const token = getToken();
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   const res = await axios.put(
     `/invoice/${data.id}/update-status`,
@@ -29,7 +30,7 @@ export async function editInvoice(data) {
 }
 
 export async function markInvoiceAsComplete(data) {
-  const token = localStorage.getItem('token');
+  const token = getToken();
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   console.log(`/client/invoice/${data.id}/update-invoice-status`);
   return await axios.put(

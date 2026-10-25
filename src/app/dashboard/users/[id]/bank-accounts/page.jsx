@@ -1,25 +1,5 @@
-"use client";
+import { EmployeeDetailScreen } from '@/features/employees/EmployeeDetailScreen';
 
-import { Table } from "../../../../../components";
-import data from "../../../../../constant/data";
-import bankAccounts from "../../../../../utils/data/banks";
-import { useSelector } from "react-redux";
-import moment from "moment";
-import { useParams } from "next/navigation";
-
-const Page = () => {
-  const { banks } = useSelector((state) => state.users);
-  const { id } = useParams();
-
-  // console.log("banks", banks);
-
-  return (
-    <Table
-      tab="Bank Accounts"
-      users={bankAccounts}
-      columns={data.banksColumns}
-    />
-  );
-};
-
-export default Page;
+export default function Page() {
+  return <EmployeeDetailScreen tab="banks" />;
+}
