@@ -1,0 +1,74 @@
+# =============================================================================
+# File: .github/workflows/ghcr.yaml
+# Purpose: Build the AirlipayDashboard production image and push an immutable
+#          SHA tag to GitHub Container Registry so the Ansible project can
+#          deploy it. The API URL is baked into the Next.js client bundle at
+#          build time, so NEXT_PUBLIC_BASE_URL must be the production API
+#          origin (https://<api domain>) used by the Ansible inventory.
+#          Pushes only `sha-<short>`; the Ansible role rejects `deploy`/latest.
+# Trigger: push to the `deploy` branch, or manual dispatch.
+# =============================================================================
+
+name: Build and push image (GHCR)
+
+on:
+  push:
+    branches: [deploy]
+  workflow_dispatch:
+
+concurrency:
+  group: dashboard-image-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: techarcgram-org/airlipay-dashboard
+  NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_API_BASE_URL || 'https://api.airlipay.com' }}
+
+jobs:
+  build:
+    name: Build and push dashboard image
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Warn when the API base URL is inferred
+        run: |
+          if [ -z "${{ vars.NEXT_PUBLIC_API_BASE_URL }}" ]; then
+            echo "::warning::Repository variable NEXT_PUBLIC_API_BASE_URL is not set; using https://api.airlipay.com. It must match the Ansible API domain."
+          fi
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            NEXT_PUBLIC_BASE_URL=${{ env.NEXT_PUBLIC_BASE_URL }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

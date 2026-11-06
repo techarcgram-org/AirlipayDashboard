@@ -30,5 +30,13 @@ The production image uses the Next.js standalone output:
 docker build --build-arg NEXT_PUBLIC_BASE_URL=https://api.airlipay.com -t airlipay-dashboard .
 ```
 
+Pushing to the `deploy` branch (or running the manual workflow) publishes
+`ghcr.io/techarcgram-org/airlipay-dashboard:sha-<short-sha>` via
+`.github/workflows/ghcr.yaml`. Set the repository variable
+`NEXT_PUBLIC_API_BASE_URL` to the production API origin; it must match the
+Ansible `airlipay_api_domain`. The separate `techarcgram/infra` repository
+(`../infra` in the workspace) deploys this tag with
+`ansible/playbooks/deploy-dashboard.yml`.
+
 Authentication hardening and server-side route protection are tracked for
 launch readiness; the current guard is client-side only.
