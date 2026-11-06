@@ -42,6 +42,7 @@ import {
   transactionRef,
   transactionStatus,
   transactionType,
+  transactionTypeLabel,
 } from '@/lib/data';
 import {
   formatDate,
@@ -258,12 +259,11 @@ function transactionColumns() {
       label: 'Transaction',
       width: '28%',
       cell: (transaction) => {
-        const type = String(transactionType(transaction)).toUpperCase();
         const phone = String(transaction.phone_number || '');
         return (
           <div className="min-w-0">
             <p className="text-[12px] font-semibold text-ink">
-              {type === 'WITHDRAW' ? 'Withdrawal' : type === 'DEPOSIT' ? 'Payroll funding' : type || 'Transaction'}
+              {transactionTypeLabel(transaction)}
             </p>
             <p className="truncate text-[10px] text-muted">
               {transactionRef(transaction)}
@@ -602,6 +602,7 @@ export function EmployeeDetailScreen({ tab = 'transactions' }) {
                   options={[
                     { value: 'WITHDRAW', label: 'Withdrawals' },
                     { value: 'DEPOSIT', label: 'Funding' },
+                    { value: 'SERVICE_CHARGE', label: 'Service charges' },
                   ]}
                   placeholder="All types"
                   icon="filter"

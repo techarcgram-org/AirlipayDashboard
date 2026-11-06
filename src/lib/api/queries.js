@@ -32,6 +32,11 @@ import {
   getInvoices,
 } from '@/app/apiServices/invoiceService';
 import { getData } from '@/app/apiServices/dashboradService';
+import {
+  getClientServiceCharge,
+  getMyServiceCharge,
+  updateClientServiceCharge,
+} from '@/app/apiServices/serviceChargeService';
 
 export const queryKeys = {
   users: ['users'],
@@ -48,6 +53,8 @@ export const queryKeys = {
   invoiceTransactions: (id) => ['invoices', String(id), 'transactions'],
   metrics: ['metrics'],
   profile: (role, id) => ['profile', role, String(id)],
+  serviceCharge: (clientId) => ['service-charge', 'client', String(clientId)],
+  myServiceCharge: ['service-charge', 'me'],
 };
 
 function unwrap(response) {
@@ -189,6 +196,23 @@ export function useMetricsQuery(options = {}) {
   });
 }
 
+export function useServiceChargeQuery(clientId, options = {}) {
+  return useQuery({
+    queryKey: queryKeys.serviceCharge(clientId),
+    queryFn: async () => unwrap(await getClientServiceCharge(clientId)),
+    enabled: Boolean(clientId) && (options.enabled ?? true),
+    ...options,
+  });
+}
+
+export function useMyServiceChargeQuery(options = {}) {
+  return useQuery({
+    queryKey: queryKeys.myServiceCharge,
+    queryFn: async () => unwrap(await getMyServiceCharge()),
+    ...options,
+  });
+}
+
 export function useProfileQuery(role, id, options = {}) {
   return useQuery({
     queryKey: queryKeys.profile(role, id),
@@ -252,4 +276,19 @@ export function useDeleteAdminMutation() {
 
 export function useUpdateInvoiceStatusMutation() {
   return useInvalidatingMutation(editInvoice, [queryKeys.invoices]);
+}
+
+export function useUpdateServiceChargeMutation(clientId) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateClientServiceCharge,
+    onSuccess: (result) => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.serviceCharge(clientId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.myServiceCharge });
+      queryClient.invalidateQueries({ queryKey: queryKeys.client(clientId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.clients });
+      queryClient.invalidateQueries({ queryKey: queryKeys.metrics });
+      return result;
+    },
+  });
 }

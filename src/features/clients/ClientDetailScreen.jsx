@@ -34,9 +34,11 @@ import {
   invoiceFees,
   invoiceNumber,
   invoicePeriod,
+  invoiceServiceCharge,
   invoiceStatus,
   invoiceTotal,
   normalizeClient,
+  normalizeServiceChargeConfig,
   normalizeUser,
   payoutDestination,
   personJoined,
@@ -46,11 +48,13 @@ import {
   transactionRef,
   transactionStatus,
   transactionType,
+  transactionTypeLabel,
 } from '@/lib/data';
 import { formatDate, formatDateTime, formatMoney, formatNumber } from '@/lib/format';
 import { isAdmin, sameId } from '@/lib/permissions';
 import { CAPABILITIES } from '@/lib/capabilities';
 import { BANK_OPTIONS, optionLabel } from '@/features/shared/options';
+import { ServiceChargePanel } from '@/features/service-charge/ServiceChargePanel';
 import { sampleClientFunding } from '@/fixtures/backoffice';
 
 const TAB_SUFFIX = {
@@ -58,6 +62,7 @@ const TAB_SUFFIX = {
   workforce: '/user-roster',
   funding: '/bank-accounts',
   payments: '/payment-history',
+  serviceCharge: '/service-charge',
 };
 
 function EmployeeRoster({ client, users }) {
@@ -345,18 +350,19 @@ function PaymentHistory({ client, invoices }) {
     {
       key: 'invoice',
       label: 'Invoice',
-      width: '18%',
+      width: '17%',
       cell: (invoice) => (
         <Link href={`/dashboard/invoices/${invoice.id}`} className="font-semibold text-ink hover:text-cobalt-text">
           {invoiceNumber(invoice)}
         </Link>
       ),
     },
-    { key: 'period', label: 'Pay period', width: '28%', cell: (invoice) => <span className="text-[11px]">{invoicePeriod(invoice)}</span> },
-    { key: 'fees', label: 'Fees', align: 'right', width: '14%', cell: (invoice) => <span className="bo-numeric">{formatMoney(invoiceFees(invoice))}</span> },
-    { key: 'taxes', label: 'Taxes', align: 'right', width: '12%', cell: (invoice) => <span className="bo-numeric">{formatMoney(Number(invoice.taxes ?? 0))}</span> },
-    { key: 'total', label: 'Total', align: 'right', width: '15%', cell: (invoice) => <span className="bo-numeric font-semibold text-ink">{formatMoney(invoiceTotal(invoice))}</span> },
-    { key: 'status', label: 'Status', width: '13%', cell: (invoice) => <StatusPill status={invoiceStatus(invoice)} size="sm" /> },
+    { key: 'period', label: 'Pay period', width: '23%', cell: (invoice) => <span className="text-[11px]">{invoicePeriod(invoice)}</span> },
+    { key: 'fees', label: 'Fees', align: 'right', width: '11%', cell: (invoice) => <span className="bo-numeric">{formatMoney(invoiceFees(invoice))}</span> },
+    { key: 'serviceCharge', label: 'Service charge', align: 'right', width: '13%', cell: (invoice) => <span className="bo-numeric">{formatMoney(invoiceServiceCharge(invoice))}</span> },
+    { key: 'taxes', label: 'Taxes', align: 'right', width: '10%', cell: (invoice) => <span className="bo-numeric">{formatMoney(Number(invoice.taxes ?? 0))}</span> },
+    { key: 'total', label: 'Total', align: 'right', width: '14%', cell: (invoice) => <span className="bo-numeric font-semibold text-ink">{formatMoney(invoiceTotal(invoice))}</span> },
+    { key: 'status', label: 'Status', width: '12%', cell: (invoice) => <StatusPill status={invoiceStatus(invoice)} size="sm" /> },
   ];
 
   return (
@@ -463,9 +469,7 @@ function ClientTransactions({ client, users, transactions }) {
       width: '24%',
       cell: (transaction) => (
         <div>
-          <p className="text-[12px] font-semibold text-ink">
-            {String(transactionType(transaction)).toUpperCase() === 'WITHDRAW' ? 'Withdrawal' : 'Payroll funding'}
-          </p>
+          <p className="text-[12px] font-semibold text-ink">{transactionTypeLabel(transaction)}</p>
           <p className="text-[10px] text-muted">{transactionRef(transaction)}</p>
         </div>
       ),
@@ -523,6 +527,7 @@ function ClientTransactions({ client, users, transactions }) {
           options={[
             { value: 'WITHDRAW', label: 'Withdrawals' },
             { value: 'DEPOSIT', label: 'Funding' },
+            { value: 'SERVICE_CHARGE', label: 'Service charges' },
           ]}
           placeholder="All types"
           icon="list"
@@ -541,7 +546,7 @@ function ClientTransactions({ client, users, transactions }) {
                 { label: 'Date', csvValue: (transaction) => transactionDate(transaction) },
                 { label: 'Reference', csvValue: (transaction) => transactionRef(transaction) },
                 { label: 'Employee', csvValue: (transaction) => transaction.employeeName },
-                { label: 'Type', csvValue: (transaction) => transactionType(transaction) },
+                { label: 'Type', csvValue: (transaction) => transactionTypeLabel(transaction) },
                 { label: 'Amount', csvValue: (transaction) => transactionAmount(transaction) },
                 { label: 'Fee', csvValue: (transaction) => transactionFee(transaction) },
                 { label: 'Status', csvValue: (transaction) => transactionStatus(transaction) },
@@ -634,12 +639,18 @@ export function ClientDetailScreen({ tab = 'transactions' }) {
   const clientInvoices = invoices.filter((invoice) => sameId(invoice.client_id ?? invoice?.client?.id, client.id));
   const outstanding = clientInvoices.filter((invoice) => String(invoiceStatus(invoice)).toUpperCase() !== 'TREATED');
   const outstandingTotal = outstanding.reduce((sum, invoice) => sum + invoiceTotal(invoice), 0);
+  const serviceCharge = normalizeServiceChargeConfig(clientQuery.data?.service_charge_config);
+  const serviceChargeLabel =
+    serviceCharge.chargeMode === 'COMPANY_FIXED'
+      ? `Company · ${formatMoney(serviceCharge.monthlyFixedFee)}/employee`
+      : `Employee · ${serviceCharge.employeeRate}%`;
 
   const tabs = [
     { key: 'transactions', label: 'Transactions' },
     { key: 'workforce', label: 'Workforce', count: roster.length },
     { key: 'funding', label: 'Funding accounts' },
     { key: 'payments', label: 'Payment history', count: clientInvoices.length },
+    { key: 'serviceCharge', label: 'Service charge' },
   ].map((entry) => ({
     ...entry,
     href: `/dashboard/clients/${id}${TAB_SUFFIX[entry.key]}`,
@@ -747,6 +758,13 @@ export function ClientDetailScreen({ tab = 'transactions' }) {
                 {client.commission === null || client.commission === undefined || client.commission === '' ? '—' : `${client.commission}%`}
               </span>
             </div>
+            <div className="flex items-baseline justify-between gap-3 py-1">
+              <span className="text-[11px] text-muted">Service charge</span>
+              <span className="text-right text-[11px] font-medium text-ink">
+                {serviceCharge.isDefault ? 'Default · ' : ''}
+                {serviceChargeLabel}
+              </span>
+            </div>
           </div>
         </Card>
       </div>
@@ -757,6 +775,7 @@ export function ClientDetailScreen({ tab = 'transactions' }) {
       {tab === 'workforce' ? <EmployeeRoster client={client} users={users} /> : null}
       {tab === 'funding' ? <FundingAccounts client={client} /> : null}
       {tab === 'payments' ? <PaymentHistory client={client} invoices={invoices} /> : null}
+      {tab === 'serviceCharge' ? <ServiceChargePanel clientId={client.id} /> : null}
     </div>
   );
 }

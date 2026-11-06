@@ -41,6 +41,7 @@ import {
   invoiceNumber,
   invoicePeriod,
   invoiceStatus,
+  invoiceServiceCharge,
   invoiceTaxes,
   invoiceTotal,
   normalizeUser,
@@ -49,6 +50,7 @@ import {
   transactionFee,
   transactionRef,
   transactionStatus,
+  transactionTypeLabel,
 } from '@/lib/data';
 import { formatDate, formatDateTime, formatMoney, formatNumber } from '@/lib/format';
 import { buildUserMap, isAdmin, isClient, sameId } from '@/lib/permissions';
@@ -57,7 +59,11 @@ function InvoiceDocument({ invoice, client, transactions }) {
   const total = invoiceTotal(invoice);
   const fees = invoiceFees(invoice);
   const taxes = invoiceTaxes(invoice);
-  const advanced = Math.max(0, total - fees - taxes);
+  const serviceCharge = invoiceServiceCharge(invoice);
+  const serviceChargeDetails = invoice.serviceChargeDetails || invoice.service_charge_details || {};
+  const advanced = serviceCharge > 0
+    ? Math.max(0, total - serviceCharge)
+    : Math.max(0, total - fees - taxes);
   const employeesCovered = new Set(transactions.map((transaction) => String(transaction.user_id))).size;
   const clientAddress = client?.addresses || {};
   const clientTaxId = client?.tax_id || client?.taxId;
@@ -121,6 +127,17 @@ function InvoiceDocument({ invoice, client, transactions }) {
               <span className="text-ink-soft">AirliPay service fee</span>
               <span className="bo-numeric font-medium text-ink">{formatMoney(fees)}</span>
             </div>
+            {serviceCharge > 0 ? (
+              <div className="flex items-center justify-between gap-4 px-4 py-2.5 text-[11px]">
+                <span className="text-ink-soft">
+                  Company service charge
+                  {serviceChargeDetails.eligibleEmployees
+                    ? ` · ${formatNumber(serviceChargeDetails.eligibleEmployees)} employees`
+                    : ''}
+                </span>
+                <span className="bo-numeric font-medium text-ink">{formatMoney(serviceCharge)}</span>
+              </div>
+            ) : null}
             <div className="flex items-center justify-between gap-4 px-4 py-2.5 text-[11px]">
               <span className="text-ink-soft">VAT / taxes</span>
               <span className="bo-numeric font-medium text-ink">{formatMoney(taxes)}</span>
@@ -292,7 +309,7 @@ export function InvoiceDetailScreen() {
     {
       key: 'employee',
       label: 'Employee',
-      width: '22%',
+      width: '19%',
       cell: (transaction) => {
         const user = userMap.get(String(transaction.user_id));
         if (!user) return <span className="text-[11px] text-muted">Unmatched employee</span>;
@@ -309,9 +326,15 @@ export function InvoiceDetailScreen() {
       },
     },
     {
+      key: 'type',
+      label: 'Type',
+      width: '13%',
+      cell: (transaction) => <span className="text-[11px]">{transactionTypeLabel(transaction)}</span>,
+    },
+    {
       key: 'reference',
       label: 'Reference',
-      width: '20%',
+      width: '18%',
       cell: (transaction) => (
         <div>
           <p className="text-[11px] font-medium text-ink">{transactionRef(transaction)}</p>
@@ -503,6 +526,7 @@ export function InvoiceDetailScreen() {
                     [
                       { label: 'Date', csvValue: (transaction) => transactionDate(transaction) },
                       { label: 'Reference', csvValue: (transaction) => transactionRef(transaction) },
+                      { label: 'Type', csvValue: (transaction) => transactionTypeLabel(transaction) },
                       { label: 'Amount', csvValue: (transaction) => transactionAmount(transaction) },
                       { label: 'Fee', csvValue: (transaction) => transactionFee(transaction) },
                       { label: 'Status', csvValue: (transaction) => transactionStatus(transaction) },

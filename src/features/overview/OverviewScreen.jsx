@@ -34,6 +34,7 @@ import {
   transactionDate,
   transactionStatus,
   transactionType,
+  transactionTypeLabel,
 } from '@/lib/data';
 import {
   formatCompactMoney,
@@ -123,15 +124,23 @@ function AttentionRow({ icon, tone, title, detail, href }) {
 }
 
 function RecentTransactionRow({ transaction }) {
-  const withdraw = String(transactionType(transaction)).toUpperCase() === 'WITHDRAW';
+  const type = String(transactionType(transaction)).toUpperCase();
+  const withdraw = type === 'WITHDRAW';
+  const serviceCharge = type === 'SERVICE_CHARGE';
+  const tone = withdraw
+    ? 'bg-cobalt-soft text-cobalt-text'
+    : serviceCharge
+      ? 'bg-warning-soft text-warning'
+      : 'bg-success-soft text-success';
+  const icon = withdraw ? 'arrowUpRight' : serviceCharge ? 'sliders' : 'arrowDownLeft';
   return (
     <div className="flex items-center gap-3 border-b border-border px-5 py-3 last:border-0">
-      <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${withdraw ? 'bg-cobalt-soft text-cobalt-text' : 'bg-success-soft text-success'}`}>
-        <Icon name={withdraw ? 'arrowUpRight' : 'arrowDownLeft'} size={13} />
+      <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${tone}`}>
+        <Icon name={icon} size={13} />
       </span>
       <div className="min-w-0 flex-1">
         <p className="truncate text-[12px] font-semibold text-ink">
-          {withdraw ? 'Early withdrawal' : 'Payroll funding'}
+          {withdraw ? 'Early withdrawal' : serviceCharge ? transactionTypeLabel(transaction) : 'Payroll funding'}
         </p>
         <p className="truncate text-[10px] text-muted">
           {transaction.employeeName || transaction.employerName || '—'} · {formatDate(transactionDate(transaction))}

@@ -142,6 +142,27 @@ export function normalizeClient(client) {
   };
 }
 
+export function normalizeServiceChargeConfig(config) {
+  const source = config || {};
+  const hasConfig = Boolean(source.chargeMode || source.charge_mode);
+  const chargeMode = source.chargeMode || source.charge_mode || 'EMPLOYEE_PERCENTAGE';
+
+  return {
+    clientId: source.clientId ?? source.client_id ?? null,
+    clientName: source.clientName ?? source.client_name ?? null,
+    chargeMode,
+    employeeRate: Number(source.employeeRate ?? source.employee_rate ?? 5),
+    availableWagePercent: Number(
+      source.availableWagePercent ?? source.available_wage_percent ?? 50
+    ),
+    monthlyFixedFee: Number(
+      source.monthlyFixedFee ?? source.monthly_fixed_fee ?? 0
+    ),
+    isDefault: source.isDefault ?? !hasConfig,
+    updatedAt: source.updatedAt ?? source.updated_at ?? null,
+  };
+}
+
 export function normalizeAdmin(admin) {
   return {
     ...admin,
@@ -162,6 +183,16 @@ export function normalizeAdmin(admin) {
 
 export function transactionType(transaction) {
   return transaction?.transaction_type || transaction?.type || '—';
+}
+
+export function transactionTypeLabel(value) {
+  const type = String(
+    typeof value === 'string' ? value : transactionType(value) || ''
+  ).toUpperCase();
+  if (type === 'WITHDRAW') return 'Withdrawal';
+  if (type === 'DEPOSIT') return 'Payroll funding';
+  if (type === 'SERVICE_CHARGE') return 'Service charge';
+  return type || 'Transaction';
 }
 
 export function transactionStatus(transaction) {
@@ -190,7 +221,7 @@ export function transactionDescription(transaction) {
     const last4 = String(transaction?.phone_number || '').slice(-4);
     return last4 ? `Withdrawal · ${last4}` : 'Withdrawal';
   }
-  return String(type).toLowerCase().replace(/^\w/, (c) => c.toUpperCase());
+  return transactionTypeLabel(type);
 }
 
 export function transactionBalanceBefore(transaction) {
@@ -243,6 +274,14 @@ export function invoiceTaxes(invoice) {
   return Number(invoice?.taxes ?? 0);
 }
 
+export function invoiceServiceCharge(invoice) {
+  return Number(invoice?.serviceCharge ?? invoice?.service_charge ?? 0);
+}
+
+export function invoicePrincipal(invoice) {
+  return Math.max(0, invoiceTotal(invoice) - invoiceServiceCharge(invoice));
+}
+
 export function invoiceClientId(invoice) {
   return invoice?.client_id ?? invoice?.client?.id;
 }
@@ -261,6 +300,8 @@ export function enrichInvoice(invoice, clients) {
     amount: invoiceTotal(invoice),
     fees: invoiceFees(invoice),
     taxes: invoiceTaxes(invoice),
+    serviceCharge: invoiceServiceCharge(invoice),
+    principal: invoicePrincipal(invoice),
     periodLabel: invoicePeriod(invoice),
   };
 }

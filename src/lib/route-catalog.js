@@ -32,6 +32,13 @@ export const NAV_GROUPS = [
     label: 'Account',
     items: [
       { key: 'profile', label: 'My profile', href: '/dashboard/profile', icon: 'profile', roles: ALL_ROLES },
+      {
+        key: 'service-charge',
+        label: 'Service charge',
+        href: '/dashboard/service-charge',
+        icon: 'sliders',
+        roles: ['CLIENT'],
+      },
     ],
   },
 ];
@@ -83,6 +90,7 @@ export function activeNavKey(pathname) {
   if (pathname.startsWith('/dashboard/transactions')) return 'transactions';
   if (pathname.startsWith('/dashboard/invoices')) return 'invoices';
   if (pathname.startsWith('/dashboard/payments')) return 'payments';
+  if (pathname.startsWith('/dashboard/service-charge')) return 'service-charge';
   if (pathname.startsWith('/dashboard/profile')) return 'profile';
   return '';
 }
@@ -133,6 +141,7 @@ export function routeTitle(pathname) {
   if (/^\/dashboard\/clients\/[^/]+\/user-roster$/.test(pathname)) return 'Workforce roster';
   if (/^\/dashboard\/clients\/[^/]+\/bank-accounts$/.test(pathname)) return 'Funding accounts';
   if (/^\/dashboard\/clients\/[^/]+\/payment-history$/.test(pathname)) return 'Payment history';
+  if (/^\/dashboard\/clients\/[^/]+\/service-charge$/.test(pathname)) return 'Service charge configuration';
   if (/^\/dashboard\/clients\/[^/]+(\/transactions)?$/.test(pathname)) return 'Client profile';
   if (pathname === '/dashboard/admins') return 'Team & access';
   if (pathname === '/dashboard/admins/addAdmin') return 'Invite admin';
@@ -143,6 +152,7 @@ export function routeTitle(pathname) {
   if (/^\/dashboard\/invoices\/[^/]+$/.test(pathname)) return 'Invoice';
   if (pathname === '/dashboard/payments') return 'Payout runs';
   if (pathname === '/dashboard/profile') return 'My profile';
+  if (pathname === '/dashboard/service-charge') return 'Service charge';
   return 'AirliPay Operations';
 }
 

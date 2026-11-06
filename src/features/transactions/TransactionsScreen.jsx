@@ -31,6 +31,7 @@ import {
   transactionRef,
   transactionStatus,
   transactionType,
+  transactionTypeLabel,
 } from '@/lib/data';
 import { formatDateTime, formatMoney, formatNumber } from '@/lib/format';
 import {
@@ -40,13 +41,6 @@ import {
 } from '@/lib/permissions';
 
 const PAGE_SIZE = 10;
-
-function typeLabel(transaction) {
-  const type = String(transactionType(transaction)).toUpperCase();
-  if (type === 'WITHDRAW') return 'Withdrawal';
-  if (type === 'DEPOSIT') return 'Payroll funding';
-  return type || 'Transaction';
-}
 
 export function TransactionsScreen() {
   const { session } = useAuth();
@@ -109,6 +103,9 @@ export function TransactionsScreen() {
   const payoutTotal = successful
     .filter((transaction) => String(transactionType(transaction)).toUpperCase() === 'WITHDRAW')
     .reduce((sum, transaction) => sum + transactionAmount(transaction), 0);
+  const serviceChargeTotal = successful
+    .filter((transaction) => String(transactionType(transaction)).toUpperCase() === 'SERVICE_CHARGE')
+    .reduce((sum, transaction) => sum + transactionAmount(transaction), 0);
   const failedWithdrawals = filtered.filter(
     (transaction) =>
       String(transactionType(transaction)).toUpperCase() === 'WITHDRAW' &&
@@ -135,7 +132,7 @@ export function TransactionsScreen() {
         return (
           <div className="min-w-0">
             <p className="flex items-center gap-1.5 text-[12px] font-semibold text-ink">
-              {typeLabel(transaction)}
+              {transactionTypeLabel(transaction)}
               {type === 'DEPOSIT' ? <Icon name="arrowDownLeft" size={12} className="text-success" /> : null}
             </p>
             <p className="truncate text-[10px] text-muted">
@@ -234,7 +231,7 @@ export function TransactionsScreen() {
                 [
                   { label: 'Date', csvValue: (transaction) => transactionDate(transaction) },
                   { label: 'Reference', csvValue: (transaction) => transactionRef(transaction) },
-                  { label: 'Type', csvValue: (transaction) => transactionType(transaction) },
+                  { label: 'Type', csvValue: (transaction) => transactionTypeLabel(transaction) },
                   { label: 'Employee', csvValue: (transaction) => transaction.employeeName },
                   { label: 'Employer', csvValue: (transaction) => transaction.employerName },
                   { label: 'Amount', csvValue: (transaction) => transactionAmount(transaction) },
@@ -251,9 +248,10 @@ export function TransactionsScreen() {
         }
       />
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard label="Employer funding" value={formatMoney(fundingTotal)} icon="arrowDownLeft" hint={`${filtered.filter((transaction) => String(transactionType(transaction)).toUpperCase() === 'DEPOSIT').length} deposits in filter`} />
         <KpiCard label="Employee payouts" value={formatMoney(payoutTotal)} icon="arrowUpRight" hint={`${filtered.filter((transaction) => String(transactionType(transaction)).toUpperCase() === 'WITHDRAW').length} withdrawals in filter`} />
+        <KpiCard label="Service charges" value={formatMoney(serviceChargeTotal)} icon="sliders" hint={`${filtered.filter((transaction) => String(transactionType(transaction)).toUpperCase() === 'SERVICE_CHARGE').length} charges in filter`} />
         <KpiCard label="Failed withdrawals" value={formatNumber(failedWithdrawals)} icon="alert" hint={failedWithdrawals ? 'needs review' : 'no failures in filter'} />
       </div>
 
@@ -278,6 +276,7 @@ export function TransactionsScreen() {
             { value: 'ALL', label: 'All' },
             { value: 'WITHDRAW', label: 'Withdrawals' },
             { value: 'DEPOSIT', label: 'Funding' },
+            { value: 'SERVICE_CHARGE', label: 'Service charges' },
           ]}
           ariaLabel="Filter transactions by type"
         />

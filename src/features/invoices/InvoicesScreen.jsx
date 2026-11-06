@@ -25,6 +25,7 @@ import {
   invoiceClientId,
   invoiceFees,
   invoiceNumber,
+  invoiceServiceCharge,
   invoiceStatus,
   invoiceTotal,
 } from '@/lib/data';
@@ -75,12 +76,13 @@ export function InvoicesScreen() {
   const treatedTotal = treated.reduce((sum, invoice) => sum + invoiceTotal(invoice), 0);
   const outstandingTotal = outstanding.reduce((sum, invoice) => sum + invoiceTotal(invoice), 0);
   const feesTotal = filtered.reduce((sum, invoice) => sum + invoiceFees(invoice), 0);
+  const serviceChargeTotal = filtered.reduce((sum, invoice) => sum + invoiceServiceCharge(invoice), 0);
 
   const columns = [
     {
       key: 'invoice',
       label: 'Invoice',
-      width: '18%',
+      width: '17%',
       cell: (invoice) => (
         <Link href={`/dashboard/invoices/${invoice.id}`} className="flex items-center gap-2">
           <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-sm bg-surface-sunken text-muted">
@@ -97,14 +99,14 @@ export function InvoicesScreen() {
     {
       key: 'client',
       label: 'Client',
-      width: '22%',
+      width: '20%',
       cell: (invoice) => <span className="block max-w-[190px] truncate text-[11px]">{invoice.clientName}</span>,
       csvValue: (invoice) => invoice.clientName,
     },
     {
       key: 'period',
       label: 'Period',
-      width: '22%',
+      width: '19%',
       cell: (invoice) => <span className="whitespace-nowrap text-[11px]">{invoice.periodLabel}</span>,
       csvValue: (invoice) => invoice.periodLabel,
     },
@@ -112,22 +114,30 @@ export function InvoicesScreen() {
       key: 'fees',
       label: 'Fees',
       align: 'right',
-      width: '12%',
+      width: '10%',
       cell: (invoice) => <span className="bo-numeric whitespace-nowrap">{formatMoney(invoiceFees(invoice))}</span>,
       csvValue: (invoice) => invoiceFees(invoice),
+    },
+    {
+      key: 'serviceCharge',
+      label: 'Service charge',
+      align: 'right',
+      width: '12%',
+      cell: (invoice) => <span className="bo-numeric whitespace-nowrap">{formatMoney(invoiceServiceCharge(invoice))}</span>,
+      csvValue: (invoice) => invoiceServiceCharge(invoice),
     },
     {
       key: 'total',
       label: 'Total amount',
       align: 'right',
-      width: '14%',
+      width: '13%',
       cell: (invoice) => <span className="bo-numeric whitespace-nowrap font-semibold text-ink">{formatMoney(invoiceTotal(invoice))}</span>,
       csvValue: (invoice) => invoiceTotal(invoice),
     },
     {
       key: 'status',
       label: 'Status',
-      width: '12%',
+      width: '9%',
       cell: (invoice) => <StatusPill status={invoiceStatus(invoice)} size="sm" />,
       csvValue: (invoice) => invoiceStatus(invoice),
     },
@@ -176,6 +186,7 @@ export function InvoicesScreen() {
                   { label: 'Client', csvValue: (invoice) => invoice.clientName },
                   { label: 'Period', csvValue: (invoice) => invoice.periodLabel },
                   { label: 'Fees', csvValue: (invoice) => invoiceFees(invoice) },
+                  { label: 'Service charge', csvValue: (invoice) => invoiceServiceCharge(invoice) },
                   { label: 'Taxes', csvValue: (invoice) => invoice.taxes ?? 0 },
                   { label: 'Total', csvValue: (invoice) => invoiceTotal(invoice) },
                   { label: 'Status', csvValue: (invoice) => invoiceStatus(invoice) },
@@ -189,10 +200,11 @@ export function InvoicesScreen() {
         }
       />
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <KpiCard label="Outstanding" value={formatMoney(outstandingTotal)} icon="invoices" hint={`${formatNumber(outstanding.length)} invoices awaiting treatment`} />
         <KpiCard label="Treated" value={formatMoney(treatedTotal)} icon="checkCircle" hint={`${formatNumber(treated.length)} treated invoices`} />
         <KpiCard label="Fees billed" value={formatMoney(feesTotal)} icon="wallet" hint={`${formatNumber(filtered.length)} invoices in view`} />
+        <KpiCard label="Service charges billed" value={formatMoney(serviceChargeTotal)} icon="sliders" hint="company-paid monthly fees" />
       </div>
 
       <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
