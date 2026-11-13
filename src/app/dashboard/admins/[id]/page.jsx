@@ -1,19 +1,5 @@
-"use client";
+import { AdminProfileScreen } from '@/features/admins/AdminProfileScreen';
 
-// import { Table } from "@/components";
-// import data from "@/constant/data";
-// import transactions from "@/utils/data/transactions";
-import React from "react";
-
-const Page = () => {
-  return (
-    <></>
-    // <Table
-    //   tab="Transactions"
-    //   users={transactions}
-    //   columns={data.transactionColumns}
-    // />
-  );
-};
-
-export default Page;
+export default function Page() {
+  return <AdminProfileScreen />;
+}

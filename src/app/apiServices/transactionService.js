@@ -1,8 +1,12 @@
 import axios from "./axiosConfig";
+import { getToken } from '../../lib/auth/session';
 
-export async function getTransactions(data) {
-  const token = localStorage.getItem("token");
+export async function getTransactions(data = {}) {
+  const token = getToken();
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  return await axios.get(`/airlipay-balance/transactions?status=${data.status || ''}&type=${data.txnType || ''}&page=${1}&pageSize=${100}`);
+  const params = { page: 1, pageSize: 100 };
+  if (data.status) params.status = data.status;
+  if (data.txnType) params.type = data.txnType;
+  return await axios.get('/airlipay-balance/transactions', { params });
 }
 

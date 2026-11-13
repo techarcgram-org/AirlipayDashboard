@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { clearSession, getToken } from '../../lib/auth/session';
 
 const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -9,11 +10,9 @@ if (!baseURL) {
 axios.defaults.baseURL = baseURL;
 
 axios.interceptors.request.use((config) => {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+  const token = getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
@@ -27,9 +26,7 @@ axios.interceptors.response.use(
       error?.response?.status === 401 &&
       !isLoginRequest
     ) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('airlypayUserRole');
-      localStorage.removeItem('airlipayUserId');
+      clearSession();
       if (window.location.pathname !== '/login') {
         window.location.href = '/login';
       }

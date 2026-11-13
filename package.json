@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "lint": "next lint"
+    "lint": "next lint",
+    "mock-api": "node scripts/mock-api.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -19,6 +20,7 @@
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@reduxjs/toolkit": "^1.9.7",
+    "@tanstack/react-query": "^5.104.5",
     "autoprefixer": "10.4.16",
     "axios": "^1.3.5",
     "eslint": "8.50.0",
