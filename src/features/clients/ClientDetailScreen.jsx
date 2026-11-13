@@ -351,11 +351,14 @@ function PaymentHistory({ client, invoices }) {
       key: 'invoice',
       label: 'Invoice',
       width: '17%',
-      cell: (invoice) => (
-        <Link href={`/dashboard/invoices/${invoice.id}`} className="font-semibold text-ink hover:text-cobalt-text">
-          {invoiceNumber(invoice)}
-        </Link>
-      ),
+      cell: (invoice) =>
+        invoice.id === null || invoice.id === undefined ? (
+          <span className="font-semibold text-ink">{invoiceNumber(invoice)}</span>
+        ) : (
+          <Link href={`/dashboard/invoices/${invoice.id}`} className="font-semibold text-ink hover:text-cobalt-text">
+            {invoiceNumber(invoice)}
+          </Link>
+        ),
     },
     { key: 'period', label: 'Pay period', width: '23%', cell: (invoice) => <span className="text-[11px]">{invoicePeriod(invoice)}</span> },
     { key: 'fees', label: 'Fees', align: 'right', width: '11%', cell: (invoice) => <span className="bo-numeric">{formatMoney(invoiceFees(invoice))}</span> },
@@ -640,10 +643,13 @@ export function ClientDetailScreen({ tab = 'transactions' }) {
   const outstanding = clientInvoices.filter((invoice) => String(invoiceStatus(invoice)).toUpperCase() !== 'TREATED');
   const outstandingTotal = outstanding.reduce((sum, invoice) => sum + invoiceTotal(invoice), 0);
   const serviceCharge = normalizeServiceChargeConfig(clientQuery.data?.service_charge_config);
-  const serviceChargeLabel =
-    serviceCharge.chargeMode === 'COMPANY_FIXED'
+  const serviceChargeParts = [
+    serviceCharge.employeeRate > 0 ? `Employee · ${serviceCharge.employeeRate}%` : null,
+    serviceCharge.monthlyFixedFee > 0
       ? `Company · ${formatMoney(serviceCharge.monthlyFixedFee)}/employee`
-      : `Employee · ${serviceCharge.employeeRate}%`;
+      : null,
+  ].filter(Boolean);
+  const serviceChargeLabel = serviceChargeParts.join(' · ') || 'No service charge';
 
   const tabs = [
     { key: 'transactions', label: 'Transactions' },

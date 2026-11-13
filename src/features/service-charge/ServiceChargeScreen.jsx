@@ -50,8 +50,8 @@ export function ServiceChargeScreen() {
         <>
           <ServiceChargeSummary config={config} />
           <InlineNotice tone="info" title="Managed by AirliPay operations">
-            This policy is read-only. Contact support if you need to change the payment mode, service charge rate, or
-            available wage percentage.
+            This policy is read-only. Contact support if you need to change the service charge rates or available wage
+            percentage.
           </InlineNotice>
         </>
       )}

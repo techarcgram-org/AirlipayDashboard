@@ -83,17 +83,27 @@ export function InvoicesScreen() {
       key: 'invoice',
       label: 'Invoice',
       width: '17%',
-      cell: (invoice) => (
-        <Link href={`/dashboard/invoices/${invoice.id}`} className="flex items-center gap-2">
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-sm bg-surface-sunken text-muted">
-            <Icon name="invoices" size={13} />
-          </span>
-          <div className="min-w-0">
-            <p className="truncate text-[12px] font-semibold text-ink hover:text-cobalt-text">{invoiceNumber(invoice)}</p>
-            <p className="text-[9px] text-muted">ID {invoice.id}</p>
-          </div>
-        </Link>
-      ),
+      cell: (invoice) => {
+        const body = (
+          <>
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-sm bg-surface-sunken text-muted">
+              <Icon name="invoices" size={13} />
+            </span>
+            <div className="min-w-0">
+              <p className="truncate text-[12px] font-semibold text-ink hover:text-cobalt-text">{invoiceNumber(invoice)}</p>
+              {invoice.id === null || invoice.id === undefined ? null : <p className="text-[9px] text-muted">ID {invoice.id}</p>}
+            </div>
+          </>
+        );
+        if (invoice.id === null || invoice.id === undefined) {
+          return <div className="flex items-center gap-2">{body}</div>;
+        }
+        return (
+          <Link href={`/dashboard/invoices/${invoice.id}`} className="flex items-center gap-2">
+            {body}
+          </Link>
+        );
+      },
       csvValue: (invoice) => invoiceNumber(invoice),
     },
     {

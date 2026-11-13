@@ -18,9 +18,8 @@ export async function getClientServiceCharge(clientId) {
 
 export async function updateClientServiceCharge(data) {
   authorize();
-  const { clientId, chargeMode, employeeRate, availableWagePercent, monthlyFixedFee } = data;
+  const { clientId, employeeRate, availableWagePercent, monthlyFixedFee } = data;
   return await axios.put(`/service-charge/client/${clientId}`, {
-    chargeMode,
     employeeRate,
     availableWagePercent,
     monthlyFixedFee,

@@ -144,13 +144,17 @@ export function normalizeClient(client) {
 
 export function normalizeServiceChargeConfig(config) {
   const source = config || {};
-  const hasConfig = Boolean(source.chargeMode || source.charge_mode);
-  const chargeMode = source.chargeMode || source.charge_mode || 'EMPLOYEE_PERCENTAGE';
+  const explicitDefault = source.isDefault ?? source.is_default;
+  const hasConfig =
+    explicitDefault === false ||
+    source.updatedAt != null ||
+    source.updated_at != null ||
+    source.employeeRate != null ||
+    source.employee_rate != null;
 
   return {
     clientId: source.clientId ?? source.client_id ?? null,
     clientName: source.clientName ?? source.client_name ?? null,
-    chargeMode,
     employeeRate: Number(source.employeeRate ?? source.employee_rate ?? 5),
     availableWagePercent: Number(
       source.availableWagePercent ?? source.available_wage_percent ?? 50
@@ -158,7 +162,7 @@ export function normalizeServiceChargeConfig(config) {
     monthlyFixedFee: Number(
       source.monthlyFixedFee ?? source.monthly_fixed_fee ?? 0
     ),
-    isDefault: source.isDefault ?? !hasConfig,
+    isDefault: explicitDefault ?? !hasConfig,
     updatedAt: source.updatedAt ?? source.updated_at ?? null,
   };
 }

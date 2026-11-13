@@ -3,11 +3,6 @@
 import { Card, InlineNotice, Tag } from '@/components/backoffice';
 import { formatDate, formatMoney } from '@/lib/format';
 
-export const SERVICE_CHARGE_MODE_LABELS = {
-  EMPLOYEE_PERCENTAGE: 'Employee pays percentage',
-  COMPANY_FIXED: 'Company pays fixed monthly',
-};
-
 function SummaryRow({ label, value }) {
   return (
     <div className="flex items-baseline justify-between gap-4 border-t border-border py-2.5 first:border-t-0">
@@ -18,24 +13,39 @@ function SummaryRow({ label, value }) {
 }
 
 export function ServiceChargeSummary({ config, note }) {
-  const employeeMode = config.chargeMode === 'EMPLOYEE_PERCENTAGE';
+  const employeeActive = config.employeeRate > 0;
+  const companyActive = config.monthlyFixedFee > 0;
+  const bothActive = employeeActive && companyActive;
+  const noCharge = !employeeActive && !companyActive;
+
+  const title = bothActive
+    ? 'Employee and company charges'
+    : employeeActive
+      ? 'Employee service charge'
+      : companyActive
+        ? 'Company service charge'
+        : 'No service charge';
+
+  const description = bothActive
+    ? 'The employee percentage is deducted from each daily allocation, and the company is also billed a fixed monthly amount per eligible employee.'
+    : employeeActive
+      ? 'A percentage of the daily earned wage is deducted from each daily allocation before it reaches the employee wallet.'
+      : companyActive
+        ? 'Employees receive their full available allocation. The company is invoiced a fixed monthly amount per eligible employee.'
+        : 'Neither the employee percentage nor the company monthly fee is currently charged.';
+
+  const tone = config.isDefault ? 'warning' : noCharge ? 'neutral' : 'info';
 
   return (
     <Card className="p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-[9px] font-semibold uppercase tracking-[0.1em] text-muted-light">Service charge policy</p>
-          <p className="mt-1 text-[15px] font-semibold text-ink">
-            {SERVICE_CHARGE_MODE_LABELS[config.chargeMode] || config.chargeMode}
-          </p>
-          <p className="mt-1 text-[11px] leading-5 text-muted">
-            {employeeMode
-              ? 'A percentage of the daily earned wage is deducted from each daily allocation before it reaches the employee wallet.'
-              : 'Employees receive their full available allocation. The company is invoiced a fixed monthly amount per eligible employee.'}
-          </p>
+          <p className="mt-1 text-[15px] font-semibold text-ink">{title}</p>
+          <p className="mt-1 text-[11px] leading-5 text-muted">{description}</p>
         </div>
-        <Tag tone={config.isDefault ? 'warning' : employeeMode ? 'info' : 'neutral'}>
-          {config.isDefault ? 'Default policy' : 'Configured'}
+        <Tag tone={tone}>
+          {config.isDefault ? 'Default policy' : noCharge ? 'No charge' : 'Configured'}
         </Tag>
       </div>
 
@@ -43,11 +53,11 @@ export function ServiceChargeSummary({ config, note }) {
         <SummaryRow label="Available wage" value={`${config.availableWagePercent}% of daily earned wage`} />
         <SummaryRow
           label="Employee service charge"
-          value={employeeMode ? `${config.employeeRate}% of daily earned wage` : 'Not charged to the employee'}
+          value={employeeActive ? `${config.employeeRate}% of daily earned wage` : 'Not charged (rate is 0%)'}
         />
         <SummaryRow
           label="Company monthly fee"
-          value={config.chargeMode === 'COMPANY_FIXED' ? `${formatMoney(config.monthlyFixedFee)} per employee` : 'Not charged to the company'}
+          value={companyActive ? `${formatMoney(config.monthlyFixedFee)} per employee` : 'Not charged (fee is 0)'}
         />
         <SummaryRow label="Last updated" value={config.updatedAt ? formatDate(config.updatedAt) : 'Using AirliPay defaults'} />
       </div>

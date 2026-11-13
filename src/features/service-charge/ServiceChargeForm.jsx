@@ -2,20 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useToast } from '@/components/backoffice/Toast';
-import { Button, Field, InlineNotice, SelectField, TextInput } from '@/components/backoffice';
+import { Button, Field, InlineNotice, TextInput } from '@/components/backoffice';
 import { useUpdateServiceChargeMutation } from '@/lib/api/queries';
 import { formatMoney } from '@/lib/format';
 import { FormActions, FormCard, FormError, FormGrid, FormSection } from '@/features/shared/FormLayout';
-import { SERVICE_CHARGE_MODE_LABELS } from './ServiceChargeSummary';
-
-const MODE_OPTIONS = [
-  { value: 'EMPLOYEE_PERCENTAGE', label: SERVICE_CHARGE_MODE_LABELS.EMPLOYEE_PERCENTAGE },
-  { value: 'COMPANY_FIXED', label: SERVICE_CHARGE_MODE_LABELS.COMPANY_FIXED },
-];
 
 function valuesFromConfig(config) {
   return {
-    chargeMode: config.chargeMode || 'EMPLOYEE_PERCENTAGE',
     employeeRate: String(config.employeeRate ?? 5),
     availableWagePercent: String(config.availableWagePercent ?? 50),
     monthlyFixedFee: String(config.monthlyFixedFee ?? 0),
@@ -45,21 +38,19 @@ function validate(values) {
 }
 
 export function ServiceChargeForm({ clientId, config }) {
-  const initial = valuesFromConfig(config);
-  const [values, setValues] = useState(initial);
+  const [values, setValues] = useState(valuesFromConfig(config));
   const [errors, setErrors] = useState({});
   const mutation = useUpdateServiceChargeMutation(clientId);
   const { push } = useToast();
-  const { chargeMode, employeeRate, availableWagePercent, monthlyFixedFee } = config;
+  const { employeeRate, availableWagePercent, monthlyFixedFee } = config;
 
   useEffect(() => {
     setValues({
-      chargeMode: chargeMode || 'EMPLOYEE_PERCENTAGE',
       employeeRate: String(employeeRate ?? 5),
       availableWagePercent: String(availableWagePercent ?? 50),
       monthlyFixedFee: String(monthlyFixedFee ?? 0),
     });
-  }, [chargeMode, employeeRate, availableWagePercent, monthlyFixedFee]);
+  }, [employeeRate, availableWagePercent, monthlyFixedFee]);
 
   const setField = (field) => (event) => {
     const next = event?.target ? event.target.value : event;
@@ -81,7 +72,6 @@ export function ServiceChargeForm({ clientId, config }) {
     mutation.mutate(
       {
         clientId,
-        chargeMode: values.chargeMode,
         employeeRate: Number(values.employeeRate),
         availableWagePercent: Number(values.availableWagePercent),
         monthlyFixedFee: Number(values.monthlyFixedFee),
@@ -97,7 +87,12 @@ export function ServiceChargeForm({ clientId, config }) {
     );
   };
 
-  const employeeMode = values.chargeMode === 'EMPLOYEE_PERCENTAGE';
+  const availablePercent = Number(values.availableWagePercent || 0);
+  const employeeRatePercent = Number(values.employeeRate || 0);
+  const monthlyFee = Number(values.monthlyFixedFee || 0);
+  const allocation = availablePercent * 10;
+  const employeeCharge = employeeRatePercent * 10;
+  const netCredited = Math.max(0, allocation - employeeCharge);
 
   return (
     <form onSubmit={handleSubmit} noValidate>
@@ -105,23 +100,9 @@ export function ServiceChargeForm({ clientId, config }) {
         <FormSection
           first
           title="Service charge configuration"
-          description="Choose who pays the AirliPay service charge and how much of an employee's earned wage is made available."
+          description="Both the employee percentage and the company monthly fee can be active at the same time. Set either charge to 0 to disable it."
         >
           <FormGrid>
-            <Field
-              label="Charge mode"
-              htmlFor="chargeMode"
-              required
-              hint="The two models are mutually exclusive for a company."
-            >
-              <SelectField
-                id="chargeMode"
-                name="chargeMode"
-                value={values.chargeMode}
-                onChange={setField('chargeMode')}
-                options={MODE_OPTIONS}
-              />
-            </Field>
             <Field
               label="Available wage (%)"
               htmlFor="availableWagePercent"
@@ -147,7 +128,7 @@ export function ServiceChargeForm({ clientId, config }) {
               htmlFor="employeeRate"
               required
               error={errors.employeeRate}
-              hint="Charged on the daily earned wage before the allocation reaches the employee wallet. Must not exceed the available wage percentage."
+              hint="Deducted from the daily earned wage before the allocation reaches the employee wallet. Set to 0 to disable. Must not exceed the available wage percentage."
             >
               <TextInput
                 id="employeeRate"
@@ -160,7 +141,6 @@ export function ServiceChargeForm({ clientId, config }) {
                 value={values.employeeRate}
                 onChange={setField('employeeRate')}
                 error={errors.employeeRate}
-                disabled={!employeeMode}
               />
             </Field>
             <Field
@@ -168,7 +148,7 @@ export function ServiceChargeForm({ clientId, config }) {
               htmlFor="monthlyFixedFee"
               required
               error={errors.monthlyFixedFee}
-              hint="Fixed amount billed per eligible employee (non-null base salary) on the monthly invoice."
+              hint="Fixed amount billed per eligible employee (non-null base salary) on the monthly invoice. Set to 0 to disable."
             >
               <TextInput
                 id="monthlyFixedFee"
@@ -180,26 +160,18 @@ export function ServiceChargeForm({ clientId, config }) {
                 value={values.monthlyFixedFee}
                 onChange={setField('monthlyFixedFee')}
                 error={errors.monthlyFixedFee}
-                disabled={employeeMode}
               />
             </Field>
           </FormGrid>
 
           <div className="mt-4 rounded-sm border border-border bg-surface-raised px-4 py-3 text-[11px] leading-5 text-muted">
             <p className="font-semibold text-ink-soft">Example</p>
-            {employeeMode ? (
-              <p className="mt-1">
-                A daily earned wage of XAF 1,000 with {values.availableWagePercent || 0}% available creates an XAF{' '}
-                {(Number(values.availableWagePercent || 0) * 10).toFixed(2)} allocation. The employee service charge of{' '}
-                {values.employeeRate || 0}% is XAF {(Number(values.employeeRate || 0) * 10).toFixed(2)}, leaving XAF{' '}
-                {((Number(values.availableWagePercent || 0) - Number(values.employeeRate || 0)) * 10).toFixed(2)} credited.
-              </p>
-            ) : (
-              <p className="mt-1">
-                Employees receive their full available allocation. The company pays {formatMoney(values.monthlyFixedFee || 0)} per
-                eligible employee each month through the invoice.
-              </p>
-            )}
+            <p className="mt-1">
+              A daily earned wage of XAF 1,000 with {availablePercent}% available creates an XAF{' '}
+              {allocation.toFixed(2)} allocation. The employee service charge of {employeeRatePercent}% is XAF{' '}
+              {employeeCharge.toFixed(2)}, leaving XAF {netCredited.toFixed(2)} credited. The company is billed{' '}
+              {formatMoney(monthlyFee)} per eligible employee each month. Set either charge to 0 to disable it.
+            </p>
           </div>
 
           <InlineNotice tone="info" className="mt-4">
