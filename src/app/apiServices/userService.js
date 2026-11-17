@@ -7,6 +7,24 @@ export async function createUser(data) {
   return await axios.post(`/users`, data);
 }
 
+export async function bulkCreateUsers({ file, clientId } = {}) {
+  if (!file) {
+    throw new Error('Choose a CSV file to import.');
+  }
+
+  const token = getToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+  const form = new FormData();
+  if (clientId !== undefined && clientId !== null && clientId !== '') {
+    form.append('clientId', String(clientId));
+  }
+  form.append('file', file, file.name);
+
+  // Let the browser set the multipart boundary.
+  return await axios.post(`/users/bulkCreate`, form);
+}
+
 export async function getUsers() {
   const token = getToken();
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;

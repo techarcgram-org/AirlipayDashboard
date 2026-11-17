@@ -231,6 +231,40 @@ const users = profiles.map(([name, employerKey, operator, phone, status, salary]
   };
 });
 
+let nextMockUserId = Math.max(...users.map((user) => user.id)) + 1;
+
+function makeMockImportedUsers(client, count = 2) {
+  return Array.from({ length: count }, (_, index) => {
+    const id = nextMockUserId++;
+    const number = index + 1;
+    return {
+      id,
+      name: `Imported Employee ${number}`,
+      employee_id: `IMP-${String(id).padStart(5, '0')}`,
+      base_salary: 150000,
+      dob: '1994-06-15',
+      sex: index % 2 ? 'M' : 'F',
+      client_id: client.id,
+      clients: { id: client.id, name: client.name },
+      client_name: client.name,
+      accounts: {
+        email: `imported.employee.${id}@${client.accounts.email.split('@')[1]}`,
+        account_status: 'PENDING',
+        activation_date: null,
+      },
+      addresses: {
+        primary_phone_number: '+237 677 00 00 00',
+        secondery_phone_number: '',
+        street: 'Rue des Palmiers',
+        city: client.addresses.city,
+        region: client.addresses.region,
+      },
+      created_at: new Date().toISOString(),
+      user_mobile_money_accounts: [],
+    };
+  });
+}
+
 const txSeeds = [
   ['WITHDRAW', 'SUCCESS', 45000, 2250, 11, 'MTN', '677427321', 0],
   ['WITHDRAW', 'SUCCESS', 20000, 1000, 12, 'ORANGE', '655180912', 1],
@@ -348,21 +382,28 @@ function send(res, status, data) {
   res.end(body);
 }
 
-function parseBody(req) {
-  return new Promise((resolve) => {
-    let data = '';
-    req.on('data', (chunk) => {
-      data += chunk;
-    });
-    req.on('end', () => {
-      if (!data) return resolve(null);
-      try {
-        resolve(JSON.parse(data));
-      } catch {
-        resolve(null);
-      }
-    });
+function readBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on('data', (chunk) => chunks.push(chunk));
+    req.on('end', () => resolve(Buffer.concat(chunks)));
+    req.on('error', reject);
   });
+}
+
+function parseJsonBody(rawBody) {
+  if (!rawBody?.length) return null;
+  try {
+    return JSON.parse(rawBody.toString('utf8'));
+  } catch {
+    return null;
+  }
+}
+
+function multipartField(rawBody, fieldName) {
+  const text = rawBody?.toString('utf8') || '';
+  const match = new RegExp(`name="${fieldName}"\\r?\\n\\r?\\n([^\\r\\n]*)`).exec(text);
+  return match?.[1] || null;
 }
 
 const server = createServer(async (req, res) => {
@@ -371,7 +412,8 @@ const server = createServer(async (req, res) => {
   const url = new URL(req.url, `http://localhost:${port}`);
   const path = url.pathname.replace(/\/+$/, '');
   const segments = path.split('/').filter(Boolean);
-  const body = req.method === 'GET' ? null : await parseBody(req);
+  const rawBody = req.method === 'GET' ? null : await readBody(req);
+  const body = parseJsonBody(rawBody);
 
   if (req.method === 'POST' && path === '/auth/login') {
     return send(res, 200, loginPayload(body?.username));
@@ -444,6 +486,27 @@ const server = createServer(async (req, res) => {
     if (!invoice) return send(res, 404, { message: 'Invoice not found' });
     if (body?.status) invoice.status = body.status;
     return send(res, 200, invoice);
+  }
+
+  if (req.method === 'POST' && path === '/users/bulkCreate') {
+    const raw = rawBody?.toString('utf8') || '';
+    if (!/name="file"/.test(raw)) {
+      return send(res, 400, { message: 'CSV file is required' });
+    }
+
+    const isClientRequest = String(req.headers.authorization || '').includes('mock-client-token');
+    const requestedClientId = Number(multipartField(rawBody, 'clientId')) || null;
+    if (!isClientRequest && !requestedClientId) {
+      return send(res, 400, { message: 'clientId is required' });
+    }
+
+    const targetClientId = isClientRequest ? clients[0].id : requestedClientId;
+    const client = clients.find((entry) => entry.id === targetClientId);
+    if (!client) return send(res, 400, { message: 'client not found' });
+
+    const created = makeMockImportedUsers(client, 2);
+    users.unshift(...created);
+    return send(res, 201, created);
   }
 
   if (req.method === 'POST' && segments[0] === 'users') {
