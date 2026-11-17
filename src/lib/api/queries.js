@@ -2,6 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
+  bulkCreateUsers,
   createUser,
   deleteUser,
   editUser,
@@ -240,6 +241,10 @@ function useInvalidatingMutation(mutationFn, keys) {
 
 export function useCreateUserMutation() {
   return useInvalidatingMutation(createUser, [queryKeys.users]);
+}
+
+export function useBulkCreateUsersMutation() {
+  return useInvalidatingMutation(bulkCreateUsers, [queryKeys.users]);
 }
 
 export function useUpdateUserMutation() {

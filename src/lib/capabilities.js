@@ -47,12 +47,6 @@ export const CAPABILITIES = {
     description:
       'The current API creates accounts with a temporary password. Email invitations and password-reset links are not available yet.',
   },
-  csvImport: {
-    status: 'missing',
-    title: 'Bulk import unavailable',
-    description:
-      'CSV roster import is not connected to the API. No file will be uploaded from this screen.',
-  },
   notifications: {
     status: 'missing',
     title: 'Notifications not connected',

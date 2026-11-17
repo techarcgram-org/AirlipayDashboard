@@ -23,7 +23,7 @@ import { useClientsQuery, useUsersQuery } from '@/lib/api/queries';
 import { asArray, normalizeUser, personJoined, payoutDestination } from '@/lib/data';
 import { formatDate, formatMoney, formatNumber } from '@/lib/format';
 import { canEditEmployee, isAdmin, isClient, scopeUsers } from '@/lib/permissions';
-import { CAPABILITIES } from '@/lib/capabilities';
+import { RosterImportDialog } from './RosterImportDialog';
 
 const PAGE_SIZE = 8;
 
@@ -153,6 +153,7 @@ export function EmployeesScreen() {
   const [employer, setEmployer] = useState('');
   const [page, setPage] = useState(1);
   const [selectedId, setSelectedId] = useState(null);
+  const [importOpen, setImportOpen] = useState(false);
 
   const users = useMemo(
     () => scopeUsers(asArray(usersQuery.data), role, userId).map(normalizeUser),
@@ -256,8 +257,8 @@ export function EmployeesScreen() {
             <Button
               variant="secondary"
               icon="upload"
-              disabled
-              title={CAPABILITIES.csvImport.description}
+              aria-haspopup="dialog"
+              onClick={() => setImportOpen(true)}
             >
               Import
             </Button>
@@ -378,6 +379,19 @@ export function EmployeesScreen() {
           <EmployeeInspector user={selected} canEdit={canEditEmployee(role)} />
         </div>
       </div>
+
+      <RosterImportDialog
+        open={importOpen}
+        onClose={() => setImportOpen(false)}
+        role={role}
+        employers={employers}
+        employersLoading={isAdmin(role) && clientsQuery.isLoading}
+        employersError={isAdmin(role) ? clientsQuery.error : null}
+        onRetryEmployers={() => clientsQuery.refetch()}
+        defaultEmployerId={isAdmin(role) ? employer : ''}
+        clientName={isClient(role) ? session?.profile?.name || clientsName || '' : ''}
+        onImported={() => setPage(1)}
+      />
     </div>
   );
 }
