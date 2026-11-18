@@ -14,6 +14,8 @@ axios.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  config.headers['X-Request-Source'] =
+    config.headers['X-Request-Source'] || 'dashboard';
   return config;
 });
 
@@ -28,7 +30,10 @@ axios.interceptors.response.use(
     ) {
       clearSession();
       if (window.location.pathname !== '/login') {
-        window.location.href = '/login';
+        const next = window.location.pathname.startsWith('/dashboard')
+          ? `&next=${encodeURIComponent(window.location.pathname)}`
+          : '';
+        window.location.href = `/login?reason=expired${next}`;
       }
     }
     return Promise.reject(error);

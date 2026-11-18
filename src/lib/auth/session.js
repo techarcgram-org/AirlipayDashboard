@@ -8,6 +8,23 @@ export const SESSION_KEYS = {
 
 export const SESSION_EVENT = 'airlipay:session';
 
+/**
+ * Documented session policy for the operations console.
+ *
+ * The dashboard signs the user out after 30 minutes without activity and
+ * warns one minute beforehand. Server-side support: JWTs expire after 24h
+ * (30 days when "remember" is selected) and the sign-out endpoint bumps the
+ * account token version, revoking every issued token.
+ */
+export const SESSION_POLICY = {
+  idleMinutes: 30,
+  idleMs: 30 * 60 * 1000,
+  warningSeconds: 60,
+  warningMs: 60 * 1000,
+  standardAbsoluteHours: 24,
+  rememberAbsoluteDays: 30,
+};
+
 function stores() {
   if (typeof window === 'undefined') {
     return [];

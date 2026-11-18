@@ -20,6 +20,7 @@ import {
   PageHeader,
   PageLoading,
   SearchInput,
+  SelectControl,
   StatusPill,
   Tabs,
   Tag,
@@ -27,6 +28,7 @@ import {
 } from '@/components/backoffice';
 import {
   useClientsQuery,
+  useInvoiceActivityQuery,
   useInvoiceTransactionsQuery,
   useInvoicesQuery,
   useUpdateInvoiceStatusMutation,
@@ -54,6 +56,7 @@ import {
 } from '@/lib/data';
 import { formatDate, formatDateTime, formatMoney, formatNumber } from '@/lib/format';
 import { buildUserMap, isAdmin, isClient, sameId } from '@/lib/permissions';
+import { INVOICE_STATUS_OPTIONS, invoiceStatusLabel } from '@/lib/status';
 
 function InvoiceDocument({ invoice, client, transactions }) {
   const total = invoiceTotal(invoice);
@@ -191,12 +194,15 @@ export function InvoiceDetailScreen() {
   const userId = session?.userId;
   const invoicesQuery = useInvoicesQuery();
   const invoiceTransactionsQuery = useInvoiceTransactionsQuery(id);
+  const activityQuery = useInvoiceActivityQuery(id, { enabled: isAdmin(role) });
   const usersQuery = useUsersQuery();
   const clientsQuery = useClientsQuery({ enabled: isAdmin(role) });
   const updateStatus = useUpdateInvoiceStatusMutation();
   const { push } = useToast();
   const [tab, setTab] = useState('summary');
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [nextStatus, setNextStatus] = useState('TREATED');
+  const [reason, setReason] = useState('');
   const [search, setSearch] = useState('');
 
   const clients = asArray(clientsQuery.data);
@@ -279,15 +285,30 @@ export function InvoiceDetailScreen() {
   const employeeCount = new Set(transactions.map((transaction) => String(transaction.user_id))).size;
   const preview = withdrawals.slice(0, 3);
 
-  const handleMarkTreated = async () => {
+  const openStatusDialog = () => {
+    setNextStatus(status === 'TREATED' ? 'NOT_TREATED' : 'TREATED');
+    setReason('');
+    setConfirmOpen(true);
+  };
+
+  const handleStatusUpdate = async () => {
     try {
-      await updateStatus.mutateAsync({ id: invoice.id, status: 'TREATED' });
+      await updateStatus.mutateAsync({
+        id: invoice.id,
+        status: nextStatus,
+        reason: reason.trim() || undefined,
+      });
       setConfirmOpen(false);
-      push({ title: 'Invoice marked as treated', message: `${invoiceNumber(invoice)} was updated.` });
+      push({
+        title: 'Invoice status updated',
+        message: `${invoiceNumber(invoice)} is now ${invoiceStatusLabel(nextStatus)}.`,
+      });
     } catch {
       // Error is shown inside the confirmation dialog.
     }
   };
+
+  const activityEntries = asArray(activityQuery.data?.data);
 
   const tabItems = [
     { key: 'summary', label: 'Summary' },
@@ -376,18 +397,13 @@ export function InvoiceDetailScreen() {
             <Button variant="secondary" icon="download" disabled title="PDF generation is not exposed by the API.">
               Download PDF
             </Button>
-            {!isTreated ? (
-              <Button
-                icon="check"
-                disabled={!isAdmin(role)}
-                title={!isAdmin(role) ? 'Only operations admins can update invoice status.' : undefined}
-                onClick={() => setConfirmOpen(true)}
-              >
-                Mark as treated
+            {isAdmin(role) ? (
+              <Button icon="activity" onClick={openStatusDialog}>
+                Change status
               </Button>
-            ) : (
+            ) : isTreated ? (
               <Tag tone="success" icon="checkCircle">Invoice treated</Tag>
-            )}
+            ) : null}
           </>
         }
         tabs={tabItems}
@@ -430,7 +446,8 @@ export function InvoiceDetailScreen() {
                 </div>
               )}
               <p className="mt-3 text-[10px] leading-5 text-muted">
-                The API only stores the current invoice status. Sent, confirmed and viewed events are not available.
+                Every status override by an admin is recorded in the audit trail with the actor,
+                timestamp, previous status, new status and an optional reason.
               </p>
             </Card>
 
@@ -558,37 +575,157 @@ export function InvoiceDetailScreen() {
       ) : null}
 
       {tab === 'activity' ? (
-        <Card>
-          <EmptyState
-            icon="activity"
-            title="Activity feed not connected"
-            description="Invoice status changes and delivery events are not available from the current API. Only the current status is shown."
-            className="min-h-[300px]"
-          />
+        <Card className="overflow-hidden">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-5 py-3.5">
+            <div className="flex items-center gap-2">
+              <Icon name="activity" size={16} className="text-muted" />
+              <h2 className="text-[13px] font-semibold text-ink">Invoice activity</h2>
+            </div>
+            <Tag tone="neutral">Audit trail</Tag>
+          </div>
+          {!isAdmin(role) ? (
+            <EmptyState
+              icon="lock"
+              title="Activity is admin-only"
+              description="Invoice audit entries are available to operations admins."
+              className="min-h-[260px]"
+            />
+          ) : activityQuery.isLoading ? (
+            <div className="p-5">
+              <PageLoading />
+            </div>
+          ) : activityQuery.error ? (
+            <div className="p-5">
+              <ErrorState
+                title="Invoice activity could not be loaded"
+                error={activityQuery.error}
+                action={
+                  <Button variant="secondary" size="sm" icon="refresh" onClick={() => activityQuery.refetch()}>
+                    Try again
+                  </Button>
+                }
+              />
+            </div>
+          ) : activityEntries.length ? (
+            <div className="divide-y divide-border">
+              {activityEntries.map((entry) => {
+                const metadata = entry.metadata || {};
+                const detail = [
+                  metadata.previousStatus && metadata.nextStatus
+                    ? `${invoiceStatusLabel(metadata.previousStatus)} → ${invoiceStatusLabel(metadata.nextStatus)}`
+                    : null,
+                  metadata.reason ? `Reason: ${metadata.reason}` : null,
+                  metadata.invoiceNumber ? `Invoice ${metadata.invoiceNumber}` : null,
+                ]
+                  .filter(Boolean)
+                  .join(' · ');
+                return (
+                  <div key={entry.id} className="flex gap-3 px-5 py-3.5">
+                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-info-soft text-info">
+                      <Icon name="activity" size={13} />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-baseline justify-between gap-2">
+                        <p className="text-[12px] font-semibold text-ink">
+                          {String(entry.action || '')
+                            .replaceAll('.', ' ')
+                            .replace(/^\w/, (letter) => letter.toUpperCase())}
+                        </p>
+                        <p className="text-[10px] text-muted">{formatDateTime(entry.created_at)}</p>
+                      </div>
+                      <p className="mt-0.5 text-[10px] text-muted">
+                        {entry.actor_email || entry.actor_type || 'System'}
+                        {entry.actor_role ? ` · ${entry.actor_role}` : ''}
+                        {entry.source ? ` · ${entry.source}` : ''}
+                        {entry.ip ? ` · ${entry.ip}` : ''}
+                      </p>
+                      {detail ? (
+                        <p className="mt-1 text-[11px] leading-5 text-ink-soft">{detail}</p>
+                      ) : null}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <EmptyState
+              icon="activity"
+              title="No activity recorded yet"
+              description="Admin status changes and client submissions are recorded here. Delivery and view events are not tracked."
+              className="min-h-[260px]"
+            />
+          )}
         </Card>
       ) : null}
 
       <Modal
         open={confirmOpen}
         onClose={() => !updateStatus.isPending && setConfirmOpen(false)}
-        title="Mark invoice as treated"
-        description={`This will update ${invoiceNumber(invoice)} through the invoice status endpoint.`}
+        title="Change invoice status"
+        description={`Update the status of ${invoiceNumber(invoice)}. The change is recorded in the audit trail.`}
         footer={
           <>
             <Button variant="secondary" onClick={() => setConfirmOpen(false)} disabled={updateStatus.isPending}>
               Cancel
             </Button>
-            <Button onClick={handleMarkTreated} loading={updateStatus.isPending} icon="check">
-              Mark as treated
+            <Button
+              onClick={handleStatusUpdate}
+              loading={updateStatus.isPending}
+              disabled={!nextStatus || nextStatus === status}
+              icon="check"
+            >
+              Update status
             </Button>
           </>
         }
       >
-        <div className="space-y-3">
-          <p className="text-[12px] leading-6 text-ink-soft">
-            Marking the invoice as treated records that it has been handled. It does not create a payment or change
-            any funding records.
+        <div className="space-y-4">
+          <div className="flex items-center justify-between gap-3 rounded-sm bg-surface-sunken px-3.5 py-3">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-muted-light">
+                Current status
+              </p>
+              <p className="mt-1 text-[13px] font-semibold text-ink">
+                {invoiceStatusLabel(status)}
+              </p>
+            </div>
+            <StatusPill status={status} />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[12px] font-medium text-ink-soft">New status</span>
+            <SelectControl
+              value={nextStatus}
+              onChange={(event) => setNextStatus(event.target.value)}
+              options={INVOICE_STATUS_OPTIONS}
+              placeholder="Select a status"
+              icon="filter"
+              label="New invoice status"
+              className="w-full"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[12px] font-medium text-ink-soft" htmlFor="invoice-status-reason">
+              Reason (optional)
+            </label>
+            <textarea
+              id="invoice-status-reason"
+              name="reason"
+              rows={3}
+              maxLength={500}
+              value={reason}
+              onChange={(event) => setReason(event.target.value)}
+              className="w-full rounded-sm border border-border bg-surface px-3 py-2 text-[12px] text-ink outline-none focus:border-cobalt focus:ring-2 focus:ring-cobalt/20"
+              placeholder="e.g. Payment confirmed against bank statement"
+            />
+          </div>
+
+          <p className="text-[11px] leading-5 text-muted">
+            Only operations admins can override invoice status. Invalid transitions are rejected by
+            the API, and this action does not create a payment or change funding records.
           </p>
+
           {updateStatus.error ? (
             <InlineNotice tone="error" title="Status could not be updated">
               {updateStatus.error?.response?.data?.message || updateStatus.error?.message || 'The invoice API rejected the request.'}

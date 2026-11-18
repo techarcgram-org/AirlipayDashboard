@@ -39,7 +39,7 @@ export const CAPABILITIES = {
     status: 'ui-gap',
     title: 'Provisional admin profile',
     description:
-      'The admin detail route was previously empty. This screen uses the existing admin record; roles, 2FA and last-active data are not tracked yet.',
+      'The admin detail route was previously empty. This screen uses the existing admin record; granular roles, 2FA and last-active data are not tracked yet. Account changes are recorded in the audit log.',
   },
   invitations: {
     status: 'missing',

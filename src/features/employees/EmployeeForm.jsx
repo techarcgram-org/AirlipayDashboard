@@ -24,7 +24,7 @@ import {
 } from '@/lib/api/queries';
 import { asArray, normalizeUser, payoutDestination } from '@/lib/data';
 import { toApiDate, toInputDate } from '@/lib/format';
-import { isClient } from '@/lib/permissions';
+import { canEditEmployee, canManageEmployees, isAdmin, isClient } from '@/lib/permissions';
 import { CancelLink, FormActions, FormCard, FormError, FormGrid, FormSection } from '@/features/shared/FormLayout';
 import { REGION_OPTIONS, SEX_OPTIONS } from '@/features/shared/options';
 
@@ -94,7 +94,9 @@ export function EmployeeForm({ mode }) {
   const role = session?.role;
   const employeeId = mode === 'edit' ? id : null;
   const userQuery = useUserQuery(employeeId, { enabled: mode === 'edit' });
-  const clientsQuery = useClientsQuery({ enabled: !isClient(role) });
+  // Only operations admins pick an employer; clients are pinned to their own
+  // client id and employees cannot call the client directory at all.
+  const clientsQuery = useClientsQuery({ enabled: isAdmin(role) });
   const createMutation = useCreateUserMutation();
   const updateMutation = useUpdateUserMutation();
   const { push } = useToast();
@@ -180,6 +182,36 @@ export function EmployeeForm({ mode }) {
       // Mutation state renders the API error below the header.
     }
   };
+
+  if (mode === 'create' && !canManageEmployees(role)) {
+    return (
+      <Card>
+        <ErrorState
+          title="Employee creation is restricted"
+          error={{
+            message:
+              'Only operations admins and company admins can create employee records. Employee accounts cannot add other employees.',
+          }}
+          action={<Button href="/dashboard" size="sm">Back to overview</Button>}
+        />
+      </Card>
+    );
+  }
+
+  if (mode === 'edit' && !canEditEmployee(role)) {
+    return (
+      <Card>
+        <ErrorState
+          title="Employee management is restricted"
+          error={{
+            message:
+              'Only operations admins and company admins can edit employee records from the console.',
+          }}
+          action={<Button href="/dashboard/profile" size="sm">My profile</Button>}
+        />
+      </Card>
+    );
+  }
 
   if (mode === 'edit' && (userQuery.isLoading || !initialized)) {
     return <PageLoading />;

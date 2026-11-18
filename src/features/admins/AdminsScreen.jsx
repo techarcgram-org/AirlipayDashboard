@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
+import { AdminStatusDialog } from './AdminStatusDialog';
 import {
   Avatar,
   Button,
@@ -46,6 +47,7 @@ export function AdminsScreen() {
   const [status, setStatus] = useState('');
   const [page, setPage] = useState(1);
   const [selectedId, setSelectedId] = useState(null);
+  const [statusTarget, setStatusTarget] = useState(null);
 
   const admins = useMemo(() => asArray(adminsQuery.data).map(normalizeAdmin), [adminsQuery.data]);
   const filtered = useMemo(() => {
@@ -124,7 +126,7 @@ export function AdminsScreen() {
         description={`${formatNumber(admins.length)} administrators. The current API exposes a single admin role.`}
         actions={
           <>
-            <Button variant="secondary" icon="activity" disabled title="Audit events are not available from the current API.">
+            <Button href="/dashboard/audit" variant="secondary" icon="activity">
               Audit log
             </Button>
             <Button href="/dashboard/admins/addAdmin" icon="plus">
@@ -243,6 +245,16 @@ export function AdminsScreen() {
               </div>
               <div className="space-y-2 border-t border-border p-4">
                 <Button href={`/dashboard/admins/${selected.id}`} fullWidth trailingIcon="arrowRight">Open profile</Button>
+                {!sameId(selected.id, session?.userId) ? (
+                  <Button
+                    variant="secondary"
+                    icon="activity"
+                    fullWidth
+                    onClick={() => setStatusTarget(selected)}
+                  >
+                    Change status
+                  </Button>
+                ) : null}
                 <Button href={`/dashboard/admins/${selected.id}/edit`} variant="secondary" icon="edit" fullWidth>Edit admin</Button>
               </div>
             </Card>
@@ -255,8 +267,8 @@ export function AdminsScreen() {
               <Tag tone="warning">Provisional</Tag>
             </div>
             <p className="mt-2 text-[11px] leading-5 text-muted">
-              The API stores a fixed numeric admin role. Granular roles, 2FA state and audit events are not available
-              and are not invented on this screen.
+              The API stores a fixed numeric admin role. Granular roles and 2FA state are not
+              available; status changes and profile edits are recorded in the audit log.
             </p>
             <Button variant="secondary" fullWidth disabled className="mt-4" title={CAPABILITIES.adminProfile.description}>
               Review permission matrix
@@ -264,6 +276,12 @@ export function AdminsScreen() {
           </Card>
         </div>
       </div>
+
+      <AdminStatusDialog
+        admin={statusTarget}
+        open={Boolean(statusTarget)}
+        onClose={() => setStatusTarget(null)}
+      />
     </div>
   );
 }

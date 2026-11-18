@@ -56,12 +56,26 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [nextPath, setNextPath] = useState('/dashboard');
+  const [signInReason, setSignInReason] = useState('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get('next');
+    if (next && next.startsWith('/dashboard')) {
+      setNextPath(next);
+    }
+    const reason = params.get('reason');
+    if (reason === 'idle' || reason === 'expired') {
+      setSignInReason(reason);
+    }
+  }, []);
 
   useEffect(() => {
     if (ready && session?.token) {
-      router.replace('/dashboard');
+      router.replace(nextPath);
     }
-  }, [ready, router, session?.token]);
+  }, [nextPath, ready, router, session?.token]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -90,7 +104,7 @@ export default function LoginPage() {
         profile: identity.profile,
         remember,
       });
-      router.replace('/dashboard');
+      router.replace(nextPath);
     } catch (requestError) {
       const message =
         requestError?.response?.data?.message ||
@@ -127,7 +141,7 @@ export default function LoginPage() {
             <TrustItem icon="shieldCheck" title="Role-based access" description="Console visibility follows your account role." />
             <TrustItem icon="transactions" title="Live ledger" description="Funding and payout totals come from the ledger." />
             <TrustItem icon="globe" title="Cameroon focus" description="Payroll operations in XAF for local employers." />
-            <TrustItem icon="lock" title="Session controls" description="Choose whether this device remembers you." />
+            <TrustItem icon="lock" title="Session controls" description="Inactivity signs you out after 30 minutes." />
           </div>
         </div>
 
@@ -160,6 +174,17 @@ export default function LoginPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+              {signInReason === 'idle' ? (
+                <InlineNotice tone="warning" title="Signed out after inactivity">
+                  Your session ended after 30 minutes without activity. Sign in to continue where
+                  you left off.
+                </InlineNotice>
+              ) : null}
+              {signInReason === 'expired' ? (
+                <InlineNotice tone="warning" title="Session expired">
+                  Your access token expired. Sign in again to continue.
+                </InlineNotice>
+              ) : null}
               {error ? <InlineNotice tone="error" title="Unable to sign in">{error}</InlineNotice> : null}
               <Field label="Username" htmlFor="username" required>
                 <TextInput
@@ -208,6 +233,10 @@ export default function LoginPage() {
                   Need help?
                 </a>
               </div>
+              <p className="text-[10px] leading-4 text-muted-light">
+                Remembered sessions last up to 30 days. Every session still signs out after 30
+                minutes without activity.
+              </p>
 
               <Button type="submit" fullWidth size="lg" loading={submitting} trailingIcon="arrowRight">
                 Sign in

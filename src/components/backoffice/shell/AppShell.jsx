@@ -4,7 +4,9 @@ import { Fragment, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Dialog, Transition } from '@headlessui/react';
 import { useQueryClient } from '@tanstack/react-query';
+import { logout } from '@/app/apiServices/authService';
 import { useAuth } from '@/components/auth/AuthProvider';
+import { IdleSessionGuard } from '@/components/auth/IdleSessionGuard';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { BrandMark } from '@/components/backoffice';
 import { routeTitle } from '@/lib/route-catalog';
@@ -33,9 +35,13 @@ export function AppShell({ children }) {
 
   useEffect(() => {
     if (ready && !session?.token) {
-      router.replace('/login');
+      const next =
+        pathname && pathname.startsWith('/dashboard')
+          ? `?next=${encodeURIComponent(pathname)}`
+          : '';
+      router.replace(`/login${next}`);
     }
-  }, [ready, router, session?.token]);
+  }, [pathname, ready, router, session?.token]);
 
   useEffect(() => {
     if (!ready || !session?.token) return;
@@ -67,7 +73,14 @@ export function AppShell({ children }) {
     return <ConsoleBoot />;
   }
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    // Revoke the token server-side before clearing the local session. If the
+    // request fails (offline/expired token), the local session is still ended.
+    try {
+      await logout({ source: 'dashboard' });
+    } catch {
+      // Ignore: the user is signing out either way.
+    }
     signOut();
     queryClient.clear();
     router.replace('/login');
@@ -138,6 +151,7 @@ export function AppShell({ children }) {
       </div>
 
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} role={session.role} />
+      <IdleSessionGuard />
     </div>
   );
 }

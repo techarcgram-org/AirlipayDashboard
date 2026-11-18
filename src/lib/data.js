@@ -208,7 +208,12 @@ export function transactionDate(transaction) {
 }
 
 export function transactionRef(transaction) {
-  return transaction?.reference || transaction?.ref || (transaction?.id ? `TXN-${transaction.id}` : '—');
+  return (
+    transaction?.provider_reference ||
+    transaction?.reference ||
+    transaction?.ref ||
+    (transaction?.id ? `TXN-${transaction.id}` : '—')
+  );
 }
 
 export function transactionAmount(transaction) {
@@ -292,6 +297,44 @@ export function invoiceClientId(invoice) {
 
 export function invoiceClientName(invoice) {
   return invoice?.client?.name || invoice?.client_name || '—';
+}
+
+/**
+ * Flattens the invoice `transactions` payload into employee-level lines.
+ * Persisted invoices store [{ userId, name, transactions: [...] }]; the
+ * synthetic current-period invoice uses the same shape.
+ */
+export function invoiceEmployeeLines(invoice) {
+  const lines = [];
+  asArray(invoice?.transactions).forEach((group) => {
+    if (!group) return;
+    if (Array.isArray(group.transactions)) {
+      group.transactions.forEach((transaction) => {
+        lines.push({
+          ...transaction,
+          employeeName: group.name || `Employee ${group.userId ?? ''}`.trim(),
+          employeeId: group.userId ?? transaction.user_id,
+        });
+      });
+      return;
+    }
+    if (group.user_id !== undefined || group.amount !== undefined) {
+      lines.push({ ...group, employeeName: group.name || 'Employee' });
+    }
+  });
+  return lines;
+}
+
+export function invoicePaymentReferences(invoice) {
+  const references = new Set();
+  invoiceEmployeeLines(invoice).forEach((transaction) => {
+    const reference =
+      transaction?.provider_reference ||
+      transaction?.reference ||
+      transaction?.ref;
+    if (reference) references.add(String(reference));
+  });
+  return Array.from(references);
 }
 
 export function enrichInvoice(invoice, clients) {
