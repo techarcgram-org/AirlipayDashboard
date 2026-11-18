@@ -7,9 +7,10 @@ export const NAV_GROUPS = [
     label: 'Workspace',
     items: [
       { key: 'overview', label: 'Overview', href: '/dashboard', icon: 'overview', roles: ALL_ROLES },
-      { key: 'employees', label: 'Employees', href: '/dashboard/users', icon: 'users', roles: ALL_ROLES },
+      { key: 'employees', label: 'Employees', href: '/dashboard/users', icon: 'users', roles: ['ADMIN', 'CLIENT'] },
       { key: 'clients', label: 'Clients', href: '/dashboard/clients', icon: 'clients', roles: ADMIN_ONLY },
       { key: 'team', label: 'Team & access', href: '/dashboard/admins', icon: 'team', roles: ADMIN_ONLY },
+      { key: 'audit', label: 'Audit log', href: '/dashboard/audit', icon: 'activity', roles: ADMIN_ONLY },
     ],
   },
   {
@@ -23,7 +24,14 @@ export const NAV_GROUPS = [
         icon: 'transactions',
         roles: ALL_ROLES,
       },
-      { key: 'invoices', label: 'Invoices', href: '/dashboard/invoices', icon: 'invoices', roles: ALL_ROLES },
+      {
+        key: 'invoices',
+        label: 'Invoices',
+        userLabel: 'My statements',
+        href: '/dashboard/invoices',
+        icon: 'invoices',
+        roles: ALL_ROLES,
+      },
       { key: 'payments', label: 'Payments', href: '/dashboard/payments', icon: 'payments', roles: ADMIN_ONLY },
     ],
   },
@@ -50,7 +58,7 @@ export const QUICK_ACTIONS = [
     detail: 'Create an employee record',
     href: '/dashboard/users/addUser',
     icon: 'userPlus',
-    roles: ALL_ROLES,
+    roles: ['ADMIN', 'CLIENT'],
   },
   {
     key: 'add-client',
@@ -73,7 +81,11 @@ export const QUICK_ACTIONS = [
 export function navGroupsForRole(role) {
   return NAV_GROUPS.map((group) => ({
     ...group,
-    items: group.items.filter((item) => item.roles.includes(role)),
+    items: group.items
+      .filter((item) => item.roles.includes(role))
+      .map((item) =>
+        role === 'USER' && item.userLabel ? { ...item, label: item.userLabel } : item
+      ),
   })).filter((group) => group.items.length > 0);
 }
 
@@ -87,6 +99,7 @@ export function activeNavKey(pathname) {
   if (pathname.startsWith('/dashboard/users')) return 'employees';
   if (pathname.startsWith('/dashboard/clients')) return 'clients';
   if (pathname.startsWith('/dashboard/admins')) return 'team';
+  if (pathname.startsWith('/dashboard/audit')) return 'audit';
   if (pathname.startsWith('/dashboard/transactions')) return 'transactions';
   if (pathname.startsWith('/dashboard/invoices')) return 'invoices';
   if (pathname.startsWith('/dashboard/payments')) return 'payments';
@@ -150,6 +163,7 @@ export function routeTitle(pathname) {
   if (pathname === '/dashboard/transactions') return 'Transactions';
   if (pathname === '/dashboard/invoices') return 'Invoices';
   if (/^\/dashboard\/invoices\/[^/]+$/.test(pathname)) return 'Invoice';
+  if (pathname === '/dashboard/audit') return 'Audit log';
   if (pathname === '/dashboard/payments') return 'Payout runs';
   if (pathname === '/dashboard/profile') return 'My profile';
   if (pathname === '/dashboard/service-charge') return 'Service charge';

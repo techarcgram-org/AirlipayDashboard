@@ -11,6 +11,8 @@ import {
   EmptyState,
   ErrorState,
   Icon,
+  InlineNotice,
+  Modal,
   PageHeader,
   PageLoading,
   SearchInput,
@@ -22,11 +24,13 @@ import {
   Tag,
   exportCsv,
 } from '@/components/backoffice';
+import { useToast } from '@/components/backoffice/Toast';
 import {
-  useTransactionsQuery,
+  useUpdateUserMutation,
   useUserBalanceQuery,
   useUserPayPeriodsQuery,
   useUserQuery,
+  useUserTransactionsQuery,
 } from '@/lib/api/queries';
 import {
   asArray,
@@ -52,11 +56,12 @@ import {
 } from '@/lib/format';
 import {
   canEditEmployee,
+  isAdmin,
   isClient,
   sameId,
-  scopeTransactions,
 } from '@/lib/permissions';
 import { CAPABILITIES } from '@/lib/capabilities';
+import { employeeStatusOptions, STATUS_LABELS } from '@/lib/status';
 import {
   sampleActivity,
   sampleEmployeeBanks,
@@ -320,11 +325,22 @@ export function EmployeeDetailScreen({ tab = 'transactions' }) {
   const userQuery = useUserQuery(id);
   const balanceQuery = useUserBalanceQuery(id);
   const payPeriodsQuery = useUserPayPeriodsQuery(id);
-  const transactionsQuery = useTransactionsQuery({}, { enabled: tab === 'transactions' });
+  // Employee-scoped ledger. The previous implementation filtered the global
+  // latest-100 feed, so employees whose rows fell outside that window showed
+  // an empty history.
+  const transactionsQuery = useUserTransactionsQuery(
+    id,
+    { page: 1, pageSize: 100 },
+    { enabled: tab === 'transactions' }
+  );
+  const updateUser = useUpdateUserMutation();
+  const { push } = useToast();
   const [txStatus, setTxStatus] = useState('ALL');
   const [txType, setTxType] = useState('ALL');
   const [txSearch, setTxSearch] = useState('');
   const [page, setPage] = useState(1);
+  const [statusOpen, setStatusOpen] = useState(false);
+  const [nextStatus, setNextStatus] = useState('');
 
   const user = normalizeUser(userQuery.data);
   const destination = payoutDestination(userQuery.data);
@@ -337,19 +353,17 @@ export function EmployeeDetailScreen({ tab = 'transactions' }) {
 
   const userTransactions = useMemo(() => {
     if (tab !== 'transactions') return [];
-    const raw = scopeTransactions(asArray(transactionsQuery.data), role, session?.userId, new Map([[String(userQuery.data?.id), userQuery.data]]));
-    return raw
+    return asArray(transactionsQuery.data)
       .filter((transaction) => sameId(transaction.user_id, id))
       .sort((a, b) => new Date(transactionDate(b) || 0) - new Date(transactionDate(a) || 0));
-  }, [id, role, session?.userId, tab, transactionsQuery.data, userQuery.data]);
+  }, [id, tab, transactionsQuery.data]);
 
   const filteredTransactions = useMemo(() => {
     const needle = txSearch.trim().toLowerCase();
     return userTransactions
       .filter((transaction) => {
-        if (txStatus === 'SUCCESS') return String(transactionStatus(transaction)).toUpperCase() === 'SUCCESS';
-        if (txStatus === 'FAILED') return String(transactionStatus(transaction)).toUpperCase() === 'FAILED';
-        return true;
+        if (txStatus === 'ALL') return true;
+        return String(transactionStatus(transaction)).toUpperCase() === txStatus;
       })
       .filter((transaction) => txType === 'ALL' || String(transactionType(transaction)).toUpperCase() === txType)
       .filter((transaction) => {
@@ -402,6 +416,25 @@ export function EmployeeDetailScreen({ tab = 'transactions' }) {
   }
 
   const canEdit = canEditEmployee(role);
+  const actorIsAdmin = isAdmin(role);
+  const statusOptions = employeeStatusOptions(user.status, actorIsAdmin);
+  const openStatusDialog = () => {
+    setNextStatus(statusOptions[0]?.value || '');
+    setStatusOpen(true);
+  };
+  const handleStatusChange = async () => {
+    if (!nextStatus) return;
+    try {
+      await updateUser.mutateAsync({ id: Number(id), accountStatus: nextStatus });
+      push({
+        title: 'Employee status updated',
+        message: `${user.displayName} is now ${STATUS_LABELS[nextStatus] || nextStatus}.`,
+      });
+      setStatusOpen(false);
+    } catch {
+      // The error is rendered inside the dialog.
+    }
+  };
   const counts = {
     transactions: tab === 'transactions' ? filteredTransactions.length : undefined,
     momo: user.momoAccounts.length || undefined,
@@ -440,9 +473,19 @@ export function EmployeeDetailScreen({ tab = 'transactions' }) {
         meta={pageMeta}
         actions={
           canEdit ? (
-            <Button href={`/dashboard/users/${id}/edit`} variant="secondary" icon="edit">
-              Edit employee
-            </Button>
+            <>
+              <Button
+                variant="secondary"
+                icon="activity"
+                onClick={openStatusDialog}
+                disabled={!statusOptions.length}
+              >
+                Change status
+              </Button>
+              <Button href={`/dashboard/users/${id}/edit`} variant="secondary" icon="edit">
+                Edit employee
+              </Button>
+            </>
           ) : null
         }
         tabs={tabItems}
@@ -578,6 +621,7 @@ export function EmployeeDetailScreen({ tab = 'transactions' }) {
                 items={[
                   { value: 'ALL', label: 'All' },
                   { value: 'SUCCESS', label: 'Successful' },
+                  { value: 'PENDING', label: 'Pending' },
                   { value: 'FAILED', label: 'Failed' },
                 ]}
                 ariaLabel="Filter transactions by status"
@@ -622,7 +666,7 @@ export function EmployeeDetailScreen({ tab = 'transactions' }) {
             emptyDescription={
               txStatus !== 'ALL' || txType !== 'ALL' || txSearch
                 ? 'Adjust the filters to see more ledger entries.'
-                : 'This employee has no ledger movements in the latest 100 transactions.'
+                : 'This employee has no ledger movements yet. Successful, pending and failed withdrawals all appear here.'
             }
             footer={
               <TablePagination
@@ -645,6 +689,78 @@ export function EmployeeDetailScreen({ tab = 'transactions' }) {
       {tab === 'activity' ? <ActivityFeed /> : null}
       {tab === 'banks' ? <BankAccounts /> : null}
       {tab === 'cards' ? <DebitCards /> : null}
+
+      <Modal
+        open={statusOpen}
+        onClose={() => !updateUser.isPending && setStatusOpen(false)}
+        title="Change employee status"
+        description={`Update ${user.displayName}'s account status. Every change is audit-logged.`}
+        footer={
+          <>
+            <Button
+              variant="secondary"
+              onClick={() => setStatusOpen(false)}
+              disabled={updateUser.isPending}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleStatusChange}
+              loading={updateUser.isPending}
+              disabled={!nextStatus || nextStatus === user.status}
+            >
+              Update status
+            </Button>
+          </>
+        }
+      >
+        <div className="space-y-4">
+          <div className="flex items-center justify-between gap-3 rounded-sm bg-surface-sunken px-3.5 py-3">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-muted-light">
+                Current status
+              </p>
+              <p className="mt-1 text-[13px] font-semibold text-ink">
+                {STATUS_LABELS[user.status] || user.status || 'Unknown'}
+              </p>
+            </div>
+            <StatusPill status={user.status} />
+          </div>
+
+          {statusOptions.length ? (
+            <div className="flex flex-col gap-1.5">
+              <span className="text-[12px] font-medium text-ink-soft">New status</span>
+              <SelectControl
+                value={nextStatus}
+                onChange={(event) => setNextStatus(event.target.value)}
+                options={statusOptions}
+                placeholder="Select a status"
+                icon="filter"
+                label="New employee status"
+                className="w-full"
+              />
+            </div>
+          ) : (
+            <InlineNotice tone="info" title="No further transitions">
+              No allowed status transitions remain for this employee.
+            </InlineNotice>
+          )}
+
+          <InlineNotice tone="warning" title="Sessions end on restriction">
+            Blocking, deactivating or banning this employee revokes their sessions
+            immediately. Re-activating does not restore a previous session; the
+            employee must sign in again.
+          </InlineNotice>
+
+          {updateUser.error ? (
+            <InlineNotice tone="error" title="Status could not be updated">
+              {updateUser.error?.response?.data?.message ||
+                updateUser.error?.message ||
+                'The API rejected the status change.'}
+            </InlineNotice>
+          ) : null}
+        </div>
+      </Modal>
     </div>
   );
 }

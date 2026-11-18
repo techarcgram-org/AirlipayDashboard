@@ -41,6 +41,11 @@ export function sameId(left, right) {
 
 export function scopeUsers(users, role, userId) {
   if (!Array.isArray(users)) return [];
+  if (isUser(role)) {
+    // Employees only ever see their own record, even if the API response
+    // shape changes; the API also enforces this scope server-side.
+    return users.filter((user) => sameId(user?.id, userId));
+  }
   if (isClient(role)) {
     return users.filter((user) => sameId(user?.client_id, userId));
   }
@@ -59,6 +64,9 @@ export function buildUserMap(users) {
 
 export function scopeTransactions(transactions, role, userId, userMap) {
   if (!Array.isArray(transactions)) return [];
+  if (isUser(role)) {
+    return transactions.filter((transaction) => sameId(transaction?.user_id, userId));
+  }
   if (!isClient(role)) {
     return transactions;
   }
@@ -70,6 +78,10 @@ export function scopeTransactions(transactions, role, userId, userMap) {
 
 export function scopeInvoices(invoices, role, userId) {
   if (!Array.isArray(invoices)) return [];
+  if (isUser(role)) {
+    // Employer reimbursement invoices are not part of the employee view.
+    return [];
+  }
   if (isClient(role)) {
     return invoices.filter((invoice) => sameId(invoice?.client_id, userId));
   }
@@ -77,6 +89,18 @@ export function scopeInvoices(invoices, role, userId) {
 }
 
 export function canEditEmployee(role) {
+  return isAdmin(role) || isClient(role);
+}
+
+export function canManageEmployees(role) {
+  return isAdmin(role) || isClient(role);
+}
+
+export function canViewAuditLog(role) {
+  return isAdmin(role);
+}
+
+export function canViewCompanyAggregates(role) {
   return isAdmin(role) || isClient(role);
 }
 

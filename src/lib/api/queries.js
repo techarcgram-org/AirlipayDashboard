@@ -10,6 +10,7 @@ import {
   getBanks,
   getPayPeriods,
   getUser,
+  getUserTransactions,
   getUsers,
 } from '@/app/apiServices/userService';
 import {
@@ -33,6 +34,7 @@ import {
   getInvoices,
 } from '@/app/apiServices/invoiceService';
 import { getData } from '@/app/apiServices/dashboradService';
+import { getAuditLogs } from '@/app/apiServices/auditService';
 import {
   getClientServiceCharge,
   getMyServiceCharge,
@@ -45,6 +47,7 @@ export const queryKeys = {
   userBalance: (id) => ['users', String(id), 'balance'],
   userPayPeriods: (id) => ['users', String(id), 'pay-periods'],
   userBanks: (id) => ['users', String(id), 'banks'],
+  userTransactions: (id, filters = {}) => ['users', String(id), 'transactions', filters],
   clients: ['clients'],
   client: (id) => ['clients', String(id)],
   admins: ['admins'],
@@ -52,6 +55,8 @@ export const queryKeys = {
   transactions: (filters = {}) => ['transactions', filters],
   invoices: ['invoices'],
   invoiceTransactions: (id) => ['invoices', String(id), 'transactions'],
+  invoiceActivity: (id) => ['invoices', String(id), 'activity'],
+  auditLogs: (filters = {}) => ['audit-logs', filters],
   metrics: ['metrics'],
   profile: (role, id) => ['profile', role, String(id)],
   serviceCharge: (clientId) => ['service-charge', 'client', String(clientId)],
@@ -104,6 +109,15 @@ export function useUserPayPeriodsQuery(id, options = {}) {
         return null;
       }
     },
+    enabled: Boolean(id) && (options.enabled ?? true),
+    ...options,
+  });
+}
+
+export function useUserTransactionsQuery(id, filters = {}, options = {}) {
+  return useQuery({
+    queryKey: queryKeys.userTransactions(id, filters),
+    queryFn: async () => unwrap(await getUserTransactions(id, filters)),
     enabled: Boolean(id) && (options.enabled ?? true),
     ...options,
   });
@@ -185,6 +199,31 @@ export function useInvoiceTransactionsQuery(id, options = {}) {
     queryKey: queryKeys.invoiceTransactions(id),
     queryFn: async () => unwrap(await getInvoiceTransactions(id)),
     enabled: Boolean(id) && (options.enabled ?? true),
+    ...options,
+  });
+}
+
+export function useInvoiceActivityQuery(id, options = {}) {
+  return useQuery({
+    queryKey: queryKeys.invoiceActivity(id),
+    queryFn: async () =>
+      unwrap(
+        await getAuditLogs({
+          entityType: 'invoices',
+          entityId: String(id),
+          page: 1,
+          pageSize: 50,
+        })
+      ),
+    enabled: Boolean(id) && (options.enabled ?? true),
+    ...options,
+  });
+}
+
+export function useAuditLogsQuery(filters = {}, options = {}) {
+  return useQuery({
+    queryKey: queryKeys.auditLogs(filters),
+    queryFn: async () => unwrap(await getAuditLogs(filters)),
     ...options,
   });
 }

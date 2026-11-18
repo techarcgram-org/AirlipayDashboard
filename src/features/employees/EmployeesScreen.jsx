@@ -22,7 +22,13 @@ import {
 import { useClientsQuery, useUsersQuery } from '@/lib/api/queries';
 import { asArray, normalizeUser, personJoined, payoutDestination } from '@/lib/data';
 import { formatDate, formatMoney, formatNumber } from '@/lib/format';
-import { canEditEmployee, isAdmin, isClient, scopeUsers } from '@/lib/permissions';
+import {
+  canEditEmployee,
+  canManageEmployees,
+  isAdmin,
+  isClient,
+  scopeUsers,
+} from '@/lib/permissions';
 import { RosterImportDialog } from './RosterImportDialog';
 
 const PAGE_SIZE = 8;
@@ -211,6 +217,30 @@ export function EmployeesScreen() {
       },
     },
   ];
+
+  if (!canManageEmployees(role)) {
+    return (
+      <Card>
+        <ErrorState
+          title="Employees are restricted"
+          error={{
+            message:
+              'Employee management is available to operations admins and company admins only. Your account can view your own profile instead.',
+          }}
+          action={
+            <div className="flex gap-2">
+              <Button href="/dashboard/profile" size="sm">
+                My profile
+              </Button>
+              <Button href="/dashboard" size="sm" variant="secondary">
+                Back to overview
+              </Button>
+            </div>
+          }
+        />
+      </Card>
+    );
+  }
 
   if (usersQuery.isLoading) {
     return (

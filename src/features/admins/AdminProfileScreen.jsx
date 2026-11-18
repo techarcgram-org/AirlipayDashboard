@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useAuth } from '@/components/auth/AuthProvider';
+import { AdminStatusDialog } from './AdminStatusDialog';
 import {
   Avatar,
   Button,
@@ -18,7 +20,7 @@ import {
 import { useAdminQuery } from '@/lib/api/queries';
 import { normalizeAdmin, personActivated, personJoined } from '@/lib/data';
 import { formatDate } from '@/lib/format';
-import { isAdmin } from '@/lib/permissions';
+import { isAdmin, sameId } from '@/lib/permissions';
 import { CAPABILITIES } from '@/lib/capabilities';
 
 function UnavailableRow({ icon, title, detail }) {
@@ -41,6 +43,7 @@ export function AdminProfileScreen() {
   const { session } = useAuth();
   const role = session?.role;
   const adminQuery = useAdminQuery(id, { enabled: isAdmin(role) });
+  const [statusOpen, setStatusOpen] = useState(false);
 
   if (!isAdmin(role)) {
     return (
@@ -98,9 +101,14 @@ export function AdminProfileScreen() {
         }
         actions={
           <>
-            <Button variant="secondary" icon="activity" disabled title="Audit events are not exposed by the API.">
+            <Button href="/dashboard/audit" variant="secondary" icon="activity">
               Audit log
             </Button>
+            {!sameId(admin.id, session?.userId) ? (
+              <Button variant="secondary" icon="activity" onClick={() => setStatusOpen(true)}>
+                Change status
+              </Button>
+            ) : null}
             <Button href={`/dashboard/admins/${id}/edit`} variant="secondary" icon="edit">
               Edit admin
             </Button>
@@ -150,7 +158,21 @@ export function AdminProfileScreen() {
             <div className="mt-1">
               <UnavailableRow icon="key" title="Granular roles & permissions" detail="The API stores a single admin role; finance, support and super-admin scopes are not available." />
               <UnavailableRow icon="lock" title="Two-factor authentication" detail="2FA state cannot be read or changed through the current API." />
-              <UnavailableRow icon="activity" title="Admin activity & audit log" detail="There is no admin audit endpoint, so no recent activity is shown." />
+              <div className="flex gap-3 border-b border-border py-3 last:border-0">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-sm bg-success-soft text-success">
+                  <Icon name="activity" size={13} />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[12px] font-medium text-ink">Admin activity & audit log</p>
+                  <p className="mt-0.5 text-[10px] leading-5 text-muted">
+                    Status changes and profile edits are recorded with actor, timestamp and
+                    previous/new values.
+                  </p>
+                </div>
+                <Button href="/dashboard/audit" variant="ghost" size="sm">
+                  Open
+                </Button>
+              </div>
             </div>
           </div>
         </Card>
@@ -186,6 +208,12 @@ export function AdminProfileScreen() {
           </Card>
         </div>
       </div>
+
+      <AdminStatusDialog
+        admin={statusOpen ? admin : null}
+        open={statusOpen}
+        onClose={() => setStatusOpen(false)}
+      />
     </div>
   );
 }

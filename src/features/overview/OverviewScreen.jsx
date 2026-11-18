@@ -46,6 +46,7 @@ import {
 import {
   buildUserMap,
   isAdmin,
+  isUser,
   scopeInvoices,
   scopeTransactions,
   scopeUsers,
@@ -156,10 +157,14 @@ export function OverviewScreen() {
   const { session } = useAuth();
   const role = session?.role;
   const userId = session?.userId;
+  const isEmployee = isUser(role);
+  const isOperationsAdmin = isAdmin(role);
   const usersQuery = useUsersQuery();
   const transactionsQuery = useTransactionsQuery({});
-  const invoicesQuery = useInvoicesQuery();
-  const metricsQuery = useMetricsQuery({ enabled: isAdmin(role) });
+  // Reimbursement invoices are employer documents; employees get their own
+  // earnings statements on the Invoices route instead.
+  const invoicesQuery = useInvoicesQuery({ enabled: !isEmployee });
+  const metricsQuery = useMetricsQuery({ enabled: isOperationsAdmin });
 
   const rawUsers = asArray(usersQuery.data);
   const rawTransactions = asArray(transactionsQuery.data);
@@ -199,9 +204,17 @@ export function OverviewScreen() {
     return (
       <>
         <PageHeader
-          breadcrumbs={[{ label: 'AirliPay' }, { label: 'Operations' }, { label: 'Overview' }]}
-          title="Operations overview"
-          description={`${todayLabel()} · All times WAT`}
+          breadcrumbs={[
+            { label: 'AirliPay' },
+            { label: isEmployee ? 'My account' : 'Operations' },
+            { label: 'Overview' },
+          ]}
+          title={isEmployee ? 'My overview' : 'Operations overview'}
+          description={
+            isEmployee
+              ? `${todayLabel()} · Your payroll advances and account activity`
+              : `${todayLabel()} · All times WAT`
+          }
         />
         <div className="mt-6">
           <PageLoading />
@@ -214,9 +227,17 @@ export function OverviewScreen() {
     return (
       <>
         <PageHeader
-          breadcrumbs={[{ label: 'AirliPay' }, { label: 'Operations' }, { label: 'Overview' }]}
-          title="Operations overview"
-          description={`${todayLabel()} · All times WAT`}
+          breadcrumbs={[
+            { label: 'AirliPay' },
+            { label: isEmployee ? 'My account' : 'Operations' },
+            { label: 'Overview' },
+          ]}
+          title={isEmployee ? 'My overview' : 'Operations overview'}
+          description={
+            isEmployee
+              ? `${todayLabel()} · Your payroll advances and account activity`
+              : `${todayLabel()} · All times WAT`
+          }
         />
         <Card className="mt-6">
           <ErrorState
@@ -249,29 +270,35 @@ export function OverviewScreen() {
   const successRate = scopedTransactions.length
     ? Math.round((successful.length / scopedTransactions.length) * 1000) / 10
     : 0;
-  const activeEmployees = isAdmin(role)
+  const activeEmployees = isOperationsAdmin
     ? metrics?.users?.active ?? scopedUsers.filter((user) => user.status === 'ACTIVE').length
     : scopedUsers.filter((user) => user.status === 'ACTIVE').length;
   const chart = buildCashSeries(scopedTransactions);
   const recent = bestTransactionRows(scopedTransactions, 3);
+  const latest = recent[0] || null;
   const failedWithdrawals = withdrawals.filter(
     (transaction) => String(transactionStatus(transaction)).toUpperCase() === 'FAILED'
   );
   const pendingUsers = scopedUsers.filter((user) => user.status === 'PENDING').length;
   const run = samplePayoutRuns[0];
+  const sectionLabel = isEmployee ? 'My account' : 'Operations';
 
   return (
     <div className="space-y-5">
       <PageHeader
-        breadcrumbs={[{ label: 'AirliPay' }, { label: 'Operations' }, { label: 'Overview' }]}
-        title="Operations overview"
-        description={`${todayLabel()} · All times WAT`}
+        breadcrumbs={[{ label: 'AirliPay' }, { label: sectionLabel }, { label: 'Overview' }]}
+        title={isEmployee ? 'My overview' : 'Operations overview'}
+        description={
+          isEmployee
+            ? `${todayLabel()} · Your payroll advances and account activity`
+            : `${todayLabel()} · All times WAT`
+        }
         actions={
           <>
             <Button variant="secondary" icon="refresh" onClick={retryAll}>
               Refresh
             </Button>
-            {isAdmin(role) ? (
+            {isOperationsAdmin ? (
               <Button variant="primary" icon="plus" disabled title="Payout-run API required">
                 New pay run
               </Button>
@@ -291,15 +318,24 @@ export function OverviewScreen() {
           label="Payout volume"
           value={formatCompactMoney(payoutVolume)}
           icon="trendUp"
-          hint="successful withdrawals · latest 100"
+          hint={isEmployee ? 'your successful withdrawals' : 'successful withdrawals · latest 100'}
           series={chart.payouts}
         />
-        <KpiCard
-          label="Active employees"
-          value={formatNumber(activeEmployees)}
-          icon="users"
-          hint={isAdmin(role) ? 'across active employers' : 'in your workforce'}
-        />
+        {isEmployee ? (
+          <KpiCard
+            label="My transactions"
+            value={formatNumber(scopedTransactions.length)}
+            icon="transactions"
+            hint="your ledger movements"
+          />
+        ) : (
+          <KpiCard
+            label="Active employees"
+            value={formatNumber(activeEmployees)}
+            icon="users"
+            hint={isOperationsAdmin ? 'across active employers' : 'in your workforce'}
+          />
+        )}
         <KpiCard
           label="Payout success"
           value={`${successRate || 0}%`}
@@ -307,27 +343,52 @@ export function OverviewScreen() {
           hint={`${successful.length} of ${scopedTransactions.length} movements`}
           seriesColor="var(--chart-payout)"
         />
-        <KpiCard
-          label="Outstanding invoices"
-          value={formatCompactMoney(outstandingAmount)}
-          icon="invoices"
-          hint={`${outstandingInvoices.length} awaiting action`}
-        />
+        {isEmployee ? (
+          <KpiCard
+            label="Latest movement"
+            value={latest ? formatMoney(transactionAmount(latest)) : '—'}
+            icon="transactions"
+            hint={
+              latest
+                ? `${formatDate(transactionDate(latest))} · ${transactionStatus(latest) || 'recorded'}`
+                : 'No movements yet'
+            }
+          />
+        ) : (
+          <KpiCard
+            label="Outstanding invoices"
+            value={formatCompactMoney(outstandingAmount)}
+            icon="invoices"
+            hint={`${outstandingInvoices.length} awaiting action`}
+          />
+        )}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1.95fr)_minmax(320px,1fr)]">
+      <div
+        className={`grid grid-cols-1 gap-4 ${
+          isOperationsAdmin ? 'xl:grid-cols-[minmax(0,1.95fr)_minmax(320px,1fr)]' : ''
+        }`}
+      >
         <Card className="overflow-hidden">
           <div className="flex flex-wrap items-start justify-between gap-3 px-5 pb-2 pt-4">
             <div>
-              <h2 className="text-[15px] font-semibold text-ink">Cash movement</h2>
-              <p className="mt-0.5 text-[11px] text-muted">Deposits and employee withdrawals · last 30 days</p>
+              <h2 className="text-[15px] font-semibold text-ink">
+                {isEmployee ? 'Your cash movement' : 'Cash movement'}
+              </h2>
+              <p className="mt-0.5 text-[11px] text-muted">
+                {isEmployee
+                  ? 'Your payouts · last 30 days'
+                  : 'Deposits and employee withdrawals · last 30 days'}
+              </p>
             </div>
             <Tag tone="neutral">Live ledger</Tag>
           </div>
           <div className="flex flex-wrap items-center gap-4 px-5 pb-1 pt-1">
-            <LegendDot color="var(--chart-deposit)">Employer funding</LegendDot>
+            {!isEmployee ? <LegendDot color="var(--chart-deposit)">Employer funding</LegendDot> : null}
             <LegendDot color="var(--chart-payout)">Employee payouts</LegendDot>
-            <span className="ml-auto text-[10px] text-muted-light">From the latest 100 transactions</span>
+            <span className="ml-auto text-[10px] text-muted-light">
+              {isEmployee ? 'From your ledger history' : 'From the latest 100 transactions'}
+            </span>
           </div>
           <div className="px-3 pb-3 pt-1">
             {scopedTransactions.length ? (
@@ -343,44 +404,52 @@ export function OverviewScreen() {
           </div>
         </Card>
 
-        <Card className="flex flex-col overflow-hidden">
-          <div className="flex items-center justify-between gap-2 px-5 py-4">
-            <div className="flex items-center gap-2">
-              <Icon name="calendar" size={16} className="text-muted" />
-              <h2 className="text-[13px] font-semibold text-ink">Next payout run</h2>
+        {isOperationsAdmin ? (
+          <Card className="flex flex-col overflow-hidden">
+            <div className="flex items-center justify-between gap-2 px-5 py-4">
+              <div className="flex items-center gap-2">
+                <Icon name="calendar" size={16} className="text-muted" />
+                <h2 className="text-[13px] font-semibold text-ink">Next payout run</h2>
+              </div>
+              <Tag tone="info">Proposed</Tag>
             </div>
-            <Tag tone="info">Proposed</Tag>
-          </div>
-          <div className="flex-1 px-5">
-            <p className="text-[11px] text-muted">28 October 2026 · 09:00</p>
-            <p className="bo-numeric mt-1 text-[29px] font-bold tracking-[-0.03em] text-ink">XAF 12.84M</p>
-            <p className="mt-1 text-[11px] text-muted">1,204 employees · 4 clients</p>
-            <div className="my-4 h-px bg-border" />
-            <div className="flex items-center justify-between text-[11px]">
-              <span className="text-muted">Funding progress</span>
-              <span className="font-semibold text-ink">{run.fundedPct}%</span>
+            <div className="flex-1 px-5">
+              <p className="text-[11px] text-muted">28 October 2026 · 09:00</p>
+              <p className="bo-numeric mt-1 text-[29px] font-bold tracking-[-0.03em] text-ink">XAF 12.84M</p>
+              <p className="mt-1 text-[11px] text-muted">1,204 employees · 4 clients</p>
+              <div className="my-4 h-px bg-border" />
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="text-muted">Funding progress</span>
+                <span className="font-semibold text-ink">{run.fundedPct}%</span>
+              </div>
+              <ProgressBar value={run.fundedPct} className="mt-2" />
+              <p className="mt-2 flex items-center gap-1.5 text-[10px] text-muted">
+                <Icon name="clock" size={12} className="text-warning" />
+                Funding window closes 27 Oct · 16:00
+              </p>
+              <p className="mt-3 rounded-sm bg-surface-sunken px-3 py-2 text-[10px] leading-5 text-muted">
+                Payout-run orchestration is not available in the current API. The schedule is illustrative and actions are disabled.
+              </p>
             </div>
-            <ProgressBar value={run.fundedPct} className="mt-2" />
-            <p className="mt-2 flex items-center gap-1.5 text-[10px] text-muted">
-              <Icon name="clock" size={12} className="text-warning" />
-              Funding window closes 27 Oct · 16:00
-            </p>
-            <p className="mt-3 rounded-sm bg-surface-sunken px-3 py-2 text-[10px] leading-5 text-muted">
-              Payout-run orchestration is not available in the current API. The schedule is illustrative and actions are disabled.
-            </p>
-          </div>
-          <div className="space-y-2 p-4">
-            <Button href="/dashboard/payments" variant="secondary" fullWidth trailingIcon="arrowRight">
-              View payout workspace
-            </Button>
-          </div>
-        </Card>
+            <div className="space-y-2 p-4">
+              <Button href="/dashboard/payments" variant="secondary" fullWidth trailingIcon="arrowRight">
+                View payout workspace
+              </Button>
+            </div>
+          </Card>
+        ) : null}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1.95fr)_minmax(320px,1fr)]">
+      <div
+        className={`grid grid-cols-1 gap-4 ${
+          isOperationsAdmin ? 'xl:grid-cols-[minmax(0,1.95fr)_minmax(320px,1fr)]' : ''
+        }`}
+      >
         <Card className="overflow-hidden">
           <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5">
-            <h2 className="text-[13px] font-semibold text-ink">Recent transactions</h2>
+            <h2 className="text-[13px] font-semibold text-ink">
+              {isEmployee ? 'Your recent transactions' : 'Recent transactions'}
+            </h2>
             <Link href="/dashboard/transactions" className="inline-flex items-center gap-1 text-[11px] font-semibold text-cobalt-text">
               View ledger <Icon name="chevronRight" size={12} />
             </Link>
@@ -397,37 +466,39 @@ export function OverviewScreen() {
           )}
         </Card>
 
-        <Card className="overflow-hidden">
-          <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5">
-            <h2 className="text-[13px] font-semibold text-ink">Needs attention</h2>
-            <Tag tone={failedWithdrawals.length || outstandingInvoices.length ? 'warning' : 'success'}>
-              {failedWithdrawals.length + outstandingInvoices.length + pendingUsers} items
-            </Tag>
-          </div>
-          <div>
-            <AttentionRow
-              icon="alert"
-              tone={failedWithdrawals.length ? 'error' : 'success'}
-              title={failedWithdrawals.length ? `${failedWithdrawals.length} failed withdrawals` : 'No failed withdrawals'}
-              detail={failedWithdrawals.length ? 'Review failures in the ledger' : 'The latest transactions are healthy'}
-              href="/dashboard/transactions"
-            />
-            <AttentionRow
-              icon="invoices"
-              tone={outstandingInvoices.length ? 'warning' : 'success'}
-              title={outstandingInvoices.length ? `${outstandingInvoices.length} invoices need action` : 'Invoices are up to date'}
-              detail={outstandingInvoices.length ? 'Open invoices awaiting treatment' : 'No outstanding invoices'}
-              href="/dashboard/invoices"
-            />
-            <AttentionRow
-              icon="users"
-              tone={pendingUsers ? 'warning' : 'success'}
-              title={pendingUsers ? `${pendingUsers} employees pending` : 'No pending employees'}
-              detail={pendingUsers ? 'Complete account activation' : 'Employee accounts are active'}
-              href="/dashboard/users"
-            />
-          </div>
-        </Card>
+        {isOperationsAdmin ? (
+          <Card className="overflow-hidden">
+            <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5">
+              <h2 className="text-[13px] font-semibold text-ink">Needs attention</h2>
+              <Tag tone={failedWithdrawals.length || outstandingInvoices.length ? 'warning' : 'success'}>
+                {failedWithdrawals.length + outstandingInvoices.length + pendingUsers} items
+              </Tag>
+            </div>
+            <div>
+              <AttentionRow
+                icon="alert"
+                tone={failedWithdrawals.length ? 'error' : 'success'}
+                title={failedWithdrawals.length ? `${failedWithdrawals.length} failed withdrawals` : 'No failed withdrawals'}
+                detail={failedWithdrawals.length ? 'Review failures in the ledger' : 'The latest transactions are healthy'}
+                href="/dashboard/transactions"
+              />
+              <AttentionRow
+                icon="invoices"
+                tone={outstandingInvoices.length ? 'warning' : 'success'}
+                title={outstandingInvoices.length ? `${outstandingInvoices.length} invoices need action` : 'Invoices are up to date'}
+                detail={outstandingInvoices.length ? 'Open invoices awaiting treatment' : 'No outstanding invoices'}
+                href="/dashboard/invoices"
+              />
+              <AttentionRow
+                icon="users"
+                tone={pendingUsers ? 'warning' : 'success'}
+                title={pendingUsers ? `${pendingUsers} employees pending` : 'No pending employees'}
+                detail={pendingUsers ? 'Complete account activation' : 'Employee accounts are active'}
+                href="/dashboard/users"
+              />
+            </div>
+          </Card>
+        ) : null}
       </div>
     </div>
   );

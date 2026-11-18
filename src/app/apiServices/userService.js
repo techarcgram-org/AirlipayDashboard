@@ -72,3 +72,20 @@ export async function getAirlipayBalance(id) {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   return await axios.get(`/users/${id}/airlipay-balance`);
 }
+
+/**
+ * Employee-scoped ledger history. Unlike the global /airlipay-balance feed
+ * (latest 100 rows across the company), this endpoint is scoped to the
+ * employee server-side and is not truncated by other employees' activity.
+ */
+export async function getUserTransactions(id, filters = {}) {
+  const token = getToken();
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  const params = {
+    page: filters.page || 1,
+    pageSize: filters.pageSize || 100,
+  };
+  if (filters.status) params.status = filters.status;
+  if (filters.type) params.type = filters.type;
+  return await axios.get(`/users/${id}/transactions`, { params });
+}

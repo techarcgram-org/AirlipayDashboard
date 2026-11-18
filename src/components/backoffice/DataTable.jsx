@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import { cn } from '@/lib/cn';
 import { EmptyState, ErrorState } from './ui';
 
@@ -20,9 +20,15 @@ export function DataTable({
   stickyFirst = true,
   className = '',
   footer,
+  expandedKeys = [],
+  onToggleExpand,
+  renderExpandedRow,
 }) {
   const safeRows = Array.isArray(rows) ? rows : [];
   const skeletonRows = useMemo(() => Array.from({ length: loadingRows }), [loadingRows]);
+  const expandable = typeof renderExpandedRow === 'function' && typeof onToggleExpand === 'function';
+  const expandedSet = new Set((Array.isArray(expandedKeys) ? expandedKeys : []).map(String));
+  const columnCount = columns.length + (expandable ? 1 : 0);
 
   if (error) {
     return <ErrorState error={error} className={className} />;
@@ -34,13 +40,18 @@ export function DataTable({
         <table className="w-full border-collapse" style={{ minWidth }}>
           <thead>
             <tr className="border-b border-border bg-table-head">
+              {expandable ? (
+                <th scope="col" className="h-10 w-10 pl-5 pr-1 text-left">
+                  <span className="sr-only">Details</span>
+                </th>
+              ) : null}
               {columns.map((column, index) => (
                 <th
                   key={column.key}
                   scope="col"
                   className={cn(
                     'h-10 whitespace-nowrap px-3 text-left text-[9px] font-semibold uppercase tracking-[0.08em] text-muted',
-                    index === 0 && 'pl-5',
+                    index === 0 && !expandable && 'pl-5',
                     index === columns.length - 1 && 'pr-5',
                     column.align === 'right' && 'text-right',
                     column.headerClassName
@@ -56,8 +67,15 @@ export function DataTable({
             {loading ? (
               skeletonRows.map((_, rowIndex) => (
                 <tr key={rowIndex} className="border-b border-border">
-                  {columns.map((column, columnIndex) => (
-                    <td key={column.key} className={cn('h-[56px] px-3', columnIndex === 0 && 'pl-5', columnIndex === columns.length - 1 && 'pr-5')}>
+                  {Array.from({ length: columnCount }).map((__, columnIndex) => (
+                    <td
+                      key={columnIndex}
+                      className={cn(
+                        'h-[56px] px-3',
+                        columnIndex === 0 && 'pl-5',
+                        columnIndex === columnCount - 1 && 'pr-5'
+                      )}
+                    >
                       <div
                         className="h-3 rounded-sm bo-skeleton"
                         style={{ width: `${52 + ((rowIndex + columnIndex) % 4) * 10}%` }}
@@ -70,45 +88,78 @@ export function DataTable({
               safeRows.map((row, rowIndex) => {
                 const key = rowKey(row, rowIndex);
                 const selected = selectedKey !== undefined && String(selectedKey) === String(key);
+                const expanded = expandable && expandedSet.has(String(key));
                 return (
-                  <tr
-                    key={key}
-                    className={cn(
-                      'border-b border-border last:border-b-0 transition-colors',
-                      onRowSelect && 'cursor-pointer',
-                      selected ? 'bg-row-selected' : 'bg-surface hover:bg-row-hover'
-                    )}
-                    onClick={onRowSelect ? () => onRowSelect(row) : undefined}
-                    tabIndex={onRowSelect ? 0 : undefined}
-                    onKeyDown={
-                      onRowSelect
-                        ? (event) => {
-                            if (event.key === 'Enter' || event.key === ' ') {
-                              event.preventDefault();
-                              onRowSelect(row);
+                  <Fragment key={key}>
+                    <tr
+                      className={cn(
+                        'border-b border-border transition-colors',
+                        !expanded && !expandable && 'last:border-b-0',
+                        onRowSelect && 'cursor-pointer',
+                        selected ? 'bg-row-selected' : 'bg-surface hover:bg-row-hover'
+                      )}
+                      onClick={onRowSelect ? () => onRowSelect(row) : undefined}
+                      tabIndex={onRowSelect ? 0 : undefined}
+                      onKeyDown={
+                        onRowSelect
+                          ? (event) => {
+                              if (event.key === 'Enter' || event.key === ' ') {
+                                event.preventDefault();
+                                onRowSelect(row);
+                              }
                             }
-                          }
-                        : undefined
-                    }
-                    aria-selected={selected || undefined}
-                  >
-                    {columns.map((column, columnIndex) => (
-                      <td
-                        key={column.key}
-                        className={cn(
-                          'h-[56px] px-3 align-middle text-[12px] text-ink-soft',
-                          columnIndex === 0 && 'pl-5',
-                          columnIndex === columns.length - 1 && 'pr-5',
-                          column.align === 'right' && 'text-right',
-                          columnIndex === 0 && stickyFirst && 'sticky left-0 z-[1] bg-inherit',
-                          column.cellClassName
-                        )}
-                        style={column.width ? { width: column.width } : undefined}
-                      >
-                        {column.cell ? column.cell(row) : row?.[column.key] ?? '—'}
-                      </td>
-                    ))}
-                  </tr>
+                          : undefined
+                      }
+                      aria-selected={selected || undefined}
+                    >
+                      {expandable ? (
+                        <td className="h-[56px] w-10 pl-5 pr-1 align-middle">
+                          <button
+                            type="button"
+                            className="inline-flex h-6 w-6 items-center justify-center rounded-xs text-muted transition-colors hover:bg-surface-sunken hover:text-ink"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              onToggleExpand(row);
+                            }}
+                            aria-expanded={expanded}
+                            aria-label={expanded ? 'Collapse invoice details' : 'Expand invoice details'}
+                          >
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              className={cn('h-3.5 w-3.5 transition-transform', expanded && 'rotate-90')}
+                              aria-hidden="true"
+                            >
+                              <path d="m9 18 6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </button>
+                        </td>
+                      ) : null}
+                      {columns.map((column, columnIndex) => (
+                        <td
+                          key={column.key}
+                          className={cn(
+                            'h-[56px] px-3 align-middle text-[12px] text-ink-soft',
+                            columnIndex === 0 && !expandable && 'pl-5',
+                            columnIndex === columns.length - 1 && 'pr-5',
+                            column.align === 'right' && 'text-right',
+                            columnIndex === 0 && stickyFirst && !expandable && 'sticky left-0 z-[1] bg-inherit',
+                            column.cellClassName
+                          )}
+                          style={column.width ? { width: column.width } : undefined}
+                        >
+                          {column.cell ? column.cell(row) : row?.[column.key] ?? '—'}
+                        </td>
+                      ))}
+                    </tr>
+                    {expanded ? (
+                      <tr className="border-b border-border bg-surface-sunken/50">
+                        <td colSpan={columnCount} className="px-5 py-0">
+                          {renderExpandedRow(row)}
+                        </td>
+                      </tr>
+                    ) : null}
+                  </Fragment>
                 );
               })
             ) : null}
